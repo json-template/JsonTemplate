@@ -11,12 +11,11 @@ import java.util.stream.IntStream;
 public class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListener {
 
 
-    private Stack<PropertyDeclaration> stack = new Stack<>();
-
+    private Stack<SimplePropertyDeclaration> stack = new Stack<>();
     private boolean debug = false;
     private boolean inArrayParamSpec;
 
-    public PropertyDeclaration getRoot() {
+    public SimplePropertyDeclaration getRoot() {
         //System.out.println("stack size " + stack.size());
         return stack.peek();
     }
@@ -24,13 +23,13 @@ public class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListener {
     @Override
     public void enterPairProperty(JsonTemplateAntlrParser.PairPropertyContext ctx) {
         debug("enterPairProperty ", ctx);
-        stack.push(new PropertyDeclaration());
+        stack.push(new SimplePropertyDeclaration());
     }
 
     @Override
     public void exitPairProperty(JsonTemplateAntlrParser.PairPropertyContext ctx) {
         debug("exitPairProperty ", ctx);
-        PropertyDeclaration pop = stack.pop();
+        SimplePropertyDeclaration pop = stack.pop();
         stack.peek().addProperty(pop);
     }
 
@@ -49,7 +48,7 @@ public class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListener {
         debug("enterMapParam", ctx);
         String key = ctx.getChild(0).getText();
         String value = ctx.getChild(2).getText();
-        PropertyDeclaration peek = stack.peek();
+        SimplePropertyDeclaration peek = stack.peek();
         if (inArrayParamSpec) {
             peek.getArrayTypeSpec().getMapParam().put(key, value);
         } else {
@@ -65,7 +64,7 @@ public class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListener {
                 .map(ParseTree::getText)
                 .filter(text -> !",".equals(text))
                 .forEach(param -> {
-                    PropertyDeclaration peek = stack.peek();
+                    SimplePropertyDeclaration peek = stack.peek();
                     if (inArrayParamSpec) {
                         peek.getArrayTypeSpec().getListParam().add(param);
                     } else {
@@ -77,7 +76,7 @@ public class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListener {
     @Override
     public void enterSingleParam(JsonTemplateAntlrParser.SingleParamContext ctx) {
         debug("enterSingleParam", ctx);
-        PropertyDeclaration peek = stack.peek();
+        SimplePropertyDeclaration peek = stack.peek();
         if (inArrayParamSpec) {
             peek.getArrayTypeSpec().setSingleParam(ctx.getText());
         } else {
@@ -87,7 +86,7 @@ public class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListener {
 
     @Override
     public void enterPropertyNameSpec(JsonTemplateAntlrParser.PropertyNameSpecContext ctx) {
-        stack.peek().setValueName(ctx.getText());
+        stack.peek().setPropertyName(ctx.getText());
     }
 
     private boolean inPropertyVariableWrapper;
@@ -124,13 +123,13 @@ public class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListener {
     @Override
     public void enterSingleProperty(JsonTemplateAntlrParser.SinglePropertyContext ctx) {
         debug("enterSingleProperty", ctx);
-        stack.push(new PropertyDeclaration());
+        stack.push(new SimplePropertyDeclaration());
     }
 
     @Override
     public void exitSingleProperty(JsonTemplateAntlrParser.SinglePropertyContext ctx) {
         debug("exitSingleProperty ", ctx);
-        PropertyDeclaration pop = stack.pop();
+        SimplePropertyDeclaration pop = stack.pop();
         stack.peek().addProperty(pop);
     }
 
@@ -138,27 +137,29 @@ public class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListener {
     public void enterJsonObject(JsonTemplateAntlrParser.JsonObjectContext ctx) {
         debug("enterJsonObject", ctx);
         if (stack.isEmpty()) {
-            stack.push(new PropertyDeclaration());
+            stack.push(new SimplePropertyDeclaration());
         }
-        stack.peek().setAsObject(true);
+        SimplePropertyDeclaration pop = stack.pop();
+        stack.push(pop.asObjectProperty());
     }
 
     @Override
     public void enterJsonArray(JsonTemplateAntlrParser.JsonArrayContext ctx) {
         if (stack.isEmpty()) {
-            stack.push(new PropertyDeclaration());
+            stack.push(new SimplePropertyDeclaration());
         }
-        stack.peek().setAsArray(true);
+        SimplePropertyDeclaration pop = stack.pop();
+        stack.push(pop.asArrayProperty());
     }
 
     @Override
     public void enterItem(JsonTemplateAntlrParser.ItemContext ctx) {
-        stack.push(new PropertyDeclaration());
+        stack.push(new SimplePropertyDeclaration());
     }
 
     @Override
     public void exitItem(JsonTemplateAntlrParser.ItemContext ctx) {
-        PropertyDeclaration pop = stack.pop();
+        SimplePropertyDeclaration pop = stack.pop();
         stack.peek().addProperty(pop);
     }
 

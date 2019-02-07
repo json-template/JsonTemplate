@@ -10,8 +10,8 @@ public class TypeSpec {
 
     private String typeName;
     private String singleParam;
-    private List<String> listParam;
-    private Map<String, String> mapParam;
+    private List<String> listParam = new ArrayList<>();
+    private Map<String, String> mapParam = new HashMap<>();
 
     public String getTypeName() {
         return typeName;
@@ -32,9 +32,6 @@ public class TypeSpec {
     }
 
     public List<String> getListParam() {
-        if (listParam == null) {
-            listParam = new ArrayList<>();
-        }
         return listParam;
     }
 
@@ -43,9 +40,6 @@ public class TypeSpec {
     }
 
     public Map<String, String> getMapParam() {
-        if (mapParam == null) {
-            mapParam = new HashMap<>();
-        }
         return mapParam;
     }
 
