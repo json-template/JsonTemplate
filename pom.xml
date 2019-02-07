@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>p.hh</groupId>
+    <groupId>com.github</groupId>
     <artifactId>jsontemplate</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -15,17 +15,32 @@
         <antlr4.listener>true</antlr4.listener>
     </properties>
 
+    <developers>
+        <developer>
+            <id>haihan.yin</id>
+            <name>Haihan Yin</name>
+            <email>iamhaihan (a) gmail.com</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/json-template/JsonTemplate.git</connection>
+        <developerConnection>scm:git:git://github.com/json-template/JsonTemplate.git</developerConnection>
+        <url>scm:git:git://github.com/json-template/JsonTemplate.git</url>
+    </scm>
+
     <dependencies>
         <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>antlr4-runtime</artifactId>
             <version>4.7</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.5</version>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+            <version>1.3</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -41,14 +56,6 @@
             <version>2.4.0</version>
             <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-all</artifactId>
-            <version>1.3</version>
-            <scope>test</scope>
-        </dependency>
-
     </dependencies>
 
     <build>
