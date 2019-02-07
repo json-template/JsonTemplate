@@ -5,6 +5,7 @@ import com.github.jsontemplate.jsonbuild.JsonBuilder;
 import com.github.jsontemplate.jsonbuild.JsonNode;
 import com.github.jsontemplate.jsonbuild.JsonNullNode;
 import com.github.jsontemplate.jsonbuild.JsonWrapperNode;
+import com.github.jsontemplate.modelbuild.handler.DefaultBuildHandler;
 import com.github.jsontemplate.valueproducer.INodeProducer;
 
 import java.util.ArrayList;
@@ -208,7 +209,7 @@ public class SimplePropertyDeclaration {
                     // todo primitives
                 } else if (variable instanceof Map) {
                     typeSpec.setSingleParam(null);
-                    typeSpec.setListParam(null);
+                    typeSpec.getListParam().clear();
                     Map<String, Object> mapVariable = (Map<String, Object>) variable;
                     Map<String, String> config = mapVariable.entrySet().stream()
                             .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().toString()));

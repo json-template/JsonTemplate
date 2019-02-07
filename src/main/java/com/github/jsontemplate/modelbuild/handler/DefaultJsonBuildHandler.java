@@ -1,11 +1,4 @@
-package com.github.jsontemplate.modelbuild;
-
-import com.github.jsontemplate.jsonbuild.JsonNode;
-import com.github.jsontemplate.jsonbuild.JsonWrapperNode;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+package com.github.jsontemplate.modelbuild.handler;
 
 public class DefaultJsonBuildHandler implements DefaultBuildHandler {
 

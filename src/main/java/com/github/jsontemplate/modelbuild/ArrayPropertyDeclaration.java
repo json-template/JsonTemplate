@@ -2,6 +2,7 @@ package com.github.jsontemplate.modelbuild;
 
 import com.github.jsontemplate.jsonbuild.JsonBuilder;
 import com.github.jsontemplate.jsonbuild.JsonNode;
+import com.github.jsontemplate.modelbuild.handler.DefaultBuildHandler;
 import com.github.jsontemplate.valueproducer.INodeProducer;
 
 import java.util.Map;

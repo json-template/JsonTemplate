@@ -1,4 +1,4 @@
-package com.github.jsontemplate.modelbuild;
+package com.github.jsontemplate.modelbuild.handler;
 
 import com.github.jsontemplate.jsonbuild.JsonNode;
 import com.github.jsontemplate.jsonbuild.JsonWrapperNode;
