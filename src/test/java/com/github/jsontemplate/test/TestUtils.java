@@ -23,7 +23,7 @@ public class TestUtils {
     public static DocumentContext parse(String template, Map<String, Object> variableMap) {
         System.out.println("===== Template =====");
         System.out.println(template);
-        JsonNode jsonNode = new JsonTemplate().withVariables(variableMap).parse(template);
+        JsonNode jsonNode = new JsonTemplate().withVars(variableMap).parse(template);
         String json = jsonNode.prettyPrint(0);
         System.out.println("===== Generated Json =====");
         System.out.println(json);

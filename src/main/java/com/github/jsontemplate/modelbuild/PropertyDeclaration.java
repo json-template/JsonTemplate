@@ -3,6 +3,7 @@ package com.github.jsontemplate.modelbuild;
 import com.github.jsontemplate.jsonbuild.JsonArrayNode;
 import com.github.jsontemplate.jsonbuild.JsonBuilder;
 import com.github.jsontemplate.jsonbuild.JsonNode;
+import com.github.jsontemplate.jsonbuild.JsonNullNode;
 import com.github.jsontemplate.jsonbuild.JsonWrapperNode;
 import com.github.jsontemplate.valueproducer.INodeProducer;
 
@@ -16,42 +17,36 @@ import java.util.stream.Collectors;
 
 public class PropertyDeclaration {
     protected String valueName;
-    protected String typeName;
 
-    protected String singleParam;
-    protected List<String> listParam;
-    protected Map<String, String> mapParam;
+    public TypeSpec getTypeSpec() {
+        return typeSpec;
+    }
+
+    public void setTypeSpec(TypeSpec typeSpec) {
+        this.typeSpec = typeSpec;
+    }
+
+    public TypeSpec getArrayTypeSpec() {
+        return arrayTypeSpec;
+    }
+
+    public void setArrayTypeSpec(TypeSpec arrayTypeSpec) {
+        this.arrayTypeSpec = arrayTypeSpec;
+    }
+
+    protected TypeSpec typeSpec;
     protected boolean isObject;
-    protected List<PropertyDeclaration> properties = new ArrayList<>();
-    protected PropertyDeclaration parent;
     protected boolean isArray;
 
-    protected String arraySingleParam;
-    protected List<String> arrayListParam;
-    protected Map<String, String> arrayMapParam;
+    protected List<PropertyDeclaration> properties = new ArrayList<>();
+    protected PropertyDeclaration parent;
+
+    protected TypeSpec arrayTypeSpec;
 
     public List<PropertyDeclaration> getProperties() {
         return properties;
     }
 
-    public String getArraySingleParam() {
-        return arraySingleParam;
-    }
-
-    public void setArraySingleParam(String arraySingleParam) {
-        this.arraySingleParam = arraySingleParam;
-    }
-
-    public List<String> getArrayListParam() {
-        if (arrayListParam == null) {
-            arrayListParam = new ArrayList<>();
-        }
-        return arrayListParam;
-    }
-
-    public void setArrayListParam(List<String> arrayListParam) {
-        this.arrayListParam = arrayListParam;
-    }
 
     public String getValueName() {
         return valueName;
@@ -61,45 +56,6 @@ public class PropertyDeclaration {
         this.valueName = valueName;
     }
 
-    public String getTypeName() {
-        return typeName;
-    }
-
-    public void setTypeName(String typeName) {
-        if (typeName != null) {
-            this.typeName = typeName;
-        }
-    }
-
-    public String getSingleParam() {
-        return singleParam;
-    }
-
-    public void setSingleParam(String singleParam) {
-        this.singleParam = singleParam;
-    }
-
-    public List<String> getListParam() {
-        if (listParam == null) {
-            listParam = new ArrayList<>();
-        }
-        return listParam;
-    }
-
-    public void setListParam(List<String> listParam) {
-        this.listParam = listParam;
-    }
-
-    public Map<String, String> getMapParam() {
-        if (mapParam == null) {
-            mapParam = new HashMap<>();
-        }
-        return mapParam;
-    }
-
-    public void setMapParam(Map<String, String> mapParam) {
-        this.mapParam = mapParam;
-    }
 
     public void addProperty(PropertyDeclaration propertyDeclaration) {
         this.properties.add(propertyDeclaration);
@@ -125,17 +81,6 @@ public class PropertyDeclaration {
 
     public void setAsArray(boolean array) {
         isArray = array;
-    }
-
-    public Map<String, String> getArrayMapParam() {
-        if (arrayMapParam == null) {
-            arrayMapParam = new HashMap<>();
-        }
-        return arrayMapParam;
-    }
-
-    public void setArrayMapParam(Map<String, String> arrayMapParam) {
-        this.arrayMapParam = arrayMapParam;
     }
 
     public boolean isObject() {
@@ -164,20 +109,38 @@ public class PropertyDeclaration {
     }
 
     private void handlePlainValue(JsonBuilder builder, Map<String, INodeProducer> producerMap, Map<String, JsonNode> typeMap, Map<String, JsonNode> variableMap, DefaultHandler defaultHandler) {
-        JsonNode jsonNode = findJsonNodeFromVariable(variableMap, typeName);
-        if (jsonNode == null) {
-            String valueTypeName = findValueType();
-            jsonNode = buildNodeFromProducer(producerMap, valueTypeName);
+        JsonNode jsonNode = null;
+        if (isNullValue()) {
+            jsonNode = new JsonNullNode();
+        } else {
+            jsonNode = findJsonNodeFromVariable(variableMap, typeSpec.getTypeName());
+            if (jsonNode == null) { // it is not a variable, search type map
+                if (typeSpec.getTypeName() == null && typeSpec.getSingleParam() == null) {
+                    findDefaultJsonNode();
 
-            if (jsonNode == null) {
-                jsonNode = typeMap.get(valueTypeName);
-            }
-            if (jsonNode == null) {
-                defaultHandler.handle(valueTypeName);
+                    if (jsonNode == null) { // cannot find any matched type
+                        defaultHandler.handle(valueTypeName);
+                    }
+                }
+
+                String valueTypeName = findValueType();
+                jsonNode = buildNodeFromProducer(producerMap, valueTypeName);
+
+                if (jsonNode == null) { // this type is declared inside template
+                    jsonNode = typeMap.get(valueTypeName);
+                }
+                if (jsonNode == null) { // cannot find any matched type
+                    defaultHandler.handle(valueTypeName);
+                }
+
             }
         }
 
         putOrAddNode(builder, jsonNode);
+    }
+
+    private JsonNode findValueTypeAndBuildNode(Map<String, INodeProducer> producerMap) {
+
     }
 
     public void buildType(JsonBuilder builder, Map<String, INodeProducer> producerMap, Map<String, JsonNode> typeMap, Map<String, List<JsonWrapperNode>> missTypeMap, Map<String, JsonNode> variableMap) {
@@ -198,10 +161,10 @@ public class PropertyDeclaration {
     }
 
     private String findValueType() {
-        String valueTypeName = typeName;
+        String valueTypeName = typeSpec.getTypeName();
         PropertyDeclaration declParent = this.getParent();
         while (valueTypeName == null && declParent != null) {
-            valueTypeName = declParent.getTypeName();
+            valueTypeName = declParent.getTypeSpec().getTypeName();
             declParent = declParent.getParent();
         }
         if (valueTypeName == null) {
@@ -214,12 +177,12 @@ public class PropertyDeclaration {
         JsonNode jsonNode = null;
         INodeProducer producer = producerMap.get(valueTypeName);
         if (producer != null) {
-            if (singleParam != null) {
-                jsonNode = producer.produce(singleParam);
-            } else if (listParam != null) {
-                jsonNode = producer.produce(listParam);
-            } else if (mapParam != null) {
-                jsonNode = producer.produce(mapParam);
+            if (typeSpec.getSingleParam() != null) {
+                jsonNode = producer.produce(typeSpec.getSingleParam());
+            } else if (typeSpec.getListParam() != null) {
+                jsonNode = producer.produce(typeSpec.getListParam());
+            } else if (typeSpec.getMapParam() != null) {
+                jsonNode = producer.produce(typeSpec.getMapParam());
             } else {
                 jsonNode = producer.produce();
             }
@@ -253,28 +216,27 @@ public class PropertyDeclaration {
         buildChildrenJson(builder, producerMap, typeMap, missTypeMap, variableMap);
         if (isArray) {
             String valueTypeName = findValueType();
-            if (valueTypeName != null) {
-                JsonNode jsonNode = buildNodeFromProducer(producerMap, valueTypeName);
+            JsonNode jsonNode = buildNodeFromProducer(producerMap, valueTypeName);
 
-                if (jsonNode == null) {
-                    jsonNode = typeMap.get(valueTypeName);
-                }
-                setArrayInfo(builder.peekArrayNode(), jsonNode);
+            if (jsonNode == null) {
+                jsonNode = typeMap.get(valueTypeName);
             }
+            setArrayInfo(builder.peekArrayNode(), jsonNode);
+
         }
         builder.end();
     }
 
     private void setArrayInfo(JsonArrayNode jsonArrayNode, JsonNode defaultNode) {
         jsonArrayNode.setDefaultNode(defaultNode);
-        if (this.arraySingleParam != null) {
-            jsonArrayNode.setParameters(this.arraySingleParam);
+        if (this.arrayTypeSpec.getSingleParam() != null) {
+            jsonArrayNode.setParameters(this.arrayTypeSpec.getSingleParam());
         }
-        if (this.arrayListParam != null) {
-            jsonArrayNode.setParameters(this.arrayListParam);
+        if (this.arrayTypeSpec.getListParam() != null) {
+            jsonArrayNode.setParameters(this.arrayTypeSpec.getListParam());
         }
-        if (this.arrayMapParam != null) {
-            jsonArrayNode.setParameters(this.arrayMapParam);
+        if (this.arrayTypeSpec.getMapParam() != null) {
+            jsonArrayNode.setParameters(this.arrayTypeSpec.getMapParam());
         }
     }
 
@@ -300,46 +262,49 @@ public class PropertyDeclaration {
         if (isArray || isObject){
             this.properties.forEach(p -> p.applyVariables(variableMap));
         } else {
-            if (singleParam != null) {
-                if (singleParam.startsWith("$")) {
-                    Object variable = variableMap.get(singleParam.substring(1));
+            if (typeSpec.getSingleParam() != null) {
+                if (typeSpec.getSingleParam().startsWith("$")) {
+                    Object variable = variableMap.get(typeSpec.getSingleParam().substring(1));
                     if (variable instanceof Collection<?>) {
                         Collection<?> collectionVariable = (Collection<?>) variable;
-                        singleParam = null;
-                        listParam = collectionVariable.stream()
+                        typeSpec.setSingleParam(null);
+                        List<String> elements = collectionVariable.stream()
                                 .map(Object::toString)
                                 .collect(Collectors.toList());
+                        typeSpec.setListParam(elements);
                         // todo primitives
                     } else if (variable.getClass().isArray()) {
                         Object[] arrayVariable = (Object[]) variable;
-                        singleParam = null;
-                        listParam = Arrays.stream(arrayVariable)
+                        typeSpec.setSingleParam(null);
+                        List<String> elements = Arrays.stream(arrayVariable)
                                 .map(Object::toString)
                                 .collect(Collectors.toList());
+                        typeSpec.setListParam(elements);
                         // todo primitives
                     } else if (variable instanceof Map) {
-                        singleParam = null;
-                        listParam = null;
+                        typeSpec.setSingleParam(null);
+                        typeSpec.setListParam(null);
                         Map<String, Object> mapVariable = (Map<String, Object>) variable;
-                        mapParam = mapVariable.entrySet().stream()
+                        Map<String, String> config = mapVariable.entrySet().stream()
                                 .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().toString()));
+                        typeSpec.setMapParam(config);
 
                     } else {
-                        singleParam = variable.toString();
+                        typeSpec.setSingleParam(variable.toString());
                     }
                 }
-            } else if (listParam != null) {
-                for (int i = 0; i < listParam.size(); i++) {
-                    if (listParam.get(i).startsWith("$")) {
-                        Object variable = variableMap.get(listParam.get(i).substring(1));
-                        listParam.set(i, variable.toString());
+            } else if (typeSpec.getListParam() != null) {
+                for (int i = 0; i < typeSpec.getListParam().size(); i++) {
+                    if (typeSpec.getListParam().get(i).startsWith("$")) {
+                        Object variable = variableMap.get(typeSpec.getListParam().get(i).substring(1));
+                        typeSpec.getListParam().set(i, variable.toString());
                     }
                 }
-            } else if (mapParam != null) {
-                for (Map.Entry<String, String> entry : mapParam.entrySet()) {
+            } else if (typeSpec.getMapParam() != null) {
+                for (Map.Entry<String, String> entry : typeSpec.getMapParam().entrySet()) {
                     if (entry.getValue().startsWith("$")) {
                         Object variable = variableMap.get(entry.getValue().substring(1));
-                        mapParam.put(entry.getKey(), variable.toString());
+                        typeSpec.getMapParam().put(entry.getKey(), variable.toString());
                     }
                 }
             }
@@ -348,6 +313,10 @@ public class PropertyDeclaration {
 
     }
 
+
+    public boolean isNullValue() {
+        return "null".equals(typeSpec.getSingleParam());
+    }
 
     private static interface DefaultHandler {
         void handle(String valueTypeName);

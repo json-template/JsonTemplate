@@ -66,14 +66,14 @@ public class VariableTest {
     @Test
     public void test_mapVariable() {
 
-        Map<String, Object> john = new HashMap<>();
-        john.put("name", "John");
-        john.put("age", 20);
-        john.put("male", true);
-        john.put("roles", Arrays.asList("Admin", "Finance", "HR"));
+        Map<String, Object> person = new HashMap<>();
+        person.put("name", "John");
+        person.put("age", 20);
+        person.put("male", true);
+        person.put("roles", Arrays.asList("Admin", "Finance", "HR"));
 
         Map<String, Object> varMap = new HashMap<>();
-        varMap.put("person", john);
+        varMap.put("person", person);
 
         parse("{person : $person}", varMap);
     }

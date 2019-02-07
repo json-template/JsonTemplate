@@ -271,10 +271,19 @@ property and the property name should start with the type tag **@**.
 </pre></td></tr>
 </table>
 
+In the example of the array producer, we have seen the usage of the default type. 
+Actually, the default type can be also applied to json object. In the first example,
+the object properties have only names and the property values are omitted. In this
+case, the information about how the value is generated will be retrieved from its
+parent. This "looking-up-type" process can be performed recursively till the root.
+Each element can overwrite the default value producer passed from its parent. 
 
 ## Inject variables
 ### Use the variable indicator in value specification
-
+```java
+  new JsonTemplate().withVar("name", "John")
+```
+<table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
 <tr><td><pre>
 {
   name : $name
@@ -283,26 +292,40 @@ property and the property name should start with the type tag **@**.
 {
   "name" : "John"
 }
-</pre></td></tr><tr><td colspan="2">
-comments</td></tr>
+</pre></td></tr>
+</table>
 
+The above example shows how to inject a variable into template. Token `$` is a
+ variable indicator. `JsomTemplate` provies `withVar(String, Object)` and 
+ `withVars(Map<String, Object>)` to associating variables with the template. 
 
+```java
+  new JsonTemplate().withVar("letters", new String[]{"A", "B", "C"})
+```
+<table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
 <tr><td><pre>
 {
   letters : $letters
 }
 </pre></td><td><pre>
 {
-  "letters" : [
-    "A",
-    "B",
-    "C"
-  ]
+  "letters" : [ "A", "B", "C" ]
 }
-</pre></td></tr><tr><td colspan="2">
-comments</td></tr>
+</pre></td></tr>
+</table>
 
+If the variable is an array or has type of `Colleciton`, it is transformed to a 
+json array.
 
+```java
+  Map<String, Object> person = new HashMap<>();
+  person.put("name", "Haihan");
+  person.put("age", 33);
+  person.put("male", true);
+  person.put("languages", Arrays.asList("Chinese", "English", "Dutch"));
+  new JsonTemplate().withVar("person", person)
+```
+<table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
 <tr><td><pre>
 {
   person : $person
@@ -310,20 +333,19 @@ comments</td></tr>
 </pre></td><td><pre>
 {
   "person" : {
-    "roles" : [
-      "Admin",
-      "Finance",
-      "HR"
-    ],
-    "name" : "John",
-    "age" : 20,
+    "languages" : [ "Chinese", "English", "Dutch" ],
+    "name" : "Haihan",
+    "age" : 33,
     "male" : true
   }
 }
-</pre></td></tr><tr><td colspan="2">
-comments</td></tr>
+</pre></td></tr>
+</table>
+
+If the variable has type of `Map`, it is transformed to a json object.
 
 ### Use the variable indicator in type specification
+<table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
 <tr><td><pre>
 {
   aField: @s($myValue)
@@ -332,10 +354,11 @@ comments</td></tr>
 {
   "aField" : "helloworld"
 }
-</pre></td></tr><tr><td colspan="2">
-comments</td></tr>
+</pre></td></tr>
+</table>
 
 
+<table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
 <tr><td><pre>
 {
   aField: @s($myValue)
@@ -344,10 +367,11 @@ comments</td></tr>
 {
   "aField" : "C"
 }
-</pre></td></tr><tr><td colspan="2">
-comments</td></tr>
+</pre></td></tr>
+</table>
 
 
+<table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
 <tr><td><pre>
 {
   aField: @s($config)
@@ -356,13 +380,23 @@ comments</td></tr>
 {
   "aField" : "HORklISFDrQzhumRojWQ"
 }
-</pre></td></tr><tr><td colspan="2">
-comments</td></tr>
-
- ### use String.format()
- 
- 
+</pre></td></tr>
 </table>
+
+## Combination with other libraries
+ ### use String.format()
+ ```java
+  String template = String.format("@s { a:%s, b:@s }", "valueA");
+  new JsonTemplate(tempalte).parse();
+ ```
+ 
+```json
+
+```
+
+jsonpath
+
+javafaker
 
 - @s (String)
 -- size

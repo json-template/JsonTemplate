@@ -48,13 +48,13 @@ public class JsonTemplate {
         return this;
     }
 
-    public JsonTemplate withVariable(String variableName, Object variable) {
+    public JsonTemplate withVar(String variableName, Object variable) {
         this.variableMap.put(variableName, variable);
         return this;
     }
 
-    public JsonTemplate withVariables(Map<String, Object> variables) {
-        variables.forEach(this::withVariable);
+    public JsonTemplate withVars(Map<String, Object> variables) {
+        variables.forEach(this::withVar);
         return this;
     }
 

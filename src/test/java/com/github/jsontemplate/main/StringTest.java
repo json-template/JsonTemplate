@@ -13,6 +13,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isIn;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static com.github.jsontemplate.test.TestUtils.*;
+import static org.hamcrest.Matchers.nullValue;
 
 @RunWith(JUnit4.class)
 public class StringTest {
@@ -20,15 +21,21 @@ public class StringTest {
     private static final int STRING_LENGTH = 5;
 
     @Test
-    public void test_randomStringField() {
+    public void test_randomString() {
         DocumentContext document = parse("{aField : @s}");
         assertThat(document.read("$.aField", String.class).length(), is(STRING_LENGTH));
     }
 
     @Test
-    public void test_fixedStringField() {
+    public void test_fixedString() {
         DocumentContext document = parse("{aField : @s(myValue)}");
         assertThat(document.read("$.aField", String.class), is("myValue"));
+    }
+
+    @Test
+    public void test_nullString() {
+        DocumentContext document = parse("{aField : @s(null)}");
+        assertThat(document.read("$.aField", String.class), is(nullValue()));
     }
 
     @Test
@@ -36,7 +43,6 @@ public class StringTest {
         DocumentContext document = parse("{aField : @s(A, B, C, D)}");
         assertThat(document.read("$.aField", String.class), isIn(new String[]{"A", "B", "C", "D"}));
     }
-
 
     @Test
     public void test_sizedStringField() {

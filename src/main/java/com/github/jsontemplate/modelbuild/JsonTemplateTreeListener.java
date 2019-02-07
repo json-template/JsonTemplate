@@ -51,9 +51,9 @@ public class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListener {
         String value = ctx.getChild(2).getText();
         PropertyDeclaration peek = stack.peek();
         if (inArrayParamSpec) {
-            peek.getArrayMapParam().put(key, value);
+            peek.getArrayTypeSpec().getMapParam().put(key, value);
         } else {
-            peek.getMapParam().put(key, value);
+            peek.getTypeSpec().getMapParam().put(key, value);
         }
     }
 
@@ -67,9 +67,9 @@ public class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListener {
                 .forEach(param -> {
                     PropertyDeclaration peek = stack.peek();
                     if (inArrayParamSpec) {
-                        peek.getArrayListParam().add(param);
+                        peek.getArrayTypeSpec().getListParam().add(param);
                     } else {
-                        peek.getListParam().add(param);
+                        peek.getTypeSpec().getListParam().add(param);
                     }
                 });
     }
@@ -79,9 +79,9 @@ public class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListener {
         debug("enterSingleParam", ctx);
         PropertyDeclaration peek = stack.peek();
         if (inArrayParamSpec) {
-            peek.setArraySingleParam(ctx.getText());
+            peek.getArrayTypeSpec().setSingleParam(ctx.getText());
         } else {
-            peek.setSingleParam(ctx.getText());
+            peek.getTypeSpec().setSingleParam(ctx.getText());
         }
     }
 
@@ -90,16 +90,34 @@ public class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListener {
         stack.peek().setValueName(ctx.getText());
     }
 
+    private boolean inPropertyVariableWrapper;
+
     @Override
     public void enterPropertyVariableWrapper(JsonTemplateAntlrParser.PropertyVariableWrapperContext ctx) {
-        stack.peek().setTypeName(ctx.getText());
+        inPropertyVariableWrapper = true;
+    }
+
+    @Override
+    public void exitPropertyVariableWrapper(JsonTemplateAntlrParser.PropertyVariableWrapperContext ctx) {
+        inPropertyVariableWrapper = false;
+    }
+
+    @Override
+    public void enterVariableWrapper(JsonTemplateAntlrParser.VariableWrapperContext ctx) {
+        if (inPropertyVariableWrapper) {
+            if (ctx.getChild(0) instanceof JsonTemplateAntlrParser.VariableContext) {
+                stack.peek().getTypeSpec().setTypeName(ctx.getText());
+            } else {
+                stack.peek().getTypeSpec().setSingleParam(ctx.getText());
+            }
+        }
     }
 
     @Override
     public void enterTypeName(JsonTemplateAntlrParser.TypeNameContext ctx) {
         debug("enterTypeName", ctx);
         if (!(ctx.getParent() instanceof JsonTemplateAntlrParser.TypeDefContext)) {
-            stack.peek().setTypeName(ctx.getText());
+            stack.peek().getTypeSpec().setTypeName(ctx.getText());
         }
     }
 
@@ -146,7 +164,7 @@ public class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListener {
 
     @Override
     public void enterItemVariableWrapper(JsonTemplateAntlrParser.ItemVariableWrapperContext ctx) {
-        stack.peek().setSingleParam(ctx.getText());
+        stack.peek().getTypeSpec().setSingleParam(ctx.getText());
     }
 
     private void debug(String message, ParserRuleContext ctx) {
