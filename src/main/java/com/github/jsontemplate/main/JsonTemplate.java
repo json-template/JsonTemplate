@@ -5,9 +5,9 @@ import com.github.jsontemplate.antlr4.JsonTemplateAntlrParser;
 import com.github.jsontemplate.jsonbuild.JsonBuilder;
 import com.github.jsontemplate.jsonbuild.JsonNode;
 import com.github.jsontemplate.jsonbuild.JsonWrapperNode;
-import com.github.jsontemplate.modelbuild.handler.DefaultJsonBuildHandler;
 import com.github.jsontemplate.modelbuild.JsonTemplateTreeListener;
 import com.github.jsontemplate.modelbuild.SimplePropertyDeclaration;
+import com.github.jsontemplate.modelbuild.handler.DefaultJsonBuildHandler;
 import com.github.jsontemplate.modelbuild.handler.DefaultTypeBuildHandler;
 import com.github.jsontemplate.valueproducer.Base64NodeProducer;
 import com.github.jsontemplate.valueproducer.BooleanNodeProducer;
@@ -15,7 +15,7 @@ import com.github.jsontemplate.valueproducer.INodeProducer;
 import com.github.jsontemplate.valueproducer.IntegerNodeProducer;
 import com.github.jsontemplate.valueproducer.IpNodeProducer;
 import com.github.jsontemplate.valueproducer.Ipv6NodeProducer;
-import com.github.jsontemplate.valueproducer.RawJsonNodeProducer;
+import com.github.jsontemplate.valueproducer.RawStringNodeProducer;
 import com.github.jsontemplate.valueproducer.StringNodeProducer;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -41,7 +41,7 @@ public class JsonTemplate {
         producerMap.put("ip", new IpNodeProducer());
         producerMap.put("ipv6", new Ipv6NodeProducer());
         producerMap.put("base64", new Base64NodeProducer());
-        producerMap.put("raw", new RawJsonNodeProducer());
+        producerMap.put("raw", new RawStringNodeProducer());
     }
 
     public JsonTemplate withTempalte(String template) {

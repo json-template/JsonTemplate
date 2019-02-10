@@ -8,6 +8,10 @@ public class JsonFloatNode extends AbstractJsonValueNode<Float> {
         super(supplier);
     }
 
+    public static JsonFloatNode of(Float value) {
+        return new JsonFloatNode(() -> value);
+    }
+
     @Override
     public String print() {
         return Float.toString(supplier.get());

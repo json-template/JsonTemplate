@@ -10,10 +10,9 @@ import java.util.stream.Collectors;
 
 public class IntegerNodeProducer extends AbstractNodeProducer<JsonIntegerNode> {
 
-
     @Override
     public JsonIntegerNode produce() {
-        return new JsonIntegerNode(() -> randomInRange(0, 100));
+        return new JsonIntegerNode(() -> randomIntInRange(getDefaultMin(), getDefaultMax()));
     }
 
     @Override
@@ -38,14 +37,30 @@ public class IntegerNodeProducer extends AbstractNodeProducer<JsonIntegerNode> {
         validateParamMap(copyParamMap);
 
         if (min != null && max != null && min < max) {
-            return new JsonIntegerNode(() -> randomInRange(min, max));
+            return new JsonIntegerNode(() -> randomIntInRange(min, max));
         } else if (min != null && max == null) {
-            return new JsonIntegerNode(() -> randomInRange(min, 2 * min));
+            return new JsonIntegerNode(() -> randomIntInRange(min, getDefaultMax(min)));
         } else if (min == null && max != null) {
-            return new JsonIntegerNode(() -> randomInRange(0, max));
+            return new JsonIntegerNode(() -> randomIntInRange(getDefaultMin(max), max));
         } else {
             return produce();
         }
+    }
+
+    protected int getDefaultMax() {
+        return 100;
+    }
+
+    protected int getDefaultMin() {
+        return 0;
+    }
+
+    protected int getDefaultMax(int min) {
+        return 2 * min;
+    }
+
+    protected int getDefaultMin(int max) {
+        return 0;
     }
 
 }

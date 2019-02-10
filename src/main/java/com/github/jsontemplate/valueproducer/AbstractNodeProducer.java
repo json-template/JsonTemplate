@@ -85,9 +85,13 @@ public abstract class AbstractNodeProducer<T extends JsonNode> implements INodeP
         return object != null ? object : defaultValue;
     }
 
-    protected int randomInRange(int min, int max) {
+    protected int randomIntInRange(int min, int max) {
         int bound = max - min + 1;
         return new Random().nextInt(bound) + min;
+    }
+
+    protected float randomFloatInRange(float min, float max) {
+        return min + new Random().nextFloat() * (max - min);
     }
 
     protected void validateParamMap(Map<String, String> paramMap) {

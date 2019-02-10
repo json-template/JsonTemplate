@@ -14,6 +14,13 @@ import java.util.stream.Collectors;
 
 public class JsonArrayNode implements JsonNode {
 
+    private List<JsonNode> children = new LinkedList<>();
+    private JsonNode defaultNode;
+    private INodeProducer defaultNodeProducer;
+    private Integer size;
+    private Integer max;
+    private Integer min;
+
     public static JsonArrayNode of(Collection<?> collection) {
         JsonArrayNode jsonArrayNode = new JsonArrayNode();
         collection.stream()
@@ -29,15 +36,6 @@ public class JsonArrayNode implements JsonNode {
                 .forEach(jsonArrayNode::addNode);
         return jsonArrayNode;
     }
-
-
-    private List<JsonNode> children = new LinkedList<>();
-
-    private JsonNode defaultNode;
-    private INodeProducer defaultNodeProducer;
-    private Integer size;
-    private Integer max;
-    private Integer min;
 
     public void addNode(JsonNode jsonNode) {
         children.add(jsonNode);

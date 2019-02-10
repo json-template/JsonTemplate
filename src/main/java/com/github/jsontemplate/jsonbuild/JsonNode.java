@@ -5,10 +5,6 @@ import java.util.Map;
 
 public interface JsonNode {
 
-    String print();
-
-    String prettyPrint(int identation);
-
     public static JsonNode of(Object obj) {
         JsonNode jsonNode;
         if (obj == null) {
@@ -30,4 +26,8 @@ public interface JsonNode {
         }
         return jsonNode;
     }
+
+    String print();
+
+    String prettyPrint(int identation);
 }

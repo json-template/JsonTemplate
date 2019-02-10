@@ -14,6 +14,7 @@ public class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListener {
     private Stack<SimplePropertyDeclaration> stack = new Stack<>();
     private boolean debug = false;
     private boolean inArrayParamSpec;
+    private boolean inPropertyVariableWrapper;
 
     public SimplePropertyDeclaration getRoot() {
         //System.out.println("stack size " + stack.size());
@@ -88,8 +89,6 @@ public class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListener {
     public void enterPropertyNameSpec(JsonTemplateAntlrParser.PropertyNameSpecContext ctx) {
         stack.peek().setPropertyName(ctx.getText());
     }
-
-    private boolean inPropertyVariableWrapper;
 
     @Override
     public void enterPropertyVariableWrapper(JsonTemplateAntlrParser.PropertyVariableWrapperContext ctx) {

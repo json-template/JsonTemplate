@@ -15,8 +15,8 @@ public class ArrayPropertyDeclaration extends SimplePropertyDeclaration {
 
     @Override
     public void buildJsonTemplate(JsonBuilder builder, Map<String, INodeProducer> producerMap,
-                                     Map<String, JsonNode> typeMap,
-                                     Map<String, JsonNode> variableMap, DefaultBuildHandler defaultHandler) {
+                                  Map<String, JsonNode> typeMap,
+                                  Map<String, JsonNode> variableMap, DefaultBuildHandler defaultHandler) {
         if (parent == null) {
             builder.createArray();
         } else {

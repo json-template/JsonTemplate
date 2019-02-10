@@ -14,7 +14,7 @@ public class StringNodeProducer extends AbstractNodeProducer<JsonStringNode> {
 
     @Override
     public JsonStringNode produce() {
-        return new JsonStringNode(() -> produceString(DEFAULT_LENGTH));
+        return new JsonStringNode(() -> produceString(getDefaultLength()));
     }
 
     @Override
@@ -40,17 +40,29 @@ public class StringNodeProducer extends AbstractNodeProducer<JsonStringNode> {
         if (size != null) {
             return new JsonStringNode(() -> produceString(size));
         } else if (min != null && max != null) {
-            return new JsonStringNode(() -> produceString(randomInRange(min, max)));
+            return new JsonStringNode(() -> produceString(randomIntInRange(min, max)));
         } else if (min != null) { // max == null
-            return new JsonStringNode(() -> produceString(randomInRange(min, 2 * min)));
+            return new JsonStringNode(() -> produceString(randomIntInRange(min, getDefaultMax(min))));
         } else if (max != null) { // min == null
-            return new JsonStringNode(() -> produceString(randomInRange(0, max)));
+            return new JsonStringNode(() -> produceString(randomIntInRange(getDefaultMin(max), max)));
         } else { // no expected parameters
             return produce();
         }
     }
 
-    private String produceString(int length) {
+    protected int getDefaultLength() {
+        return DEFAULT_LENGTH;
+    }
+
+    protected int getDefaultMax(int min) {
+        return 2 * min;
+    }
+
+    protected int getDefaultMin(int max) {
+        return 0;
+    }
+
+    public String produceString(int length) {
         char[] chars = new char[length];
         Random random = new Random();
         for (int i = 0; i < length; i++) {
