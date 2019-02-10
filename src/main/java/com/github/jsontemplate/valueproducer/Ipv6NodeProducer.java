@@ -8,29 +8,28 @@ import java.util.stream.IntStream;
 
 public class Ipv6NodeProducer extends AbstractNodeProducer<JsonStringNode> {
 
-    private static final String letters = "0123456789abcdef";
+    private static final String LETTERS = "0123456789abcdef";
+
+    private Random random = new Random();
 
     @Override
     public JsonStringNode produce() {
         return new JsonStringNode(this::produceIp);
     }
 
-    private String produceIp() {
-        Random random = new Random();
-
+    protected String produceIp() {
         return IntStream.range(0, 8)
                 .mapToObj(i -> produceGroup())
                 .collect(Collectors.joining(":"));
     }
 
     private String produceGroup() {
-        Random random = new Random();
-        int length = letters.length();
+        int length = LETTERS.length();
         char[] group = new char[]{
-                letters.charAt(random.nextInt(length)),
-                letters.charAt(random.nextInt(length)),
-                letters.charAt(random.nextInt(length)),
-                letters.charAt(random.nextInt(length))
+                LETTERS.charAt(random.nextInt(length)),
+                LETTERS.charAt(random.nextInt(length)),
+                LETTERS.charAt(random.nextInt(length)),
+                LETTERS.charAt(random.nextInt(length))
         };
         return new String(group);
     }

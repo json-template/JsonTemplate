@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 
 public class IntegerNodeProducer extends AbstractNodeProducer<JsonIntegerNode> {
 
+    private static final int ZERO = 0;
+
     @Override
     public JsonIntegerNode produce() {
         return new JsonIntegerNode(() -> randomIntInRange(getDefaultMin(), getDefaultMax()));
@@ -60,7 +62,7 @@ public class IntegerNodeProducer extends AbstractNodeProducer<JsonIntegerNode> {
     }
 
     protected int getDefaultMin(int max) {
-        return 0;
+        return ZERO;
     }
 
 }

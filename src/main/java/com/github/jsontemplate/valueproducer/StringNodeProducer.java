@@ -12,6 +12,7 @@ public class StringNodeProducer extends AbstractNodeProducer<JsonStringNode> {
     private final static String ALPHABETIC = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private final static int DEFAULT_LENGTH = 5;
 
+    private Random random = new Random();
     @Override
     public JsonStringNode produce() {
         return new JsonStringNode(() -> produceString(getDefaultLength()));
@@ -64,7 +65,6 @@ public class StringNodeProducer extends AbstractNodeProducer<JsonStringNode> {
 
     public String produceString(int length) {
         char[] chars = new char[length];
-        Random random = new Random();
         for (int i = 0; i < length; i++) {
             int index = random.nextInt(ALPHABETIC.length());
             chars[i] = ALPHABETIC.charAt(index);

@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 
 public class FloatNodeProducer extends AbstractNodeProducer<JsonFloatNode> {
 
+    private static final float ZERO = 0f;
+
     @Override
     public JsonFloatNode produce() {
         return new JsonFloatNode(() -> new Random().nextFloat());
@@ -46,6 +48,6 @@ public class FloatNodeProducer extends AbstractNodeProducer<JsonFloatNode> {
     }
 
     protected float getDefaultMin(float max) {
-        return 0;
+        return ZERO;
     }
 }

@@ -4,6 +4,8 @@ import java.util.Arrays;
 
 public class JsonNodeUtils {
 
+    private JsonNodeUtils() {}
+
     public static String makeIdentation(int count) {
         if (count <= 0) {
             return "";

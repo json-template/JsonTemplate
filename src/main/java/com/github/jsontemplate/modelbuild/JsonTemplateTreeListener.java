@@ -17,7 +17,6 @@ public class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListener {
     private boolean inPropertyVariableWrapper;
 
     public SimplePropertyDeclaration getRoot() {
-        //System.out.println("stack size " + stack.size());
         return stack.peek();
     }
 
