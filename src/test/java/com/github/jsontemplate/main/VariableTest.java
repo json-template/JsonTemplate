@@ -119,7 +119,7 @@ public class VariableTest {
     public void test_objectInMapParam() {
         Map<String, Object> variables = new HashMap<>();
         int size = 20;
-        variables.put("size", 20);
+        variables.put("size", size);
         DocumentContext document = parse("{aField: @s(size=$size)}", variables);
         assertThat(document.read("$.aField", String.class).length(), is(20));
     }

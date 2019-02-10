@@ -1,6 +1,7 @@
 package com.github.jsontemplate.valueproducer;
 
 import com.github.jsontemplate.jsonbuild.JsonFloatNode;
+import com.github.jsontemplate.jsonbuild.JsonIntegerNode;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,10 +12,17 @@ import java.util.stream.Collectors;
 public class FloatNodeProducer extends AbstractNodeProducer<JsonFloatNode> {
 
     private static final float ZERO = 0f;
+    private static final int DEFAULT_RANGE = 100;
 
     @Override
     public JsonFloatNode produce() {
-        return new JsonFloatNode(() -> new Random().nextFloat());
+        return new JsonFloatNode(() -> new Random().nextFloat() * getDefaultRange());
+    }
+
+    @Override
+    public JsonFloatNode produce(String value) {
+        float parsedFloat = Float.parseFloat(value);
+        return new JsonFloatNode(() -> parsedFloat);
     }
 
     @Override
@@ -49,5 +57,9 @@ public class FloatNodeProducer extends AbstractNodeProducer<JsonFloatNode> {
 
     protected float getDefaultMin(float max) {
         return ZERO;
+    }
+
+    protected float getDefaultRange() {
+        return DEFAULT_RANGE;
     }
 }

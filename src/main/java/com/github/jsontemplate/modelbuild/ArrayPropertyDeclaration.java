@@ -27,18 +27,22 @@ public class ArrayPropertyDeclaration extends SimplePropertyDeclaration {
             }
         }
         buildChildrenJsonTemplate(builder, producerMap, typeMap, variableMap, defaultHandler);
-        String valueTypeName = findValueType();
-        JsonNode jsonNode = buildNodeFromProducer(producerMap, valueTypeName);
+        if (this.typeSpec == null) {
+            TypeSpec ancestorTypeSpec = findAncestorTypeSpec();
+            this.typeSpec.setTypeName(ancestorTypeSpec.getTypeName());
+        }
+
+        JsonNode jsonNode = buildNodeFromProducer(producerMap);
 
         if (jsonNode == null) {
-            jsonNode = typeMap.get(valueTypeName);
+            jsonNode = typeMap.get(this.typeSpec.getTypeName());
         }
         setArrayInfo(builder.peekArrayNode(), jsonNode);
         builder.end();
     }
 
     @Override
-    public void applyVariables(Map<String, Object> variableMap) {
-        this.properties.forEach(p -> p.applyVariables(variableMap));
+    public void applyVariablesToParameters(Map<String, Object> variableMap) {
+        this.properties.forEach(p -> p.applyVariablesToParameters(variableMap));
     }
 }

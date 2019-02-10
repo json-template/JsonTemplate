@@ -88,24 +88,21 @@ public class SimplePropertyDeclaration {
         } else {
             jsonNode = findJsonNodeFromVariable(variableMap, typeSpec.getTypeName());
             if (jsonNode == null) { // it is not a variable, search type map
-//                if (typeSpec.getTypeName() == null && typeSpec.getSingleParam() == null) {
-//                    findDefaultJsonNode();
-//
-//                    if (jsonNode == null) { // cannot find any matched type
-//                        defaultHandler.handle(valueTypeName);
-//                    }
-//                }
-
-                String valueTypeName = findValueType();
-                jsonNode = buildNodeFromProducer(producerMap, valueTypeName);
-
-                if (jsonNode == null) { // this type is declared inside template
-                    jsonNode = typeMap.get(valueTypeName);
-                }
-                if (jsonNode == null) { // cannot find any matched type
-                    defaultHandler.handle(valueTypeName);
+                if (typeSpec.getTypeName() == null) {
+                    TypeSpec ancestorTypeSpec = findAncestorTypeSpec();
+                    this.typeSpec.setTypeName(ancestorTypeSpec.getTypeName());
+                    if (typeSpec.getSingleParam() == null) {
+                        this.typeSpec = ancestorTypeSpec;
+                    }
                 }
 
+                jsonNode = buildNodeFromProducer(producerMap);
+            }
+            if (jsonNode == null) { // this type is declared inside template
+                jsonNode = typeMap.get(this.typeSpec.getTypeName());
+            }
+            if (jsonNode == null) { // cannot find any matched type
+                defaultHandler.handle(this.typeSpec.getTypeName());
             }
         }
 
@@ -120,22 +117,28 @@ public class SimplePropertyDeclaration {
         }
     }
 
-    protected String findValueType() {
-        String valueTypeName = typeSpec.getTypeName();
+    protected TypeSpec findAncestorTypeSpec() {
+        TypeSpec curTypeSpec = this.typeSpec;
         SimplePropertyDeclaration declParent = this.getParent();
-        while (valueTypeName == null && declParent != null) {
-            valueTypeName = declParent.getTypeSpec().getTypeName();
+        while (curTypeSpec.getTypeName() == null && declParent != null) {
+            curTypeSpec = declParent.getTypeSpec();
             declParent = declParent.getParent();
         }
-        if (valueTypeName == null) {
-            valueTypeName = "s"; // todo improve, temporary solution for array default type
+        if (curTypeSpec == null) {
+            curTypeSpec = getDefaultTypeSpec(); // todo improve, temporary solution for array default type
         }
-        return valueTypeName;
+        return curTypeSpec;
     }
 
-    protected JsonNode buildNodeFromProducer(Map<String, INodeProducer> producerMap, String valueTypeName) {
+    protected TypeSpec getDefaultTypeSpec() {
+        TypeSpec defaultTypeSpec = new TypeSpec();
+        defaultTypeSpec.setTypeName("s");
+        return defaultTypeSpec;
+    }
+
+    protected JsonNode buildNodeFromProducer(Map<String, INodeProducer> producerMap) {
         JsonNode jsonNode = null;
-        INodeProducer producer = producerMap.get(valueTypeName);
+        INodeProducer producer = producerMap.get(this.typeSpec.getTypeName());
         if (producer != null) {
             if (typeSpec.getSingleParam() != null) {
                 jsonNode = producer.produce(typeSpec.getSingleParam());
@@ -187,7 +190,7 @@ public class SimplePropertyDeclaration {
     }
 
 
-    public void applyVariables(Map<String, Object> variableMap) {
+    public void applyVariablesToParameters(Map<String, Object> variableMap) {
         if (typeSpec.getSingleParam() != null) {
             if (typeSpec.getSingleParam().startsWith("$")) {
                 Object variable = variableMap.get(typeSpec.getSingleParam().substring(1));
@@ -198,7 +201,7 @@ public class SimplePropertyDeclaration {
                             .map(Object::toString)
                             .collect(Collectors.toList());
                     typeSpec.setListParam(elements);
-                    // todo primitives
+
                 } else if (variable.getClass().isArray()) {
                     Object[] arrayVariable = (Object[]) variable;
                     typeSpec.setSingleParam(null);
@@ -206,7 +209,7 @@ public class SimplePropertyDeclaration {
                             .map(Object::toString)
                             .collect(Collectors.toList());
                     typeSpec.setListParam(elements);
-                    // todo primitives
+
                 } else if (variable instanceof Map) {
                     typeSpec.setSingleParam(null);
                     typeSpec.getListParam().clear();
@@ -219,14 +222,14 @@ public class SimplePropertyDeclaration {
                     typeSpec.setSingleParam(variable.toString());
                 }
             }
-        } else if (typeSpec.getListParam() != null) {
+        } else if (!typeSpec.getListParam().isEmpty()) {
             for (int i = 0; i < typeSpec.getListParam().size(); i++) {
                 if (typeSpec.getListParam().get(i).startsWith("$")) {
                     Object variable = variableMap.get(typeSpec.getListParam().get(i).substring(1));
                     typeSpec.getListParam().set(i, variable.toString());
                 }
             }
-        } else if (typeSpec.getMapParam() != null) {
+        } else if (!typeSpec.getMapParam().isEmpty()) {
             for (Map.Entry<String, String> entry : typeSpec.getMapParam().entrySet()) {
                 if (entry.getValue().startsWith("$")) {
                     Object variable = variableMap.get(entry.getValue().substring(1));

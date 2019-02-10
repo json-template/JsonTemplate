@@ -11,6 +11,7 @@ import com.github.jsontemplate.modelbuild.handler.DefaultJsonBuildHandler;
 import com.github.jsontemplate.modelbuild.handler.DefaultTypeBuildHandler;
 import com.github.jsontemplate.valueproducer.Base64NodeProducer;
 import com.github.jsontemplate.valueproducer.BooleanNodeProducer;
+import com.github.jsontemplate.valueproducer.FloatNodeProducer;
 import com.github.jsontemplate.valueproducer.INodeProducer;
 import com.github.jsontemplate.valueproducer.IntegerNodeProducer;
 import com.github.jsontemplate.valueproducer.IpNodeProducer;
@@ -34,19 +35,20 @@ public class JsonTemplate {
     private Map<String, INodeProducer> producerMap = new HashMap<>();
     private JsonNode builtJsonNode;
 
-    public JsonTemplate() {
+    public JsonTemplate(String template) {
+        this.template = template;
+        initializeProducerMap();
+    }
+
+    protected void initializeProducerMap() {
         producerMap.put("s", new StringNodeProducer());
         producerMap.put("i", new IntegerNodeProducer());
         producerMap.put("b", new BooleanNodeProducer());
+        producerMap.put("f", new FloatNodeProducer());
         producerMap.put("ip", new IpNodeProducer());
         producerMap.put("ipv6", new Ipv6NodeProducer());
         producerMap.put("base64", new Base64NodeProducer());
         producerMap.put("raw", new RawStringNodeProducer());
-    }
-
-    public JsonTemplate withTempalte(String template) {
-        this.template = template;
-        return this;
     }
 
     public JsonTemplate withVar(String variableName, Object variable) {
@@ -64,11 +66,6 @@ public class JsonTemplate {
         return this;
     }
 
-    public JsonNode parse(String template) {
-        this.template = template;
-        return parse();
-    }
-
     public JsonNode parse() {
         if (template == null) {
             throw new IllegalArgumentException("Template is not set.");
@@ -84,7 +81,7 @@ public class JsonTemplate {
 
         SimplePropertyDeclaration rootDeclaration = stringToJsonTemplateModel(template);
         Map<String, JsonNode> typeMap = buildTypeMap(rootDeclaration);
-        rootDeclaration.applyVariables(variableMap);
+        rootDeclaration.applyVariablesToParameters(variableMap);
 
         JsonBuilder builder = new JsonBuilder();
         rootDeclaration.buildJsonTemplate(builder, producerMap, typeMap, variableNodeMap, new DefaultJsonBuildHandler());

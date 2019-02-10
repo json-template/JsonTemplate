@@ -34,5 +34,5 @@ itemVariableWrapper : variableWrapper;
 
 variable : '$'variableName;
 variableName : IDENTIFIER;
-IDENTIFIER : [a-zA-Z0-9-]+;
+IDENTIFIER : ([a-zA-Z0-9+-]|'.')+;
 WS : [ \t\n\r]+ -> skip ;

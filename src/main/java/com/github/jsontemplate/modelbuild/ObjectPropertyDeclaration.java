@@ -31,7 +31,7 @@ public class ObjectPropertyDeclaration extends SimplePropertyDeclaration {
     }
 
     @Override
-    public void applyVariables(Map<String, Object> variableMap) {
-        this.properties.forEach(p -> p.applyVariables(variableMap));
+    public void applyVariablesToParameters(Map<String, Object> variableMap) {
+        this.properties.forEach(p -> p.applyVariablesToParameters(variableMap));
     }
 }
