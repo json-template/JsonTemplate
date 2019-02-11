@@ -8,26 +8,36 @@
     <artifactId>jsontemplate</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>A library for generating json</description>
+    <url>https://github.com/json-template/JsonTemplate</url>
+
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Haihan Yin</name>
+            <email>iamhaihan@gmail.com</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/json-template/JsonTemplate.git</connection>
+        <developerConnection>scm:git:ssh://github.com:json-template/JsonTemplate.git</developerConnection>
+        <url>https://github.com/json-template/JsonTemplate</url>
+    </scm>
+
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <antlr4.visitor>true</antlr4.visitor>
         <antlr4.listener>true</antlr4.listener>
     </properties>
-
-    <developers>
-        <developer>
-            <id>haihan.yin</id>
-            <name>Haihan Yin</name>
-            <email>iamhaihan (a) gmail.com</email>
-        </developer>
-    </developers>
-
-    <scm>
-        <connection>scm:git:git://github.com/json-template/JsonTemplate.git</connection>
-        <developerConnection>scm:git:git://github.com/json-template/JsonTemplate.git</developerConnection>
-        <url>scm:git:git://github.com/json-template/JsonTemplate.git</url>
-    </scm>
 
     <dependencies>
         <dependency>
@@ -89,6 +99,31 @@
                                 </source>
                             </sources>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
