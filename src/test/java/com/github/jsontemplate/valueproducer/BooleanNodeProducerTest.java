@@ -1,8 +1,7 @@
 package com.github.jsontemplate.valueproducer;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -11,42 +10,49 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isIn;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@RunWith(JUnit4.class)
-public class BooleanNodeProducerTest {
+class BooleanNodeProducerTest {
 
+    private static final String STRING_TRUE = Boolean.TRUE.toString();
+    private static final String STRING_FALSE = Boolean.FALSE.toString();
+    private static final List<String> BOOLEAN_STRING_LIST = Arrays.asList(STRING_TRUE, STRING_FALSE);
     private BooleanNodeProducer producer = new BooleanNodeProducer();
 
     @Test
-    public void testProduce() {
+    @DisplayName("generates a random boolean string")
+    void testProduce() {
         String producedValue = producer.produce().print();
-        assertThat(producedValue, isIn(Arrays.asList("true", "false")));
+        assertThat(producedValue, isIn(BOOLEAN_STRING_LIST));
     }
 
     @Test
-    public void testProduceWithSingleParam() {
-        String singleParam = "true";
-        String producedValue = producer.produce(singleParam).print();
-        assertThat(producedValue, is(singleParam));
+    @DisplayName("generate a fixed boolean string")
+    void testProduceWithSingleParam() {
+        String producedValue = producer.produce(STRING_TRUE).print();
+        assertThat(producedValue, is(STRING_TRUE));
     }
 
     @Test
-    public void testProduceWithNonBooleanSingleParam() {
+    @DisplayName("generates false with an invalid parameter")
+    void testProduceWithNonBooleanSingleParam() {
         String singleParam = "yes";
         String producedValue = producer.produce(singleParam).print();
         assertThat(producedValue, is("false"));
     }
 
     @Test
-    public void testProduceWithListParam() {
-        List<String> strings = Arrays.asList("true", "false");
-        String producedValue = producer.produce(strings).print();
-        assertThat(producedValue, isIn(strings));
+    @DisplayName("selects a value in a list of enumerated boolean strings")
+    void testProduceWithListParam() {
+        String producedValue = producer.produce(BOOLEAN_STRING_LIST).print();
+        assertThat(producedValue, isIn(BOOLEAN_STRING_LIST));
     }
 
-    @Test(expected = UnsupportedOperationException.class)
-    public void testProduceWithMapParam() {
-        producer.produce(new HashMap<>());
+    @Test
+    @DisplayName("not support - generate boolean string with a map parameter")
+    void testProduceWithMapParam() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> producer.produce(new HashMap<>()));
     }
+
 }

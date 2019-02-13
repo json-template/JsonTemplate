@@ -5,7 +5,6 @@ import com.github.jsontemplate.main.JsonTemplate;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 
-
 import java.util.Map;
 
 public class TestUtils {

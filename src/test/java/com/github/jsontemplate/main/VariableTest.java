@@ -1,26 +1,23 @@
 package com.github.jsontemplate.main;
 
 import com.jayway.jsonpath.DocumentContext;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.github.jsontemplate.test.TestUtils.parse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isIn;
-import static com.github.jsontemplate.test.TestUtils.*;
 
 
-@RunWith(JUnit4.class)
-public class VariableTest {
+class VariableTest {
 
     @Test
-    public void test_stringVariable() {
+    void test_stringVariable() {
         Map<String, Object> varMap = new HashMap<>();
         varMap.put("name", "John");
         DocumentContext document = parse("{name : $name}", varMap);
@@ -28,7 +25,7 @@ public class VariableTest {
     }
 
     @Test
-    public void test_integerVariable() {
+    void test_integerVariable() {
         Map<String, Object> varMap = new HashMap<>();
         varMap.put("age", 20);
         DocumentContext document = parse("{age : $age}", varMap);
@@ -36,7 +33,7 @@ public class VariableTest {
     }
 
     @Test
-    public void test_booleanVariable() {
+    void test_booleanVariable() {
         Map<String, Object> varMap = new HashMap<>();
         varMap.put("male", true);
         DocumentContext document = parse("{male : $male}", varMap);
@@ -44,7 +41,7 @@ public class VariableTest {
     }
 
     @Test
-    public void test_arrayVariable() {
+    void test_arrayVariable() {
         Map<String, Object> varMap = new HashMap<>();
         varMap.put("letters", new String[]{"A", "B", "C"});
         DocumentContext document = parse("{letters : $letters}", varMap);
@@ -54,7 +51,7 @@ public class VariableTest {
     }
 
     @Test
-    public void test_listVariable() {
+    void test_listVariable() {
         Map<String, Object> varMap = new HashMap<>();
         varMap.put("letters", Arrays.asList("A", "B", "C"));
         DocumentContext document = parse("{letters : $letters}", varMap);
@@ -64,7 +61,7 @@ public class VariableTest {
     }
 
     @Test
-    public void test_mapVariable() {
+    void test_mapVariable() {
 
         Map<String, Object> person = new HashMap<>();
         person.put("name", "John");
@@ -79,7 +76,7 @@ public class VariableTest {
     }
 
     @Test
-    public void test_objectInSingleParam() {
+    void test_objectInSingleParam() {
         Map<String, Object> variables = new HashMap<>();
         String value = "helloworld";
         variables.put("myValue", value);
@@ -88,7 +85,7 @@ public class VariableTest {
     }
 
     @Test
-    public void test_listInSingleParam() {
+    void test_listInSingleParam() {
         Map<String, Object> variables = new HashMap<>();
         List<String> value = Arrays.asList("A", "B", "C", "D");
         variables.put("myValue", value);
@@ -97,7 +94,7 @@ public class VariableTest {
     }
 
     @Test
-    public void test_mapInSingleParam() {
+    void test_mapInSingleParam() {
         Map<String, Object> variables = new HashMap<>();
         Map<String, String> value = new HashMap<>();
         value.put("size", "20");
@@ -107,7 +104,7 @@ public class VariableTest {
     }
 
     @Test
-    public void test_objectInListParam() {
+    void test_objectInListParam() {
         Map<String, Object> variables = new HashMap<>();
         String value = "hello";
         variables.put("myValue", value);
@@ -116,7 +113,7 @@ public class VariableTest {
     }
 
     @Test
-    public void test_objectInMapParam() {
+    void test_objectInMapParam() {
         Map<String, Object> variables = new HashMap<>();
         int size = 20;
         variables.put("size", size);

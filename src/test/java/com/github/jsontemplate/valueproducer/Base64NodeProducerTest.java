@@ -1,38 +1,44 @@
 package com.github.jsontemplate.valueproducer;
 
-import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
-import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.isIn;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class Base64NodeProducerTest {
+class Base64NodeProducerTest {
 
     private Base64NodeProducer producer = new Base64NodeProducer();
 
     @Test
-    public void produce() {
+    @DisplayName("generate a random base64 string")
+    void produce() {
         String base64String = producer.produce().print();
         assertThat(base64String.length(), is(12 + 2));
     }
 
-    @Test(expected = UnsupportedOperationException.class)
-    public void produceWithSingleParam() {
-        producer.produce("singleParam").print();
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void produceWithListParam() {
-        producer.produce(Collections.emptyList()).print();
+    @Test
+    @DisplayName("not support - generate a fixed base64 string")
+    void produceWithSingleParam() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> producer.produce("singleParam"));
     }
 
     @Test
-    public void produceWithParamLengthModBy4() {
+    @DisplayName("not support - select a base64 string from a list of enumerated values")
+    void produceWithListParam() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> producer.produce(Collections.emptyList()));
+    }
+
+    @Test
+    @DisplayName("generate a base64 string with the expected length which can be mod by 4")
+    void produceWithParamLengthModBy4() {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.put("length", "40");
         String base64String = producer.produce(mapParam).print();
@@ -41,7 +47,8 @@ public class Base64NodeProducerTest {
     }
 
     @Test
-    public void produceWithMapLengthModNotBy4() {
+    @DisplayName("generate a base64 string with the expected length which can NOT be mod by 4")
+    void produceWithMapLengthModNotBy4() {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.put("length", "41");
         String base64String = producer.produce(mapParam).print();

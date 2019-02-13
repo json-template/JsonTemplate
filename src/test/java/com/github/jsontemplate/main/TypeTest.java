@@ -1,23 +1,17 @@
 package com.github.jsontemplate.main;
 
 import com.jayway.jsonpath.DocumentContext;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.Test;
 
+import static com.github.jsontemplate.test.TestUtils.parse;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.isIn;
-import static org.hamcrest.Matchers.notNullValue;
-import static com.github.jsontemplate.test.TestUtils.*;
+import static org.hamcrest.Matchers.*;
 
 
-@RunWith(JUnit4.class)
-public class TypeTest {
+class TypeTest {
 
     @Test
-    public void test_typeWithoutParam() {
+    void test_typeWithoutParam() {
         DocumentContext document = parse("{" +
                 "@address:{city:@s,street:@s,number:@i}," +
                 "office:@address, home:@address" +
@@ -32,7 +26,7 @@ public class TypeTest {
     }
 
     @Test
-    public void test_typeWithSingleParam() {
+    void test_typeWithSingleParam() {
         DocumentContext document = parse("{" +
                 "@address:{city:@s(Amsterdam),street:@s,number:@i(5)}," +
                 "office:@address, home:@address" +
@@ -46,7 +40,7 @@ public class TypeTest {
     }
 
     @Test
-    public void test_typeWithListParam() {
+    void test_typeWithListParam() {
         DocumentContext document = parse("{" +
                 "@address:{city:@s(Amsterdam, Utrecht),street:@s,number:@i(5, 10, 15)}," +
                 "office:@address, home:@address" +
@@ -60,7 +54,7 @@ public class TypeTest {
     }
 
     @Test
-    public void test_typeWithMapParam() {
+    void test_typeWithMapParam() {
         DocumentContext document = parse("{" +
                 "@address:{city:@s(size=10),street:@s(size=20),number:@i(min=1000)}," +
                 "office:@address, home:@address" +
