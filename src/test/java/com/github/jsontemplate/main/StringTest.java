@@ -3,6 +3,8 @@ package com.github.jsontemplate.main;
 
 import com.jayway.jsonpath.DocumentContext;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static com.github.jsontemplate.test.TestUtils.parse;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -15,15 +17,17 @@ class StringTest {
     private static final int STRING_LENGTH = 5;
 
     @Test
-    void test_randomString() {
+    void parseRandomString() {
         DocumentContext document = parse("{aField : @s}");
         assertThat(document.read("$.aField", String.class).length(), is(STRING_LENGTH));
     }
 
-    @Test
-    void test_fixedString() {
-        DocumentContext document = parse("{aField : @s(myValue)}");
-        assertThat(document.read("$.aField", String.class), is("myValue"));
+    @ParameterizedTest
+    @ValueSource(strings = {"myValue", "123", "\\(\\)"})
+    void parseFixedString(String fixedValue) {
+        String template = String.format("{aField : @s(%s)}", fixedValue);
+        DocumentContext document = parse(template);
+        assertThat(document.read("$.aField", String.class), is(fixedValue));
     }
 
     @Test
