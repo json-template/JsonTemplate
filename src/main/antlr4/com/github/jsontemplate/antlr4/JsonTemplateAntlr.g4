@@ -18,7 +18,7 @@ jsonValue : typeInfo typeParamSpec?;
 typeInfo : '@'typeName;
 
 typeParamSpec : '(' singleParam ')' | '(' listParams ')' | '(' mapParams ')';
-variableWrapper : IDENTIFIER | variable;
+variableWrapper : IDENTIFIER | variable | RAW;
 singleParam : variableWrapper;
 listParams : variableWrapper (',' variableWrapper )+;
 mapParams : mapParam (',' mapParam)*;
@@ -34,5 +34,8 @@ itemVariableWrapper : variableWrapper;
 
 variable : '$'variableName;
 variableName : IDENTIFIER;
+RAW : '`' .*? '`';
+
 IDENTIFIER : ([a-zA-Z0-9+-]|'.')+;
+
 WS : [ \t\n\r]+ -> skip ;
