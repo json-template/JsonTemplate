@@ -73,9 +73,9 @@ public class FluentJson {
         return this;
     }
 
-    public FluentJson anObject(String name, FluentJson ) {
-        jsonBuilder.putObject(name);
-        jsonBuilder.end();
-        return this;
-    }
+//    public FluentJson anObject(String name, FluentJson ) {
+//        jsonBuilder.putObject(name);
+//        jsonBuilder.end();
+//        return this;
+//    }
 }
