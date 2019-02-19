@@ -26,7 +26,7 @@ class DefaultTypeTest {
 
     @Test
     void test_simpleParamerizedDefaultType() {
-        DocumentContext document = parse("@s(size=10){fieldA, fieldB: @s(size=20)}");
+        DocumentContext document = parse("@s(length=10){fieldA, fieldB: @s(length=20)}");
         assertThat(document.read("$.fieldA", String.class).length(), is(10));
         assertThat(document.read("$.fieldB", String.class).length(), is(20));
     }

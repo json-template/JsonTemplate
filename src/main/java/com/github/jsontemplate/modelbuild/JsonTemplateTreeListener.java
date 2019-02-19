@@ -47,7 +47,7 @@ public class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListener {
     public void enterMapParam(JsonTemplateAntlrParser.MapParamContext ctx) {
         debug("enterMapParam", ctx);
         String key = ctx.getChild(0).getText();
-        String value = ctx.getChild(2).getText();
+        String value = stripRawText(ctx.getChild(2).getText());
         SimplePropertyDeclaration peek = stack.peek();
         if (inArrayParamSpec) {
             peek.getArrayTypeSpec().getMapParam().put(key, value);
@@ -63,6 +63,7 @@ public class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListener {
                 .mapToObj(ctx::getChild)
                 .map(ParseTree::getText)
                 .filter(text -> !",".equals(text))
+                .map(this::stripRawText)
                 .forEach(param -> {
                     SimplePropertyDeclaration peek = stack.peek();
                     if (inArrayParamSpec) {
@@ -77,10 +78,11 @@ public class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListener {
     public void enterSingleParam(JsonTemplateAntlrParser.SingleParamContext ctx) {
         debug("enterSingleParam", ctx);
         SimplePropertyDeclaration peek = stack.peek();
+        String text = stripRawText(ctx.getText());
         if (inArrayParamSpec) {
-            peek.getArrayTypeSpec().setSingleParam(ctx.getText());
+            peek.getArrayTypeSpec().setSingleParam(text);
         } else {
-            peek.getTypeSpec().setSingleParam(ctx.getText());
+            peek.getTypeSpec().setSingleParam(text);
         }
     }
 
@@ -169,6 +171,14 @@ public class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListener {
     private void debug(String message, ParserRuleContext ctx) {
         if (debug) {
             System.out.println(message + " " + ctx.getText());
+        }
+    }
+
+    private String stripRawText(String text) {
+        if (text.startsWith("`") && text.endsWith("`")) {
+            return text.substring(1, text.length()-1);
+        } else {
+            return text;
         }
     }
 }

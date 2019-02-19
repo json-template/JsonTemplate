@@ -32,14 +32,14 @@ public class StringNodeProducer extends AbstractNodeProducer<JsonStringNode> {
     public JsonStringNode produce(Map<String, String> paramMap) {
         Map<String, String> copyParamMap = new HashMap<>(paramMap);
 
-        Integer size = pickIntegerParam(copyParamMap, "size");
+        Integer length = pickIntegerParam(copyParamMap, "length");
         Integer min = pickIntegerParam(copyParamMap, "min");
         Integer max = pickIntegerParam(copyParamMap, "max");
 
         validateParamMap(copyParamMap);
 
-        if (size != null) {
-            return new JsonStringNode(() -> produceString(size));
+        if (length != null) {
+            return new JsonStringNode(() -> produceString(length));
         } else if (min != null && max != null) {
             return new JsonStringNode(() -> produceString(randomIntInRange(min, max)));
         } else if (min != null) { // max == null

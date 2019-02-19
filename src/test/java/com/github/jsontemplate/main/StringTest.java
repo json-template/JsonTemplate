@@ -23,7 +23,7 @@ class StringTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"myValue", "123", "\\(\\)"})
+    @ValueSource(strings = {"myValue", "123", "1.2.3.4", "100%", "#123", "1*2/3-4"})
     void parseFixedString(String fixedValue) {
         String template = String.format("{aField : @s(%s)}", fixedValue);
         DocumentContext document = parse(template);
@@ -44,7 +44,7 @@ class StringTest {
 
     @Test
     void test_sizedStringField() {
-        DocumentContext document = parse("{aField : @s(size=10)}");
+        DocumentContext document = parse("{aField : @s(length=10)}");
         assertThat(document.read("$.aField", String.class).length(), is(10));
     }
 
@@ -64,8 +64,15 @@ class StringTest {
     @Test
     void test_invalidParamStringField() {
         assertThrows(IllegalArgumentException.class, () ->
-                parse("{aField : @s(length=20)}")
+                parse("{aField : @s(size=20)}")
         );
+    }
+
+    @Test
+    void test_rawString() {
+        String rawContent = "!@#$%^&*()-= \t\n{}[]abc";
+        DocumentContext document = parse("{aField : @s(`" + rawContent + "`)}");
+        assertThat(document.read("$.aField", String.class), is(rawContent));
     }
 
 }

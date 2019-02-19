@@ -56,7 +56,7 @@ class TypeTest {
     @Test
     void test_typeWithMapParam() {
         DocumentContext document = parse("{" +
-                "@address:{city:@s(size=10),street:@s(size=20),number:@i(min=1000)}," +
+                "@address:{city:@s(length=10),street:@s(length=20),number:@i(min=1000)}," +
                 "office:@address, home:@address" +
                 "}");
         assertThat(document.read("$.office.city", String.class).length(), is(10));

@@ -3,6 +3,8 @@ package com.github.jsontemplate.main;
 
 import com.jayway.jsonpath.DocumentContext;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static com.github.jsontemplate.test.TestUtils.parse;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -17,10 +19,11 @@ class FloatTest {
         assertThat(document.read("$.aField", Float.class), is(notNullValue()));
     }
 
-    @Test
-    void test_fixedFloatField() {
-        DocumentContext document = parse("{aField : @f(5)}");
-        assertThat(document.read("$.aField", Float.class), is(5f));
+    @ParameterizedTest
+    @ValueSource(strings = {"5", "5.0", "5f", "5.0f", "10.4F", "9E-2F", "3.8E8"})
+    void test_fixedFloatField(String value) {
+        DocumentContext document = parse(String.format("{aField : @f(%s)}", value));
+        assertThat(document.read("$.aField", Float.class), is(Float.parseFloat(value)));
     }
 
     @Test

@@ -97,7 +97,7 @@ class VariableTest {
     void test_mapInSingleParam() {
         Map<String, Object> variables = new HashMap<>();
         Map<String, String> value = new HashMap<>();
-        value.put("size", "20");
+        value.put("length", "20");
         variables.put("config", value);
         DocumentContext document = parse("{aField: @s($config)}", variables);
         assertThat(document.read("$.aField", String.class).length(), is(20));
@@ -117,7 +117,7 @@ class VariableTest {
         Map<String, Object> variables = new HashMap<>();
         int size = 20;
         variables.put("size", size);
-        DocumentContext document = parse("{aField: @s(size=$size)}", variables);
+        DocumentContext document = parse("{aField: @s(length=$size)}", variables);
         assertThat(document.read("$.aField", String.class).length(), is(20));
     }
 }
