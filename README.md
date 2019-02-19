@@ -1,4 +1,84 @@
 # jsontemplate
+What is JsonTemplate?
+JsonTemplate is a tool for creating json string with a given schema.
+
+What is the benefit of using JsonTemplate?
+Suppose that we want to create following json:
+```json
+{
+  "name" : "John",
+  "age" : 23,
+  "role" : [ "developer", "tester" ],
+  "address" : {
+    "city" : "Utrecht",
+    "street" : "Musicallaan",
+    "number" : 413
+  }  
+}
+```
+
+The most classical way in Java:
+```java
+String json = "{" +
+              "  \"name\" : \"John\"," +
+              "  \"age\" : 23," +
+              "  \"role\" : [ \"developer\", \"tester\" ]," +
+              "  \"address\" : {" +
+              "    \"city\" : \"Utrecht\"," +
+              "    \"street\" : \"Musicallaan\"," +
+              "    \"number\" : 413" +
+              "  }" +
+              "}";
+```
+Is your attention distracted by the slashes? Maybe you started to think about
+the second solution --- using object serializers
+Then you probably need to do the following steps:
+1. create object `Person`
+1. create object `Address`
+1. set each value
+1. use library such as Jackson to serialize it
+
+```java
+String template = "{" +
+                  "  name : John," +
+                  "  age : @i(23)," +
+                  "  role : [ developer, tester ]," +
+                  "  address : {" +
+                  "    city : Utrecht," +
+                  "    street : Musicallaan," +
+                  "    number : @i(413)" +
+                  "  }" +
+                  "}";
+String json = new JsonTemplate(template).parse().print();                      
+``` 
+Does it look much cleaner?
+Suppose that you are test the format validation (pass the validation if all fields exist), 
+you don't care about the specific values or you don't want to spend effort in thinking
+the values, JsonTemplate allows you to focus on the schema of the json message. We can
+ommit the specific values in the previous example and write the template in the following
+way. Eventually, the values which are omitted will be created randomly.
+
+```java
+String template = "{" +
+                  "  name ," +
+                  "  age : @i," +
+                  "  role : [](2)," +
+                  "  address : {" +
+                  "    city," +
+                  "    street," +
+                  "    number : @i" +
+                  "  }" +
+                  "}";
+String json = new JsonTemplate(template).parse().print();                      
+``` 
+
+When do I need to use JsonTemplate?
+- you don't have message objects to be serialized
+- you don't rely on the given message objects
+- your focus is the schema instead of the values
+- you want to quickly create some dummy jsons
+Yes, JsonTemplate will help you to do your job.
+
 ## Example
 ### Value producers
 <table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
