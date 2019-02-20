@@ -12,8 +12,7 @@ public class TestUtils {
     public static DocumentContext parse(String template) {
         System.out.println("===== Template =====");
         System.out.println(template);
-        JsonNode jsonNode = new JsonTemplate(template).parse();
-        String json = jsonNode.prettyPrint(0);
+        String json = new JsonTemplate(template).prettyPrint();
         System.out.println("===== Generated Json =====");
         System.out.println(json);
         return JsonPath.parse(json);
@@ -22,8 +21,7 @@ public class TestUtils {
     public static DocumentContext parse(String template, Map<String, Object> variableMap) {
         System.out.println("===== Template =====");
         System.out.println(template);
-        JsonNode jsonNode = new JsonTemplate(template).withVars(variableMap).parse();
-        String json = jsonNode.prettyPrint(0);
+        String json = new JsonTemplate(template).withVars(variableMap).prettyPrint();
         System.out.println("===== Generated Json =====");
         System.out.println(json);
         return JsonPath.parse(json);
