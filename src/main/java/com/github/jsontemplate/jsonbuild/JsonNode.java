@@ -5,7 +5,7 @@ import java.util.Map;
 
 public interface JsonNode {
 
-    public static JsonNode of(Object obj) {
+    static JsonNode of(Object obj) {
         JsonNode jsonNode;
         if (obj == null) {
             jsonNode = new JsonNullNode();

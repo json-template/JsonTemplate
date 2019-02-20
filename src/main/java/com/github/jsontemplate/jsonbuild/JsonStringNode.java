@@ -2,7 +2,7 @@ package com.github.jsontemplate.jsonbuild;
 
 import java.util.function.Supplier;
 
-public class JsonStringNode extends AbstractJsonValueNode<String> {
+public final class JsonStringNode extends AbstractJsonValueNode<String> {
 
     public JsonStringNode(Supplier<String> supplier) {
         super(supplier);

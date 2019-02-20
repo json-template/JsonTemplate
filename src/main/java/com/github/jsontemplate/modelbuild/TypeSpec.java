@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class TypeSpec {
+final class TypeSpec {
 
     private String typeName;
     private String singleParam;

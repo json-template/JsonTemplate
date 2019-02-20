@@ -2,7 +2,7 @@ package com.github.jsontemplate.jsonbuild;
 
 import java.util.Arrays;
 
-public class JsonNodeUtils {
+public final class JsonNodeUtils {
 
     private JsonNodeUtils() {}
 

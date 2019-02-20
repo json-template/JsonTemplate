@@ -1,6 +1,6 @@
 package com.github.jsontemplate.jsonbuild;
 
-public class JsonWrapperNode implements JsonNode {
+public final class JsonWrapperNode implements JsonNode {
 
     private JsonNode jsonNode;
 

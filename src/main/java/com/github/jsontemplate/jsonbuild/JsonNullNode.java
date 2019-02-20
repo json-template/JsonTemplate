@@ -1,6 +1,6 @@
 package com.github.jsontemplate.jsonbuild;
 
-public class JsonNullNode implements JsonValueNode {
+public final class JsonNullNode implements JsonValueNode {
 
     @Override
     public String print() {

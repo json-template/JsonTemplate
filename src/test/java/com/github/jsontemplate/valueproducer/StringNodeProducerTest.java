@@ -47,12 +47,12 @@ class StringNodeProducerTest {
     void testProduceWithParamSize() {
         Map<String, String> paramMap = new HashMap<>();
 
-        int size = 11;
-        paramMap.put("size", Integer.toString(size));
+        int length = 11;
+        paramMap.put("length", Integer.toString(length));
 
         String producedValue = producer.produce(paramMap).print();
         assertThat(producedValue, allOf(startsWith("\""), endsWith("\"")));
-        assertThat(producedValue.length(), is(size + 2));
+        assertThat(producedValue.length(), is(length + 2));
     }
 
     @Test
@@ -99,16 +99,16 @@ class StringNodeProducerTest {
     void testProduceWithParamSizeMinMax() {
         Map<String, String> paramMap = new HashMap<>();
 
-        int size = 20;
+        int length = 20;
         int min = 6;
         int max = 11;
-        paramMap.put("size", Integer.toString(size));
+        paramMap.put("length", Integer.toString(length));
         paramMap.put("min", Integer.toString(min));
         paramMap.put("max", Integer.toString(max));
 
         String producedValue = producer.produce(paramMap).print();
         assertThat(producedValue, allOf(startsWith("\""), endsWith("\"")));
-        assertThat(producedValue.length(), is(size + 2));
+        assertThat(producedValue.length(), is(length + 2));
     }
 
     @Test
@@ -117,7 +117,7 @@ class StringNodeProducerTest {
             Map<String, String> paramMap = new HashMap<>();
 
             int length = 9;
-            paramMap.put("length", Integer.toString(length));
+            paramMap.put("size", Integer.toString(length));
 
             producer.produce(paramMap).print();
         });

@@ -8,7 +8,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import java.util.Stack;
 import java.util.stream.IntStream;
 
-public class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListener {
+public final class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListener {
 
 
     private Stack<SimplePropertyDeclaration> stack = new Stack<>();

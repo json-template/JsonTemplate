@@ -2,7 +2,7 @@ package com.github.jsontemplate.jsonbuild;
 
 import java.util.Stack;
 
-public class JsonBuilder {
+public final class JsonBuilder {
 
     private Stack<JsonNode> nodeStack = new Stack<>();
     private JsonNode lastPopNode;

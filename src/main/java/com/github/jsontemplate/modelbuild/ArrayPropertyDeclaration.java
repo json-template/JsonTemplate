@@ -7,7 +7,7 @@ import com.github.jsontemplate.valueproducer.INodeProducer;
 
 import java.util.Map;
 
-public class ArrayPropertyDeclaration extends SimplePropertyDeclaration {
+final class ArrayPropertyDeclaration extends SimplePropertyDeclaration {
 
     ArrayPropertyDeclaration(String propertyName) {
         this.propertyName = propertyName;

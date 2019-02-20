@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-public class JsonObjectNode implements JsonNode {
+public final class JsonObjectNode implements JsonNode {
 
     private Map<String, JsonNode> children = new LinkedHashMap<>();
 

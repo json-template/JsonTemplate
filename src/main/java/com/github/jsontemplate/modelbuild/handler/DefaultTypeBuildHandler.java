@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class DefaultTypeBuildHandler implements DefaultBuildHandler {
+public final class DefaultTypeBuildHandler implements DefaultBuildHandler {
 
     private Map<String, List<JsonWrapperNode>> missTypeMap;
 

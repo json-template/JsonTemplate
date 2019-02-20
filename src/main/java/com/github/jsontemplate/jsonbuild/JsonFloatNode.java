@@ -2,7 +2,7 @@ package com.github.jsontemplate.jsonbuild;
 
 import java.util.function.Supplier;
 
-public class JsonFloatNode extends AbstractJsonValueNode<Float> {
+public final class JsonFloatNode extends AbstractJsonValueNode<Float> {
 
     public JsonFloatNode(Supplier<Float> supplier) {
         super(supplier);

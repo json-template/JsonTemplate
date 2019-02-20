@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-public class JsonArrayNode implements JsonNode {
+public final class JsonArrayNode implements JsonNode {
 
     private List<JsonNode> children = new LinkedList<>();
     private JsonNode defaultNode;

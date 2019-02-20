@@ -1,6 +1,6 @@
 package com.github.jsontemplate.modelbuild.handler;
 
-public class DefaultJsonBuildHandler implements DefaultBuildHandler {
+public final class DefaultJsonBuildHandler implements DefaultBuildHandler {
 
     @Override
     public void handle(String valueTypeName) {

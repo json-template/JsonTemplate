@@ -2,7 +2,7 @@ package com.github.jsontemplate.jsonbuild;
 
 import java.util.function.Supplier;
 
-public class JsonIntegerNode extends AbstractJsonValueNode<Integer> {
+public final class JsonIntegerNode extends AbstractJsonValueNode<Integer> {
 
     public JsonIntegerNode(Supplier<Integer> supplier) {
         super(supplier);
