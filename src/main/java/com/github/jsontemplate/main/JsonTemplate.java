@@ -43,12 +43,37 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * JsonTemplate is for generating a json string based on a schema specification.
+ * <br/>
+ * For example, to have a json like the following one
+ * <pre>
+ * {
+ *   "city" : "Utrecht",
+ *   "street" : "Musicallaan",
+ *   "number" : 413
+ * }<pre/>
+ * You can use the following code snippet to create the expected json.
+ * <pre>
+ * String template = "{city:Utrecht,street:Musicallaan,number:@i(413)}"
+ * String json = new JsonTemplate(template).parse().print();<pre/>
+ * <br/>
+ * If you need only a json which is schema compatible, the template can be specified as:
+ * <pre>
+ * String template = "{city,street,number:@i}"<pre/>
+ *
+ * <code>@i</code> refers to a value producer. You can freely extend or add value producers
+ * to suit your needs.
+ *
+ * @see <a href="https://github.com/json-template/JsonTemplate">JsonTemplate GitHub<a/>
+ */
 public class JsonTemplate {
 
-    private String template;
-    private Map<String, Object> variableMap = new HashMap<>();
+    protected String template;
+    protected Map<String, Object> variableMap = new HashMap<>();
+    protected Map<String, INodeProducer> producerMap = new HashMap<>();
+
     private Map<String, JsonNode> variableNodeMap = new HashMap<>();
-    private Map<String, INodeProducer> producerMap = new HashMap<>();
     private JsonNode builtJsonNode;
 
     public JsonTemplate(String template) {
@@ -56,6 +81,13 @@ public class JsonTemplate {
         initializeProducerMap();
     }
 
+    /**
+     * Registers a list of pre-installed value producers. A pre-installed value producer
+     * can be replaced a customized one by using the same key.
+     *
+     * A customized one can be also mapped to a new key. For example:
+     * <code>producerMap.put("temperature", new TemperatureNodeProducer())</code>
+     */
     protected void initializeProducerMap() {
         producerMap.put("s", new StringNodeProducer());
         producerMap.put("i", new IntegerNodeProducer());
