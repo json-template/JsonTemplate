@@ -22,16 +22,30 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+/**
+ * This class produces a {@link JsonStringNode} which can generate an
+ * ipv6 string.
+ */
 public class IpNodeProducer extends AbstractNodeProducer<JsonStringNode> {
 
     private Random random = new Random();
 
+    /**
+     * Produces a node which can generate a random ip string
+     *
+     * @return
+     */
     @Override
     public JsonStringNode produce() {
         return new JsonStringNode(this::produceIp);
     }
 
-    private String produceIp() {
+    /**
+     * Produces an ip string
+     *
+     * @return
+     */
+    protected String produceIp() {
         int[] ipParts = new int[]{
                 random.nextInt(255),
                 random.nextInt(255),

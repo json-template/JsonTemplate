@@ -24,6 +24,12 @@ public final class JsonIntegerNode extends AbstractJsonValueNode<Integer> {
         super(supplier);
     }
 
+    /**
+     * Creates a JsonIntegerNode with a given integer value.
+     *
+     * @param value
+     * @return
+     */
     public static JsonIntegerNode of(Integer value) {
         return new JsonIntegerNode(() -> value);
     }

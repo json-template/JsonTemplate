@@ -17,24 +17,46 @@
 package com.github.jsontemplate.valueproducer;
 
 import com.github.jsontemplate.jsonbuild.JsonBooleanNode;
+import com.github.jsontemplate.jsonbuild.JsonIntegerNode;
 
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+/**
+ * This class produces a {@link JsonBooleanNode JsonBooleanNode} which can generate json boolean value.
+ */
 public class BooleanNodeProducer extends AbstractNodeProducer<JsonBooleanNode> {
 
+    /**
+     * Produces a node which can generate a random boolean value
+     *
+     * @return
+     */
     @Override
     public JsonBooleanNode produce() {
         return new JsonBooleanNode(() -> new Random().nextBoolean());
     }
 
+    /**
+     * Produces a node which can generate a fixed boolean value
+     *
+     * @param value
+     * @return
+     */
     @Override
     public JsonBooleanNode produce(String value) {
         boolean parsedBoolean = Boolean.parseBoolean(value);
         return new JsonBooleanNode(() -> parsedBoolean);
     }
 
+    /**
+     * Produces a node which selects a string in a list.
+     * The selected string is parsed to a boolean.
+     *
+     * @param valueList the enumerated string values
+     * @return
+     */
     @Override
     public JsonBooleanNode produce(List<String> valueList) {
         List<Boolean> parsedValueList = valueList.stream().map(Boolean::parseBoolean).collect(Collectors.toList());

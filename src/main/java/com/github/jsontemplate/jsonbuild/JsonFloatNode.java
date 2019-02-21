@@ -18,12 +18,21 @@ package com.github.jsontemplate.jsonbuild;
 
 import java.util.function.Supplier;
 
+/**
+ * This class represents a producer of a json float value.
+ */
 public final class JsonFloatNode extends AbstractJsonValueNode<Float> {
 
     public JsonFloatNode(Supplier<Float> supplier) {
         super(supplier);
     }
 
+    /**
+     * Creates a JsonFloatNode with a given float value.
+     *
+     * @param value
+     * @return
+     */
     public static JsonFloatNode of(Float value) {
         return new JsonFloatNode(() -> value);
     }

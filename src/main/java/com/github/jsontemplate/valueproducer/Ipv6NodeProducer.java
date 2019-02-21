@@ -22,17 +22,31 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * This class produces a {@link JsonStringNode} which can generate an
+ * ip string.
+ */
 public class Ipv6NodeProducer extends AbstractNodeProducer<JsonStringNode> {
 
     private static final String LETTERS = "0123456789abcdef";
 
     private Random random = new Random();
 
+    /**
+     * Produces a node which can generate a random ipv6 string
+     *
+     * @return
+     */
     @Override
     public JsonStringNode produce() {
         return new JsonStringNode(this::produceIp);
     }
 
+    /**
+     * Produces an ipv6 string
+     *
+     * @return
+     */
     protected String produceIp() {
         return IntStream.range(0, 8)
                 .mapToObj(i -> produceGroup())

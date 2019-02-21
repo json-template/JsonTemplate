@@ -48,43 +48,55 @@ public abstract class AbstractNodeProducer<T extends JsonNode> implements INodeP
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Returns the integer value from the paramMap based on the paramName.
+     * The value is then removed from the map.
+     *
+     * @param paramMap
+     * @param paramName name of the value
+     * @return
+     */
     protected Integer pickIntegerParam(Map<String, String> paramMap, String paramName) {
         return pickParamValue(paramMap, paramName, Integer::parseInt);
     }
 
-    protected Integer pickIntegerParam(Map<String, String> paramMap, String paramName, int defaultValue) {
-        return defaultIfNull(pickIntegerParam(paramMap, paramName), defaultValue);
-    }
-
+    /**
+     * Returns the float value from the paramMap based on the paramName.
+     * The value is then removed from the map.
+     *
+     * @param paramMap
+     * @param paramName name of the value
+     * @return
+     */
     protected Float pickFloatParam(Map<String, String> paramMap, String paramName) {
         return pickParamValue(paramMap, paramName, Float::parseFloat);
     }
 
-    protected Float pickFloatParam(Map<String, String> paramMap, String paramName, float defaultValue) {
-        return defaultIfNull(pickFloatParam(paramMap, paramName), defaultValue);
-    }
-
+    /**
+     * Returns the boolean value from the paramMap based on the paramName.
+     * The value is then removed from the map.
+     *
+     * @param paramMap
+     * @param paramName name of the value
+     * @return
+     */
     protected Boolean pickBooleanParam(Map<String, String> paramMap, String paramName) {
         return pickParamValue(paramMap, paramName, Boolean::parseBoolean);
     }
 
-    protected Boolean pickBooleanParam(Map<String, String> paramMap, String paramName, boolean defaultValue) {
-        return defaultIfNull(pickBooleanParam(paramMap, paramName), defaultValue);
-    }
-
+    /**
+     * Returns the string value from the paramMap based on the paramName.
+     * The value is then removed from the map.
+     *
+     * @param paramMap
+     * @param paramName name of the value
+     * @return
+     */
     protected String pickStringParam(Map<String, String> paramMap, String paramName) {
         return paramMap.get(paramName);
     }
 
-    protected String pickStringParam(Map<String, String> paramMap, String paramName, String defaultValue) {
-        return defaultIfNull(pickStringParam(paramMap, paramName), defaultValue);
-    }
-
-    protected Type getTypeArgument() {
-        return ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-    }
-
-    protected <R> R pickParamValue(Map<String, String> paramMap, String paramName, Function<String, R> parser) {
+    private <R> R pickParamValue(Map<String, String> paramMap, String paramName, Function<String, R> parser) {
         String paramValue = paramMap.remove(paramName);
         if (paramValue != null) {
             try {
@@ -97,19 +109,36 @@ public abstract class AbstractNodeProducer<T extends JsonNode> implements INodeP
         }
     }
 
-    protected <R> R defaultIfNull(R object, R defaultValue) {
-        return object != null ? object : defaultValue;
-    }
-
+    /**
+     * Returns a random integer in the range of min and max.
+     *
+     * @param min
+     * @param max
+     * @return
+     */
     protected int randomIntInRange(int min, int max) {
         int bound = max - min + 1;
         return new Random().nextInt(bound) + min;
     }
 
+    /**
+     * Returns a random float in the range of min and max.
+     *
+     * @param min
+     * @param max
+     * @return
+     */
     protected float randomFloatInRange(float min, float max) {
         return min + new Random().nextFloat() * (max - min);
     }
 
+    /**
+     * Validates if the map has values. If it has, that means it contains
+     * values which are not supported. In this case, an
+     * {@link IllegalArgumentException IllegalArgumentExcpetion} is thrown.
+     *
+     * @param paramMap
+     */
     protected void validateParamMap(Map<String, String> paramMap) {
         if (paramMap.size() > 0) {
             String unexpectedArgument = paramMap.keySet().stream().collect(Collectors.joining(", "));

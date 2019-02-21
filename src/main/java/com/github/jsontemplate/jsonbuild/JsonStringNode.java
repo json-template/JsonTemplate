@@ -18,12 +18,21 @@ package com.github.jsontemplate.jsonbuild;
 
 import java.util.function.Supplier;
 
+/**
+ * This class represents a producer of a json string value.
+ */
 public final class JsonStringNode extends AbstractJsonValueNode<String> {
 
     public JsonStringNode(Supplier<String> supplier) {
         super(supplier);
     }
 
+    /**
+     * Creates a JsonStringNode with a given string value.
+     *
+     * @param value
+     * @return
+     */
     public static JsonStringNode of(String value) {
         return new JsonStringNode(() -> value);
     }

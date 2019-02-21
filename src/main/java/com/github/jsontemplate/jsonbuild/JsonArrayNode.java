@@ -28,6 +28,9 @@ import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+/**
+ * This class represents a producer of a json array value.
+ */
 public final class JsonArrayNode implements JsonNode {
 
     private List<JsonNode> children = new LinkedList<>();
@@ -37,6 +40,12 @@ public final class JsonArrayNode implements JsonNode {
     private Integer max;
     private Integer min;
 
+    /**
+     * Creates a JsonArrayNode with a given collection.
+     *
+     * @param collection
+     * @return
+     */
     public static JsonArrayNode of(Collection<?> collection) {
         JsonArrayNode jsonArrayNode = new JsonArrayNode();
         collection.stream()
@@ -45,6 +54,12 @@ public final class JsonArrayNode implements JsonNode {
         return jsonArrayNode;
     }
 
+    /**
+     * Creates a JsonArrayNode with a given array.
+     *
+     * @param objects
+     * @return
+     */
     public static JsonArrayNode of(Object[] objects) {
         JsonArrayNode jsonArrayNode = new JsonArrayNode();
         Arrays.stream(objects)
@@ -53,31 +68,101 @@ public final class JsonArrayNode implements JsonNode {
         return jsonArrayNode;
     }
 
+    /**
+     * Add a JsonNode as its elements.
+     *
+     * @param jsonNode
+     */
     public void addNode(JsonNode jsonNode) {
         children.add(jsonNode);
-    }
-
-    public void setNodeProducer(INodeProducer producer) {
-        this.defaultNodeProducer = producer;
     }
 
     public INodeProducer getDefaultType() {
         return defaultNodeProducer;
     }
 
+    /**
+     * Sets the default node.
+     *
+     * @param jsonNode
+     */
     public void setDefaultNode(JsonNode jsonNode) {
         this.defaultNode = jsonNode;
     }
 
+    /**
+     * Sets the single parameter. This parameter is for the array
+     * instead of the elements.
+     * <p/>
+     * By default, the single parameter is interpreted as the size
+     * specification of the array.
+     * <p/>
+     * For example, template <code>@s[](5)</code> is a short hand
+     * for <code>@s[](size=5)</code>.
+     *
+     * @see #setParameters(Map)
+     *
+     * @param singleParam
+     */
     public void setParameters(String singleParam) {
         size = Integer.parseInt(singleParam);
     }
 
+    /**
+     * Sets the list parameter. This parameter is for the array
+     * instead of the elements.
+     * <p/>
+     * By default, the list parameter is interpreted as the size range
+     * specification of the array.
+     * <p/>
+     * For example, template <code>@s[](2, 5)</code> is a short hand
+     * for <code>@s[](min=2, max=5)</code>.
+     *
+     * @see #setParameters(Map)
+     *
+     * @param singleParam
+     */
     public void setParameters(List<String> singleParam) {
         min = Integer.parseInt(singleParam.get(0));
         max = Integer.parseInt(singleParam.get(1));
     }
 
+    /**
+     * Sets the map parameter. This parameter is for the array
+     * instead of the elements.
+     * <p/>
+     * Currently, only size, min, max are supported.
+     * <p/>
+     * If the template has already specified the contained elements,
+     * The result size range will always first satisfy the elements,
+     * then the size specification, and at last the min and max specification.
+     * For example,
+     * <ul>
+     * <li>
+     *      "@s[A, B, C](size=2)", the result size is 3, the result
+     *      array will contain "A", "B", "C", and none random strings.
+     * </li>
+     * * <li>
+     *     "@s[A, B, C](size=4)", the result size is 4, the result
+     *     array will contain "A", "B", "C", and 1 random strings.
+     * </li>
+     * <li>
+     * "@s[A, B, C](min=4, max=6)", the result size range is (4, 6), the result
+     * array will contain "A", "B", "C", and 1 to 3 random strings.
+     * </li>
+     * <li>
+     *      "@s[A, B, C, D, E](min=4, max=6)", the result size range is (5, 6), the result
+     *      array will contain "A", "B", "C", "D", "E" and 0 to 1 random strings.
+     * </li>
+     *
+     * <li>
+     *      "@s[A, B, C, D, E, F, G](min=4, max=6)", the result size is 7, the result
+     *      array will contain "A", "B", "C", "D", "E" , "F", "G", and none random strings.
+     * </li>
+     * </ul>
+     *
+     * @param mapParam
+     */
     public void setParameters(Map<String, String> mapParam) {
         size = readParam(mapParam, "size");
         max = readParam(mapParam, "max");
@@ -128,14 +213,6 @@ public final class JsonArrayNode implements JsonNode {
             return Integer.parseInt(value);
         }
         return null;
-    }
-
-    public void addObject(JsonObjectNode value) {
-        children.add(value);
-    }
-
-    public void addArray(JsonArrayNode value) {
-        children.add(value);
     }
 
     @Override

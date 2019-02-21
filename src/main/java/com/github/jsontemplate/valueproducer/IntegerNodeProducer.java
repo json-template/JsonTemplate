@@ -17,6 +17,7 @@
 package com.github.jsontemplate.valueproducer;
 
 import com.github.jsontemplate.jsonbuild.JsonIntegerNode;
+import com.github.jsontemplate.jsonbuild.JsonStringNode;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,27 +25,70 @@ import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+/**
+ * This class produces a {@link JsonIntegerNode JsonIntegerNode} which can generate json numeric(integer) value.
+ */
 public class IntegerNodeProducer extends AbstractNodeProducer<JsonIntegerNode> {
 
     private static final int ZERO = 0;
 
+    /**
+     * Produces a node which can generate a random integer.
+     * The range of the integer is obtained from
+     * {@link #getDefaultMin() getDefaultMin()} and {@link #getDefaultMax() getDefaultMax()}
+     * By default, the range is 0 to 100.
+     *
+     * @return produced JsonIntegerNode
+     */
     @Override
     public JsonIntegerNode produce() {
         return new JsonIntegerNode(() -> randomIntInRange(getDefaultMin(), getDefaultMax()));
     }
 
+    /**
+     * Produces a node which can generate a fixed integer.
+     *
+     * @param value the string representation of the integer
+     * @return
+     */
     @Override
     public JsonIntegerNode produce(String value) {
         int parsedInt = Integer.parseInt(value);
         return new JsonIntegerNode(() -> parsedInt);
     }
 
+    /**
+     * Produces a node which selects a string in a list.
+     * The selected string is parsed to an integer.
+     *
+     * @param valueList the enumerated string values
+     * @return
+     */
     @Override
     public JsonIntegerNode produce(List<String> valueList) {
         List<Integer> parsedValueList = valueList.stream().map(Integer::parseInt).collect(Collectors.toList());
         return new JsonIntegerNode(() -> parsedValueList.get(new Random().nextInt(parsedValueList.size())));
     }
 
+    /**
+     * Produces a node which generates an integer based on a configuration.
+     * <br/>
+     * Following parameters are currently supported:
+     * <ul>
+     *     <li>min - the minimal value of the generated integer,
+     *     if the maximal value is not given, it is returned from
+     *     {@link #getDefaultMax(int) getDefaultMax(int)} which is 2 times
+     *     greater than the minimal length.
+     *     </li>
+     *     <li>max - the maximal length of the generated string,
+     *     if the minimal value is not given, it is returned from
+     *     {@link #getDefaultMin(int) getDefaultMin(int)} which is 0
+     *     </li>
+     * <ul/>
+     *
+     * @param paramMap configuration
+     * @return
+     */
     @Override
     public JsonIntegerNode produce(Map<String, String> paramMap) {
         Map<String, String> copyParamMap = new HashMap<>(paramMap);
@@ -65,18 +109,40 @@ public class IntegerNodeProducer extends AbstractNodeProducer<JsonIntegerNode> {
         }
     }
 
+    /**
+     * Returns the default maximal bound of the default range.
+     *
+     * @return
+     */
     protected int getDefaultMax() {
         return 100;
     }
 
+    /**
+     * Returns the default mininal bound of the default range.
+     *
+     * @return
+     */
     protected int getDefaultMin() {
         return 0;
     }
 
+    /**
+     * Returns the default maximal bound if the minimal bound is not given in
+     * the map parameter.
+     *
+     * @return
+     */
     protected int getDefaultMax(int min) {
         return 2 * min;
     }
 
+    /**
+     * Returns the default minimal bound if the maximal bound is not given in
+     * the map parameter.
+     *
+     * @return
+     */
     protected int getDefaultMin(int max) {
         return ZERO;
     }

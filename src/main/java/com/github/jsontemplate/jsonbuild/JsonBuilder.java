@@ -18,6 +18,10 @@ package com.github.jsontemplate.jsonbuild;
 
 import java.util.Stack;
 
+/**
+ * The builder of the data structure consisting of json nodes.
+ *
+ */
 public final class JsonBuilder {
 
     private Stack<JsonNode> nodeStack = new Stack<>();
@@ -40,14 +44,14 @@ public final class JsonBuilder {
 
     public JsonBuilder putArray(String key) {
         JsonArrayNode jsonArrayNode = new JsonArrayNode();
-        ((JsonObjectNode) nodeStack.peek()).putArray(key, jsonArrayNode);
+        ((JsonObjectNode) nodeStack.peek()).putNode(key, jsonArrayNode);
         nodeStack.push(jsonArrayNode);
         return this;
     }
 
     public JsonBuilder putObject(String key) {
         JsonObjectNode jsonObjectNode = new JsonObjectNode();
-        ((JsonObjectNode) nodeStack.peek()).putObject(key, jsonObjectNode);
+        ((JsonObjectNode) nodeStack.peek()).putNode(key, jsonObjectNode);
         nodeStack.push(jsonObjectNode);
         return this;
     }
@@ -64,14 +68,14 @@ public final class JsonBuilder {
 
     public JsonBuilder addArray() {
         JsonArrayNode jsonArrayNode = new JsonArrayNode();
-        ((JsonArrayNode) nodeStack.peek()).addArray(jsonArrayNode);
+        ((JsonArrayNode) nodeStack.peek()).addNode(jsonArrayNode);
         nodeStack.push(jsonArrayNode);
         return this;
     }
 
     public JsonBuilder addObject() {
         JsonObjectNode jsonObjectNode = new JsonObjectNode();
-        ((JsonArrayNode) nodeStack.peek()).addObject(jsonObjectNode);
+        ((JsonArrayNode) nodeStack.peek()).addNode(jsonObjectNode);
         nodeStack.push(jsonObjectNode);
         return this;
     }

@@ -16,6 +16,9 @@
 
 package com.github.jsontemplate.jsonbuild;
 
+/**
+ * This class represents a producer of a json null value.
+ */
 public final class JsonNullNode implements JsonValueNode {
 
     @Override

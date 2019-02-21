@@ -21,46 +21,33 @@ import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+/**
+ * This class represents a producer of a json object value.
+ */
 public final class JsonObjectNode implements JsonNode {
 
     private Map<String, JsonNode> children = new LinkedHashMap<>();
 
+    /**
+     * Creates a JsonObjectNode with a given map.
+     *
+     * @param valueMap
+     * @return
+     */
     public static JsonObjectNode of(Map<String, ?> valueMap) {
         JsonObjectNode jsonObjectNode = new JsonObjectNode();
         valueMap.forEach((key, value) -> jsonObjectNode.putNode(key, JsonNode.of(value)));
         return jsonObjectNode;
     }
 
-    public void putInteger(String key, Supplier<Integer> supplier) {
-        children.put(key, new JsonIntegerNode(supplier));
-    }
-
-    public void putFloat(String key, Supplier<Float> supplier) {
-        children.put(key, new JsonFloatNode(supplier));
-    }
-
-    public void putBoolean(String key, Supplier<Boolean> supplier) {
-        children.put(key, new JsonBooleanNode(supplier));
-    }
-
-    public void putString(String key, Supplier<String> supplier) {
-        children.put(key, new JsonStringNode(supplier));
-    }
-
-    public void putObject(String key, JsonObjectNode value) {
-        children.put(key, value);
-    }
-
-    public void putArray(String key, JsonArrayNode value) {
-        children.put(key, value);
-    }
-
-    public void putNull(String key) {
-        children.put(key, new JsonNullNode());
-    }
-
-    public void putWrapper(String key, JsonWrapperNode wrapperNode) {
-        children.put(key, wrapperNode);
+    /**
+     * Adds a child
+     *
+     * @param key
+     * @param node
+     */
+    public void putNode(String key, JsonNode node) {
+        this.children.put(key, node);
     }
 
     @Override
@@ -83,7 +70,4 @@ public final class JsonObjectNode implements JsonNode {
                 "\n" + spaces + "}";
     }
 
-    public void putNode(String key, JsonNode node) {
-        this.children.put(key, node);
-    }
 }

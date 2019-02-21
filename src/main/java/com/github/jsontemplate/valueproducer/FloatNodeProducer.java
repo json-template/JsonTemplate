@@ -25,28 +25,71 @@ import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+/**
+ * This class produces a {@link JsonFloatNode JsonFloatNode} which can generate json numeric(float) value.
+ */
 public class FloatNodeProducer extends AbstractNodeProducer<JsonFloatNode> {
 
     private static final float ZERO = 0f;
     private static final int DEFAULT_RANGE = 100;
 
+    /**
+     * Produces a node which can generate a random float.
+     * The range of the integer is obtained from
+     * {@link #getDefaultRange()}
+     * By default, the range is 0 to 100.
+     *
+     * @return produced JsonFloatNode
+     */
     @Override
     public JsonFloatNode produce() {
         return new JsonFloatNode(() -> new Random().nextFloat() * getDefaultRange());
     }
 
+    /**
+     * Produces a node which can generate a fixed float.
+     *
+     * @param value the string representation of the float
+     * @return
+     */
     @Override
     public JsonFloatNode produce(String value) {
         float parsedFloat = Float.parseFloat(value);
         return new JsonFloatNode(() -> parsedFloat);
     }
 
+    /**
+     * Produces a node which selects a string in a list.
+     * The selected string is parsed to an float.
+     *
+     * @param valueList the enumerated string values
+     * @return
+     */
     @Override
     public JsonFloatNode produce(List<String> valueList) {
         List<Float> parsedValueList = valueList.stream().map(Float::parseFloat).collect(Collectors.toList());
         return new JsonFloatNode(() -> parsedValueList.get(new Random().nextInt(parsedValueList.size())));
     }
 
+    /**
+     * Produces a node which generates an float based on a configuration.
+     * <br/>
+     * Following parameters are currently supported:
+     * <ul>
+     *     <li>min - the minimal value of the generated integer,
+     *     if the maximal value is not given, it is returned from
+     *     {@link #getDefaultMax(float) getDefaultMax(float)} which is 2 times
+     *     greater than the minimal length.
+     *     </li>
+     *     <li>max - the maximal length of the generated string,
+     *     if the minimal value is not given, it is returned from
+     *     {@link #getDefaultMin(float) getDefaultMin(float)} which is 0
+     *     </li>
+     * <ul/>
+     *
+     * @param paramMap configuration
+     * @return
+     */
     @Override
     public JsonFloatNode produce(Map<String, String> paramMap) {
         Map<String, String> copyParamMap = new HashMap<>(paramMap);
@@ -67,14 +110,31 @@ public class FloatNodeProducer extends AbstractNodeProducer<JsonFloatNode> {
         }
     }
 
+    /**
+     * Returns the default maximal bound if the minimal bound is not given in
+     * the map parameter.
+     *
+     * @return
+     */
     protected float getDefaultMax(float min) {
         return 2 * min;
     }
 
+    /**
+     * Returns the default minimal bound if the maximal bound is not given in
+     * the map parameter.
+     *
+     * @return
+     */
     protected float getDefaultMin(float max) {
         return ZERO;
     }
 
+    /**
+     * Returns the default maximal bound of the default range.
+     *
+     * @return
+     */
     protected float getDefaultRange() {
         return DEFAULT_RANGE;
     }

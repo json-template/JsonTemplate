@@ -23,27 +23,66 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * This class produces a {@link JsonStringNode JsonStringNode} which can generate json string value.
+ */
 public class StringNodeProducer extends AbstractNodeProducer<JsonStringNode> {
 
     private final static String ALPHABETIC = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private final static int DEFAULT_LENGTH = 5;
 
     private Random random = new Random();
+
+    /**
+     * Produces a node which can generate a random alphabetic string with length {@link #getDefaultLength()}.
+     *
+     * @return produced JsonStringNode
+     */
     @Override
     public JsonStringNode produce() {
         return new JsonStringNode(() -> produceString(getDefaultLength()));
     }
 
+    /**
+     * Produces a node which can generate a fixed string.
+     *
+     * @param value the fixed json string value
+     * @return
+     */
     @Override
     public JsonStringNode produce(String value) {
         return new JsonStringNode(() -> value);
     }
 
+    /**
+     * Produces a node which select a string in a list.
+     *
+     * @param valueList the enumerated string values
+     * @return
+     */
     @Override
     public JsonStringNode produce(List<String> valueList) {
         return new JsonStringNode(() -> valueList.get(new Random().nextInt(valueList.size())));
     }
 
+    /**
+     * Produces a node which generate string based on a configuration.
+     * <br/>
+     * Following parameters are currently supported:
+     * <ul>
+     *     <li>length - the length of the generated string</li>
+     *     <li>min - the minimal length of the generated string,
+     *     if the maximal length is not given, it is 2 times greater
+     *     than the minimal length.
+     *     </li>
+     *     <li>max - the maximal length of the generated string,
+     *     if the minimal length is not given, it is 0
+     *     </li>
+     * <ul/>
+     *
+     * @param paramMap configuration
+     * @return
+     */
     @Override
     public JsonStringNode produce(Map<String, String> paramMap) {
         Map<String, String> copyParamMap = new HashMap<>(paramMap);
@@ -67,18 +106,41 @@ public class StringNodeProducer extends AbstractNodeProducer<JsonStringNode> {
         }
     }
 
+    /**
+     * Returns the default length of the random string to be generated.
+     *
+     * @return
+     */
     protected int getDefaultLength() {
         return DEFAULT_LENGTH;
     }
 
+    /**
+     * Returns the default maximal length if it is not given in the map parameter.
+     *
+     * @param min
+     * @return
+     */
     protected int getDefaultMax(int min) {
         return 2 * min;
     }
 
+    /**
+     * Returns the default minimal length is it is not given in the map parameter.
+     *
+     * @param max
+     * @return
+     */
     protected int getDefaultMin(int max) {
         return 0;
     }
 
+    /**
+     * Produces a random alphabetic string with a given length
+     *
+     * @param length the expected length of the string to be generated
+     * @return
+     */
     public String produceString(int length) {
         char[] chars = new char[length];
         for (int i = 0; i < length; i++) {

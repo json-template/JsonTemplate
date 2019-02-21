@@ -18,12 +18,21 @@ package com.github.jsontemplate.jsonbuild;
 
 import java.util.function.Supplier;
 
+/**
+ * This class represents a producer of a json boolean value.
+ */
 public final class JsonBooleanNode extends AbstractJsonValueNode<Boolean> {
 
     public JsonBooleanNode(Supplier<Boolean> supplier) {
         super(supplier);
     }
 
+    /**
+     * Creates a JsonBooleanNode with a given boolean value.
+     *
+     * @param value
+     * @return
+     */
     public static JsonBooleanNode of(Boolean value) {
         return new JsonBooleanNode(() -> value);
     }

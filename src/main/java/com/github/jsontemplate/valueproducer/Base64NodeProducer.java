@@ -21,15 +21,43 @@ import com.github.jsontemplate.jsonbuild.JsonStringNode;
 import java.util.Base64;
 import java.util.Map;
 
+/**
+ * This class produces a {@link JsonStringNode} which can generate an
+ * base64 string.
+ */
 public class Base64NodeProducer extends AbstractNodeProducer<JsonStringNode> {
 
     public static final int DEFAULT_LENGTH = 12;
 
+
+    /**
+     * Produces a node which can generate a random base64 string.
+     * The length of the string is returned from
+     * {@link #getDefaultLength() getDefaultLength()}
+     *
+     * @return
+     */
     @Override
     public JsonStringNode produce() {
         return new JsonStringNode(() -> this.produceBase64(getDefaultLength()));
     }
 
+    /**
+     * Produces a node which generate base64 string based on a configuration.
+     * <br/>
+     * Following parameters are currently supported:
+     * <ul>
+     *     <li>length - the length of the generated base64 string.
+     *     If it can not be divided by 4, the length of the
+     *     generated string will be rounded up to the next integer
+     *     which is multiple of 4.
+     *     </li>
+     *
+     * <ul/>
+     *
+     * @param paramMap configuration
+     * @return
+     */
     @Override
     public JsonStringNode produce(Map<String, String> paramMap) {
         Integer length = pickIntegerParam(paramMap, "length");
@@ -37,7 +65,16 @@ public class Base64NodeProducer extends AbstractNodeProducer<JsonStringNode> {
         return new JsonStringNode(() -> this.produceBase64(length));
     }
 
-    private String produceBase64(int outputLength) {
+    /**
+     * Generates a base64 string with a given length.
+     * If the length can not be divided by 4, the length of the
+     * generated string will be rounded up to the next integer
+     * which is multiple of 4.
+     *
+     * @param outputLength expected length of the base64 string
+     * @return
+     */
+    protected String produceBase64(int outputLength) {
         int originalLength = outputLength * 3 / 4;
         if (outputLength % 4 != 0) {
             originalLength += 1;
@@ -46,6 +83,11 @@ public class Base64NodeProducer extends AbstractNodeProducer<JsonStringNode> {
         return Base64.getEncoder().encodeToString(originalString.getBytes());
     }
 
+    /**
+     * Returns the default length of the base64 string
+     *
+     * @return
+     */
     protected int getDefaultLength() {
         return DEFAULT_LENGTH;
     }
