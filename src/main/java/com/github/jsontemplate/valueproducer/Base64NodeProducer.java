@@ -27,8 +27,15 @@ import java.util.Map;
  */
 public class Base64NodeProducer extends AbstractNodeProducer<JsonStringNode> {
 
-    public static final int DEFAULT_LENGTH = 12;
+    private static final String TYPE_NAME = "base64";
+    private static final int DEFAULT_LENGTH = 12;
+    private static final int THREE_BYTES = 3;
+    private static final int FOUR_BASE64_CHARS = 4;
 
+    @Override
+    public String getTypeName() {
+        return TYPE_NAME;
+    }
 
     /**
      * Produces a node which can generate a random base64 string.
@@ -47,12 +54,12 @@ public class Base64NodeProducer extends AbstractNodeProducer<JsonStringNode> {
      * <br/>
      * Following parameters are currently supported:
      * <ul>
-     *     <li>length - the length of the generated base64 string.
-     *     If it can not be divided by 4, the length of the
-     *     generated string will be rounded up to the next integer
-     *     which is multiple of 4.
-     *     </li>
-     *
+     * <li>length - the length of the generated base64 string.
+     * If it can not be divided by 4, the length of the
+     * generated string will be rounded up to the next integer
+     * which is multiple of 4.
+     * </li>
+     * <p>
      * <ul/>
      *
      * @param paramMap configuration
@@ -75,8 +82,9 @@ public class Base64NodeProducer extends AbstractNodeProducer<JsonStringNode> {
      * @return
      */
     protected String produceBase64(int outputLength) {
-        int originalLength = outputLength * 3 / 4;
-        if (outputLength % 4 != 0) {
+
+        int originalLength = outputLength * THREE_BYTES / FOUR_BASE64_CHARS;
+        if (outputLength % FOUR_BASE64_CHARS != 0) {
             originalLength += 1;
         }
         String originalString = new StringNodeProducer().produceString(originalLength);

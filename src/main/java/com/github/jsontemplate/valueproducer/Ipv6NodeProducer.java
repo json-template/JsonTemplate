@@ -29,8 +29,14 @@ import java.util.stream.IntStream;
 public class Ipv6NodeProducer extends AbstractNodeProducer<JsonStringNode> {
 
     private static final String LETTERS = "0123456789abcdef";
+    private static final String TYPE_NAME = "ipv6";
 
     private Random random = new Random();
+
+    @Override
+    public String getTypeName() {
+        return TYPE_NAME;
+    }
 
     /**
      * Produces a node which can generate a random ipv6 string

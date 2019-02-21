@@ -17,7 +17,6 @@
 package com.github.jsontemplate.valueproducer;
 
 import com.github.jsontemplate.jsonbuild.JsonFloatNode;
-import com.github.jsontemplate.jsonbuild.JsonIntegerNode;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,8 +29,14 @@ import java.util.stream.Collectors;
  */
 public class FloatNodeProducer extends AbstractNodeProducer<JsonFloatNode> {
 
+    private static final String TYPE_NAME = "f";
     private static final float ZERO = 0f;
     private static final int DEFAULT_RANGE = 100;
+
+    @Override
+    public String getTypeName() {
+        return TYPE_NAME;
+    }
 
     /**
      * Produces a node which can generate a random float.
@@ -76,15 +81,15 @@ public class FloatNodeProducer extends AbstractNodeProducer<JsonFloatNode> {
      * <br/>
      * Following parameters are currently supported:
      * <ul>
-     *     <li>min - the minimal value of the generated integer,
-     *     if the maximal value is not given, it is returned from
-     *     {@link #getDefaultMax(float) getDefaultMax(float)} which is 2 times
-     *     greater than the minimal length.
-     *     </li>
-     *     <li>max - the maximal length of the generated string,
-     *     if the minimal value is not given, it is returned from
-     *     {@link #getDefaultMin(float) getDefaultMin(float)} which is 0
-     *     </li>
+     * <li>min - the minimal value of the generated integer,
+     * if the maximal value is not given, it is returned from
+     * {@link #getDefaultMax(float) getDefaultMax(float)} which is 2 times
+     * greater than the minimal length.
+     * </li>
+     * <li>max - the maximal length of the generated string,
+     * if the minimal value is not given, it is returned from
+     * {@link #getDefaultMin(float) getDefaultMin(float)} which is 0
+     * </li>
      * <ul/>
      *
      * @param paramMap configuration
@@ -114,7 +119,8 @@ public class FloatNodeProducer extends AbstractNodeProducer<JsonFloatNode> {
      * Returns the default maximal bound if the minimal bound is not given in
      * the map parameter.
      *
-     * @return
+     * @param min the specified minimal bound
+     * @return maximal bound based on the given minimal bound
      */
     protected float getDefaultMax(float min) {
         return 2 * min;
@@ -124,7 +130,8 @@ public class FloatNodeProducer extends AbstractNodeProducer<JsonFloatNode> {
      * Returns the default minimal bound if the maximal bound is not given in
      * the map parameter.
      *
-     * @return
+     * @param max the specified maximal bound
+     * @return minimal bound based on the given maximal bound
      */
     protected float getDefaultMin(float max) {
         return ZERO;

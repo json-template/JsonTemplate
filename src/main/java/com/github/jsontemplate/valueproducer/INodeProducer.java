@@ -24,7 +24,7 @@ import java.util.Map;
 /**
  * All node producers should implement this interface. The node producer
  * produces a json node which can print expected json string.
- *
+ * <p>
  * <p/>
  * JsonTemplate has implemented some basic node producers which can suit
  * most of the cases.
@@ -36,6 +36,8 @@ import java.util.Map;
  * @param <T> the type of json node expected to be produced
  */
 public interface INodeProducer<T extends JsonNode> {
+
+    String getTypeName();
 
     /**
      * Produces a node without any parameter.

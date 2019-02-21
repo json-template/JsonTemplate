@@ -28,17 +28,17 @@ public interface JsonNode {
      * Creates a JsonNode based on a given object.
      * It support the following types:
      * <ul>
-     *     <li>null - converted to JsonNullNode</li>
-     *     <li>Integer - converted to JsonIntegerNode</li>
-     *     <li>Float - converted to JsonFloatNode</li>
-     *     <li>Boolean - converted to JsonBooleanNode</li>
-     *     <li>String - converted to JsonStringNode</li>
-     *     <li>Array - converted to JsonArrayNode</li>
-     *     <li>Collection - converted to JsonArrayNode</li>
-     *     <li>Map - converted to JsonArrayNode</li>
-     *     <li>otherwise, it is conveted to JsonStringNode with
-     *     the string representation of the object.
-     *     </li>
+     * <li>null - converted to JsonNullNode</li>
+     * <li>Integer - converted to JsonIntegerNode</li>
+     * <li>Float - converted to JsonFloatNode</li>
+     * <li>Boolean - converted to JsonBooleanNode</li>
+     * <li>String - converted to JsonStringNode</li>
+     * <li>Array - converted to JsonArrayNode</li>
+     * <li>Collection - converted to JsonArrayNode</li>
+     * <li>Map - converted to JsonArrayNode</li>
+     * <li>otherwise, it is conveted to JsonStringNode with
+     * the string representation of the object.
+     * </li>
      * </ul>
      *
      * @param obj
@@ -70,6 +70,7 @@ public interface JsonNode {
 
     /**
      * Produces a json string in a compact format.
+     *
      * @return
      */
     String print();

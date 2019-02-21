@@ -17,7 +17,6 @@
 package com.github.jsontemplate.valueproducer;
 
 import com.github.jsontemplate.jsonbuild.JsonBooleanNode;
-import com.github.jsontemplate.jsonbuild.JsonIntegerNode;
 
 import java.util.List;
 import java.util.Random;
@@ -27,6 +26,13 @@ import java.util.stream.Collectors;
  * This class produces a {@link JsonBooleanNode JsonBooleanNode} which can generate json boolean value.
  */
 public class BooleanNodeProducer extends AbstractNodeProducer<JsonBooleanNode> {
+
+    private static final String TYPE_NAME = "b";
+
+    @Override
+    public String getTypeName() {
+        return TYPE_NAME;
+    }
 
     /**
      * Produces a node which can generate a random boolean value

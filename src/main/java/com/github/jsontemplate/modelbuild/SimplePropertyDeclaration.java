@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class SimplePropertyDeclaration {
+
     protected String propertyName;
     protected TypeSpec typeSpec = new TypeSpec();
     protected List<SimplePropertyDeclaration> properties = new ArrayList<>();
@@ -103,7 +104,8 @@ public class SimplePropertyDeclaration {
             jsonNode = new JsonNullNode();
         } else {
             jsonNode = findJsonNodeFromVariable(variableMap, typeSpec.getTypeName());
-            if (jsonNode == null) { // it is not a variable, search type map
+            if (jsonNode == null) {
+                // it is not a variable, search type map
                 if (typeSpec.getTypeName() == null) {
                     TypeSpec ancestorTypeSpec = findAncestorTypeSpec();
                     this.typeSpec.setTypeName(ancestorTypeSpec.getTypeName());
@@ -114,10 +116,12 @@ public class SimplePropertyDeclaration {
 
                 jsonNode = buildNodeFromProducer(producerMap);
             }
-            if (jsonNode == null) { // this type is declared inside template
+            if (jsonNode == null) {
+                // this type is declared inside template
                 jsonNode = typeMap.get(this.typeSpec.getTypeName());
             }
-            if (jsonNode == null) { // cannot find any matched type
+            if (jsonNode == null) {
+                // cannot find any matched type
                 defaultHandler.handle(this.typeSpec.getTypeName());
             }
         }
@@ -140,8 +144,9 @@ public class SimplePropertyDeclaration {
             curTypeSpec = declParent.getTypeSpec();
             declParent = declParent.getParent();
         }
-        if (curTypeSpec == null) {
-            curTypeSpec = getDefaultTypeSpec(); // todo improve, temporary solution for array default type
+        if (curTypeSpec.getTypeName() == null) {
+            curTypeSpec = getDefaultTypeSpec();
+            // todo improve, temporary solution for array default type
         }
         return curTypeSpec;
     }
@@ -205,52 +210,63 @@ public class SimplePropertyDeclaration {
         return null;
     }
 
-
     public void applyVariablesToParameters(Map<String, Object> variableMap) {
         if (typeSpec.getSingleParam() != null) {
-            if (typeSpec.getSingleParam().startsWith("$")) {
-                Object variable = variableMap.get(typeSpec.getSingleParam().substring(1));
-                if (variable instanceof Collection<?>) {
-                    Collection<?> collectionVariable = (Collection<?>) variable;
-                    typeSpec.setSingleParam(null);
-                    List<String> elements = collectionVariable.stream()
-                            .map(Object::toString)
-                            .collect(Collectors.toList());
-                    typeSpec.setListParam(elements);
-
-                } else if (variable.getClass().isArray()) {
-                    Object[] arrayVariable = (Object[]) variable;
-                    typeSpec.setSingleParam(null);
-                    List<String> elements = Arrays.stream(arrayVariable)
-                            .map(Object::toString)
-                            .collect(Collectors.toList());
-                    typeSpec.setListParam(elements);
-
-                } else if (variable instanceof Map) {
-                    typeSpec.setSingleParam(null);
-                    typeSpec.getListParam().clear();
-                    Map<String, Object> mapVariable = (Map<String, Object>) variable;
-                    Map<String, String> config = mapVariable.entrySet().stream()
-                            .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().toString()));
-                    typeSpec.setMapParam(config);
-
-                } else {
-                    typeSpec.setSingleParam(variable.toString());
-                }
-            }
+            applyVariablesToSingleParameter(variableMap);
         } else if (!typeSpec.getListParam().isEmpty()) {
-            for (int i = 0; i < typeSpec.getListParam().size(); i++) {
-                if (typeSpec.getListParam().get(i).startsWith("$")) {
-                    Object variable = variableMap.get(typeSpec.getListParam().get(i).substring(1));
-                    typeSpec.getListParam().set(i, variable.toString());
-                }
-            }
+            applyVariablesToListParameter(variableMap);
         } else if (!typeSpec.getMapParam().isEmpty()) {
-            for (Map.Entry<String, String> entry : typeSpec.getMapParam().entrySet()) {
-                if (entry.getValue().startsWith("$")) {
-                    Object variable = variableMap.get(entry.getValue().substring(1));
-                    typeSpec.getMapParam().put(entry.getKey(), variable.toString());
-                }
+            applyVariablesToMapParameter(variableMap);
+        }
+    }
+
+    private void applyVariablesToSingleParameter(Map<String, Object> variableMap) {
+        if (typeSpec.getSingleParam().startsWith(Token.VARIABLE.getTag())) {
+            Object variable = variableMap.get(typeSpec.getSingleParam().substring(1));
+            if (variable instanceof Collection<?>) {
+                Collection<?> collectionVariable = (Collection<?>) variable;
+                typeSpec.setSingleParam(null);
+                List<String> elements = collectionVariable.stream()
+                        .map(Object::toString)
+                        .collect(Collectors.toList());
+                typeSpec.setListParam(elements);
+
+            } else if (variable.getClass().isArray()) {
+                Object[] arrayVariable = (Object[]) variable;
+                typeSpec.setSingleParam(null);
+                List<String> elements = Arrays.stream(arrayVariable)
+                        .map(Object::toString)
+                        .collect(Collectors.toList());
+                typeSpec.setListParam(elements);
+
+            } else if (variable instanceof Map) {
+                typeSpec.setSingleParam(null);
+                typeSpec.getListParam().clear();
+                Map<String, Object> mapVariable = (Map<String, Object>) variable;
+                Map<String, String> config = mapVariable.entrySet().stream()
+                        .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().toString()));
+                typeSpec.setMapParam(config);
+
+            } else {
+                typeSpec.setSingleParam(variable.toString());
+            }
+        }
+    }
+
+    private void applyVariablesToListParameter(Map<String, Object> variableMap) {
+        for (int i = 0; i < typeSpec.getListParam().size(); i++) {
+            if (typeSpec.getListParam().get(i).startsWith(Token.VARIABLE.getTag())) {
+                Object variable = variableMap.get(typeSpec.getListParam().get(i).substring(1));
+                typeSpec.getListParam().set(i, variable.toString());
+            }
+        }
+    }
+
+    private void applyVariablesToMapParameter(Map<String, Object> variableMap) {
+        for (Map.Entry<String, String> entry : typeSpec.getMapParam().entrySet()) {
+            if (entry.getValue().startsWith(Token.VARIABLE.getTag())) {
+                Object variable = variableMap.get(entry.getValue().substring(1));
+                typeSpec.getMapParam().put(entry.getKey(), variable.toString());
             }
         }
     }

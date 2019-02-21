@@ -100,9 +100,8 @@ public final class JsonArrayNode implements JsonNode {
      * For example, template <code>@s[](5)</code> is a short hand
      * for <code>@s[](size=5)</code>.
      *
-     * @see #setParameters(Map)
-     *
      * @param singleParam
+     * @see #setParameters(Map)
      */
     public void setParameters(String singleParam) {
         size = Integer.parseInt(singleParam);
@@ -118,9 +117,8 @@ public final class JsonArrayNode implements JsonNode {
      * For example, template <code>@s[](2, 5)</code> is a short hand
      * for <code>@s[](min=2, max=5)</code>.
      *
-     * @see #setParameters(Map)
-     *
      * @param singleParam
+     * @see #setParameters(Map)
      */
     public void setParameters(List<String> singleParam) {
         min = Integer.parseInt(singleParam.get(0));
@@ -139,25 +137,25 @@ public final class JsonArrayNode implements JsonNode {
      * For example,
      * <ul>
      * <li>
-     *      "@s[A, B, C](size=2)", the result size is 3, the result
-     *      array will contain "A", "B", "C", and none random strings.
+     * "@s[A, B, C](size=2)", the result size is 3, the result
+     * array will contain "A", "B", "C", and none random strings.
      * </li>
      * * <li>
-     *     "@s[A, B, C](size=4)", the result size is 4, the result
-     *     array will contain "A", "B", "C", and 1 random strings.
+     * "@s[A, B, C](size=4)", the result size is 4, the result
+     * array will contain "A", "B", "C", and 1 random strings.
      * </li>
      * <li>
      * "@s[A, B, C](min=4, max=6)", the result size range is (4, 6), the result
      * array will contain "A", "B", "C", and 1 to 3 random strings.
      * </li>
      * <li>
-     *      "@s[A, B, C, D, E](min=4, max=6)", the result size range is (5, 6), the result
-     *      array will contain "A", "B", "C", "D", "E" and 0 to 1 random strings.
+     * "@s[A, B, C, D, E](min=4, max=6)", the result size range is (5, 6), the result
+     * array will contain "A", "B", "C", "D", "E" and 0 to 1 random strings.
      * </li>
      *
      * <li>
-     *      "@s[A, B, C, D, E, F, G](min=4, max=6)", the result size is 7, the result
-     *      array will contain "A", "B", "C", "D", "E" , "F", "G", and none random strings.
+     * "@s[A, B, C, D, E, F, G](min=4, max=6)", the result size is 7, the result
+     * array will contain "A", "B", "C", "D", "E" , "F", "G", and none random strings.
      * </li>
      * </ul>
      *

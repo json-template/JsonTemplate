@@ -18,7 +18,6 @@ package com.github.jsontemplate.jsonbuild;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**

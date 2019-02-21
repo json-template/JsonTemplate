@@ -34,11 +34,12 @@ import com.github.jsontemplate.valueproducer.IpNodeProducer;
 import com.github.jsontemplate.valueproducer.Ipv6NodeProducer;
 import com.github.jsontemplate.valueproducer.RawStringNodeProducer;
 import com.github.jsontemplate.valueproducer.StringNodeProducer;
-import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,34 +70,15 @@ import java.util.Map;
  */
 public class JsonTemplate {
 
-    protected String template;
-    protected Map<String, Object> variableMap = new HashMap<>();
-    protected Map<String, INodeProducer> producerMap = new HashMap<>();
-
+    private String template;
+    private Map<String, Object> variableMap = new HashMap<>();
+    private Map<String, INodeProducer> producerMap = new HashMap<>();
     private Map<String, JsonNode> variableNodeMap = new HashMap<>();
     private JsonNode rootNode;
 
     public JsonTemplate(String template) {
         this.template = template;
         initializeProducerMap();
-    }
-
-    /**
-     * Registers a list of pre-installed value producers. A pre-installed value producer
-     * can be replaced a customized one by using the same key.
-     *
-     * A customized one can be also mapped to a new key. For example:
-     * <pre>producerMap.put("temperature", new TemperatureNodeProducer())</pre>
-     */
-    protected void initializeProducerMap() {
-        producerMap.put("s", new StringNodeProducer());
-        producerMap.put("i", new IntegerNodeProducer());
-        producerMap.put("b", new BooleanNodeProducer());
-        producerMap.put("f", new FloatNodeProducer());
-        producerMap.put("ip", new IpNodeProducer());
-        producerMap.put("ipv6", new Ipv6NodeProducer());
-        producerMap.put("base64", new Base64NodeProducer());
-        producerMap.put("raw", new RawStringNodeProducer());
     }
 
     /**
@@ -146,7 +128,7 @@ public class JsonTemplate {
      * Otherwise, it is converted to a json string object.
      *
      * @param variableName name of the variable without the leading '$'
-     * @param variable variable value
+     * @param variable     variable value
      * @return
      */
     public JsonTemplate withVar(String variableName, Object variable) {
@@ -157,18 +139,17 @@ public class JsonTemplate {
     /**
      * Registers a map of variables which are used in the template.
      *
-     * @see #withVar(String, Object)
-     *
      * @param variables map of variables
      * @return
+     * @see #withVar(String, Object)
      */
     public JsonTemplate withVars(Map<String, Object> variables) {
         variables.forEach(this::withVar);
         return this;
     }
 
-    public JsonTemplate withNodeProducer(String name, INodeProducer nodeProducer) {
-        this.producerMap.put(name, nodeProducer);
+    public JsonTemplate withNodeProducer(INodeProducer nodeProducer) {
+        this.addProducer(nodeProducer);
         return this;
     }
 
@@ -180,21 +161,40 @@ public class JsonTemplate {
      * @return a compact json string
      */
     public String print() {
-        parse();
+        build();
         return rootNode.print();
     }
 
     /**
-     * @see #print()
-     *
      * @return a json string with identation
+     * @see #print()
      */
     public String prettyPrint() {
-        parse();
+        build();
         return rootNode.prettyPrint(0);
     }
 
-    private void parse() {
+
+    private void initializeProducerMap() {
+        INodeProducer[] producers = new INodeProducer[]{
+                new StringNodeProducer(),
+                new IntegerNodeProducer(),
+                new BooleanNodeProducer(),
+                new FloatNodeProducer(),
+                new IpNodeProducer(),
+                new Ipv6NodeProducer(),
+                new Base64NodeProducer(),
+                new RawStringNodeProducer()
+        };
+
+        Arrays.stream(producers).forEach(this::addProducer);
+    }
+
+    private void addProducer(INodeProducer producer) {
+        producerMap.put(producer.getTypeName(), producer);
+    }
+
+    private void build() {
         if (template == null) {
             throw new IllegalArgumentException("Template is not set.");
         }
@@ -206,7 +206,7 @@ public class JsonTemplate {
     private JsonNode buildJsonNode(String template) {
         buildVariableNodeMap();
 
-        SimplePropertyDeclaration rootDeclaration = stringToJsonTemplateModel(template);
+        SimplePropertyDeclaration rootDeclaration = parse(template);
         Map<String, JsonNode> typeMap = buildTypeMap(rootDeclaration);
         rootDeclaration.applyVariablesToParameters(variableMap);
 
@@ -220,8 +220,8 @@ public class JsonTemplate {
         variableMap.forEach((key, value) -> this.variableNodeMap.put(key, JsonNode.of(value)));
     }
 
-    private SimplePropertyDeclaration stringToJsonTemplateModel(String template) {
-        JsonTemplateAntlrLexer jsonTemplateLexer = new JsonTemplateAntlrLexer(new ANTLRInputStream(template));
+    private SimplePropertyDeclaration parse(String template) {
+        JsonTemplateAntlrLexer jsonTemplateLexer = new JsonTemplateAntlrLexer(CharStreams.fromString(template));
         CommonTokenStream commonTokenStream = new CommonTokenStream(jsonTemplateLexer);
         JsonTemplateAntlrParser parser = new JsonTemplateAntlrParser(commonTokenStream);
 
@@ -229,8 +229,7 @@ public class JsonTemplate {
 
         ParseTreeWalker parseTreeWalker = new ParseTreeWalker();
         parseTreeWalker.walk(listener, parser.root());
-        SimplePropertyDeclaration rootDeclaration = listener.getRoot();
-        return rootDeclaration;
+        return listener.getRoot();
     }
 
     private Map<String, JsonNode> buildTypeMap(SimplePropertyDeclaration rootDeclaration) {
@@ -242,8 +241,7 @@ public class JsonTemplate {
             typeDecl.setParent(null);
         }
 
-        Map<String, JsonNode> typeMap = buildTypeMap(producerMap, typeDeclList);
-        return typeMap;
+        return buildTypeMap(producerMap, typeDeclList);
     }
 
     private Map<String, JsonNode> buildTypeMap(Map<String, INodeProducer> producerMap, List<SimplePropertyDeclaration> typeDeclarations) {

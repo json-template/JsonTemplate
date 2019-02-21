@@ -20,7 +20,6 @@ import java.util.Stack;
 
 /**
  * The builder of the data structure consisting of json nodes.
- *
  */
 public final class JsonBuilder {
 

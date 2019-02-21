@@ -28,10 +28,17 @@ import java.util.Random;
  */
 public class StringNodeProducer extends AbstractNodeProducer<JsonStringNode> {
 
-    private final static String ALPHABETIC = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    private final static int DEFAULT_LENGTH = 5;
+    private static final String TYPE_NAME = "s";
+    private static final String ALPHABETIC = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    private static final int DEFAULT_LENGTH = 5;
+    private static final int DEFAULT_MIN_LENGTH = 0;
 
     private Random random = new Random();
+
+    @Override
+    public String getTypeName() {
+        return TYPE_NAME;
+    }
 
     /**
      * Produces a node which can generate a random alphabetic string with length {@link #getDefaultLength()}.
@@ -70,14 +77,14 @@ public class StringNodeProducer extends AbstractNodeProducer<JsonStringNode> {
      * <br/>
      * Following parameters are currently supported:
      * <ul>
-     *     <li>length - the length of the generated string</li>
-     *     <li>min - the minimal length of the generated string,
-     *     if the maximal length is not given, it is 2 times greater
-     *     than the minimal length.
-     *     </li>
-     *     <li>max - the maximal length of the generated string,
-     *     if the minimal length is not given, it is 0
-     *     </li>
+     * <li>length - the length of the generated string</li>
+     * <li>min - the minimal length of the generated string,
+     * if the maximal length is not given, it is 2 times greater
+     * than the minimal length.
+     * </li>
+     * <li>max - the maximal length of the generated string,
+     * if the minimal length is not given, it is 0
+     * </li>
      * <ul/>
      *
      * @param paramMap configuration
@@ -97,9 +104,11 @@ public class StringNodeProducer extends AbstractNodeProducer<JsonStringNode> {
             return new JsonStringNode(() -> produceString(length));
         } else if (min != null && max != null) {
             return new JsonStringNode(() -> produceString(randomIntInRange(min, max)));
-        } else if (min != null) { // max == null
+        } else if (min != null) {
+            // max == null
             return new JsonStringNode(() -> produceString(randomIntInRange(min, getDefaultMax(min))));
-        } else if (max != null) { // min == null
+        } else if (max != null) {
+            // min == null
             return new JsonStringNode(() -> produceString(randomIntInRange(getDefaultMin(max), max)));
         } else { // no expected parameters
             return produce();
@@ -128,11 +137,11 @@ public class StringNodeProducer extends AbstractNodeProducer<JsonStringNode> {
     /**
      * Returns the default minimal length is it is not given in the map parameter.
      *
-     * @param max
-     * @return
+     * @param max the specified maximal bound
+     * @return minimal bound based on the given maximal bound
      */
     protected int getDefaultMin(int max) {
-        return 0;
+        return DEFAULT_MIN_LENGTH;
     }
 
     /**

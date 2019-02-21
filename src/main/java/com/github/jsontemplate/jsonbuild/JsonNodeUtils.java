@@ -20,7 +20,8 @@ import java.util.Arrays;
 
 public final class JsonNodeUtils {
 
-    private JsonNodeUtils() {}
+    private JsonNodeUtils() {
+    }
 
     public static String makeIdentation(int count) {
         if (count <= 0) {

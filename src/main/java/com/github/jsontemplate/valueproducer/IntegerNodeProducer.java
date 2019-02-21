@@ -17,7 +17,6 @@
 package com.github.jsontemplate.valueproducer;
 
 import com.github.jsontemplate.jsonbuild.JsonIntegerNode;
-import com.github.jsontemplate.jsonbuild.JsonStringNode;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +29,14 @@ import java.util.stream.Collectors;
  */
 public class IntegerNodeProducer extends AbstractNodeProducer<JsonIntegerNode> {
 
-    private static final int ZERO = 0;
+    private static final String TYPE_NAME = "i";
+    private static final int DEFAULT_MIN = 0;
+    private static final int DEFAULT_MAX = 100;
+
+    @Override
+    public String getTypeName() {
+        return TYPE_NAME;
+    }
 
     /**
      * Produces a node which can generate a random integer.
@@ -75,15 +81,15 @@ public class IntegerNodeProducer extends AbstractNodeProducer<JsonIntegerNode> {
      * <br/>
      * Following parameters are currently supported:
      * <ul>
-     *     <li>min - the minimal value of the generated integer,
-     *     if the maximal value is not given, it is returned from
-     *     {@link #getDefaultMax(int) getDefaultMax(int)} which is 2 times
-     *     greater than the minimal length.
-     *     </li>
-     *     <li>max - the maximal length of the generated string,
-     *     if the minimal value is not given, it is returned from
-     *     {@link #getDefaultMin(int) getDefaultMin(int)} which is 0
-     *     </li>
+     * <li>min - the minimal value of the generated integer,
+     * if the maximal value is not given, it is returned from
+     * {@link #getDefaultMax(int) getDefaultMax(int)} which is 2 times
+     * greater than the minimal length.
+     * </li>
+     * <li>max - the maximal length of the generated string,
+     * if the minimal value is not given, it is returned from
+     * {@link #getDefaultMin(int) getDefaultMin(int)} which is 0
+     * </li>
      * <ul/>
      *
      * @param paramMap configuration
@@ -115,7 +121,7 @@ public class IntegerNodeProducer extends AbstractNodeProducer<JsonIntegerNode> {
      * @return
      */
     protected int getDefaultMax() {
-        return 100;
+        return DEFAULT_MAX;
     }
 
     /**
@@ -124,14 +130,15 @@ public class IntegerNodeProducer extends AbstractNodeProducer<JsonIntegerNode> {
      * @return
      */
     protected int getDefaultMin() {
-        return 0;
+        return DEFAULT_MIN;
     }
 
     /**
      * Returns the default maximal bound if the minimal bound is not given in
      * the map parameter.
      *
-     * @return
+     * @param min the specified minimal bound
+     * @return maximal bound based on the given minimal bound
      */
     protected int getDefaultMax(int min) {
         return 2 * min;
@@ -141,10 +148,11 @@ public class IntegerNodeProducer extends AbstractNodeProducer<JsonIntegerNode> {
      * Returns the default minimal bound if the maximal bound is not given in
      * the map parameter.
      *
-     * @return
+     * @param max the specified maximal bound
+     * @return minimal bound based on the given maximal bound
      */
     protected int getDefaultMin(int max) {
-        return ZERO;
+        return DEFAULT_MIN;
     }
 
 }

@@ -17,5 +17,11 @@
 package com.github.jsontemplate.modelbuild.handler;
 
 public interface DefaultBuildHandler {
+
+    /**
+     * A fallback handling of a type used in the template
+     *
+     * @param valueTypeName
+     */
     void handle(String valueTypeName);
 }

@@ -18,8 +18,6 @@ package com.github.jsontemplate.valueproducer;
 
 import com.github.jsontemplate.jsonbuild.JsonNode;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;

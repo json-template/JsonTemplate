@@ -18,7 +18,6 @@ package com.github.jsontemplate.modelbuild;
 
 import com.github.jsontemplate.antlr4.JsonTemplateAntlrBaseListener;
 import com.github.jsontemplate.antlr4.JsonTemplateAntlrParser;
-import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.util.Stack;
@@ -26,9 +25,7 @@ import java.util.stream.IntStream;
 
 public final class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListener {
 
-
     private Stack<SimplePropertyDeclaration> stack = new Stack<>();
-    private boolean debug = false;
     private boolean inArrayParamSpec;
     private boolean inPropertyVariableWrapper;
 
@@ -38,13 +35,11 @@ public final class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListene
 
     @Override
     public void enterPairProperty(JsonTemplateAntlrParser.PairPropertyContext ctx) {
-        debug("enterPairProperty ", ctx);
         stack.push(new SimplePropertyDeclaration());
     }
 
     @Override
     public void exitPairProperty(JsonTemplateAntlrParser.PairPropertyContext ctx) {
-        debug("exitPairProperty ", ctx);
         SimplePropertyDeclaration pop = stack.pop();
         stack.peek().addProperty(pop);
     }
@@ -61,7 +56,6 @@ public final class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListene
 
     @Override
     public void enterMapParam(JsonTemplateAntlrParser.MapParamContext ctx) {
-        debug("enterMapParam", ctx);
         String key = ctx.getChild(0).getText();
         String value = stripRawText(ctx.getChild(2).getText());
         SimplePropertyDeclaration peek = stack.peek();
@@ -74,7 +68,6 @@ public final class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListene
 
     @Override
     public void enterListParams(JsonTemplateAntlrParser.ListParamsContext ctx) {
-        debug("enterListParams", ctx);
         IntStream.range(0, ctx.getChildCount())
                 .mapToObj(ctx::getChild)
                 .map(ParseTree::getText)
@@ -92,7 +85,6 @@ public final class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListene
 
     @Override
     public void enterSingleParam(JsonTemplateAntlrParser.SingleParamContext ctx) {
-        debug("enterSingleParam", ctx);
         SimplePropertyDeclaration peek = stack.peek();
         String text = stripRawText(ctx.getText());
         if (inArrayParamSpec) {
@@ -130,7 +122,6 @@ public final class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListene
 
     @Override
     public void enterTypeName(JsonTemplateAntlrParser.TypeNameContext ctx) {
-        debug("enterTypeName", ctx);
         if (!(ctx.getParent() instanceof JsonTemplateAntlrParser.TypeDefContext)) {
             stack.peek().getTypeSpec().setTypeName(ctx.getText());
         }
@@ -138,20 +129,17 @@ public final class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListene
 
     @Override
     public void enterSingleProperty(JsonTemplateAntlrParser.SinglePropertyContext ctx) {
-        debug("enterSingleProperty", ctx);
         stack.push(new SimplePropertyDeclaration());
     }
 
     @Override
     public void exitSingleProperty(JsonTemplateAntlrParser.SinglePropertyContext ctx) {
-        debug("exitSingleProperty ", ctx);
         SimplePropertyDeclaration pop = stack.pop();
         stack.peek().addProperty(pop);
     }
 
     @Override
     public void enterJsonObject(JsonTemplateAntlrParser.JsonObjectContext ctx) {
-        debug("enterJsonObject", ctx);
         if (stack.isEmpty()) {
             stack.push(new SimplePropertyDeclaration());
         }
@@ -184,15 +172,9 @@ public final class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListene
         stack.peek().getTypeSpec().setSingleParam(ctx.getText());
     }
 
-    private void debug(String message, ParserRuleContext ctx) {
-        if (debug) {
-            System.out.println(message + " " + ctx.getText());
-        }
-    }
-
     private String stripRawText(String text) {
-        if (text.startsWith("`") && text.endsWith("`")) {
-            return text.substring(1, text.length()-1);
+        if (text.startsWith(Token.RAW.getTag()) && text.endsWith(Token.RAW.getTag())) {
+            return text.substring(1, text.length() - 1);
         } else {
             return text;
         }

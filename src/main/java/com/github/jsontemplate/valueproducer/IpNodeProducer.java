@@ -28,7 +28,14 @@ import java.util.stream.Collectors;
  */
 public class IpNodeProducer extends AbstractNodeProducer<JsonStringNode> {
 
+    private static final String TYPE_NAME = "ip";
+
     private Random random = new Random();
+
+    @Override
+    public String getTypeName() {
+        return TYPE_NAME;
+    }
 
     /**
      * Produces a node which can generate a random ip string

@@ -20,8 +20,16 @@ import com.github.jsontemplate.jsonbuild.JsonRawNode;
 
 public class RawStringNodeProducer extends AbstractNodeProducer<JsonRawNode> {
 
+    private static final String TYPE_NAME = "raw";
+
+    @Override
+    public String getTypeName() {
+        return TYPE_NAME;
+    }
+
     @Override
     public JsonRawNode produce(String value) {
         return new JsonRawNode(() -> value);
     }
+
 }
