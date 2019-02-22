@@ -30,8 +30,8 @@ import java.util.stream.Collectors;
 public class IntegerNodeProducer extends AbstractNodeProducer<JsonIntegerNode> {
 
     private static final String TYPE_NAME = "i";
-    private static final int DEFAULT_MIN = 0;
-    private static final int DEFAULT_MAX = 100;
+    private static final int ZERO = 0;
+    private static final int ONE_HUNDRED = 100;
 
     @Override
     public String getTypeName() {
@@ -104,7 +104,8 @@ public class IntegerNodeProducer extends AbstractNodeProducer<JsonIntegerNode> {
 
         validateParamMap(copyParamMap);
 
-        if (min != null && max != null && min < max) {
+        if (min != null && max != null) {
+            shouldBeInAscOrder(min, max, "min", "max");
             return new JsonIntegerNode(() -> randomIntInRange(min, max));
         } else if (min != null && max == null) {
             return new JsonIntegerNode(() -> randomIntInRange(min, getDefaultMax(min)));
@@ -121,7 +122,7 @@ public class IntegerNodeProducer extends AbstractNodeProducer<JsonIntegerNode> {
      * @return
      */
     protected int getDefaultMax() {
-        return DEFAULT_MAX;
+        return ONE_HUNDRED;
     }
 
     /**
@@ -130,7 +131,7 @@ public class IntegerNodeProducer extends AbstractNodeProducer<JsonIntegerNode> {
      * @return
      */
     protected int getDefaultMin() {
-        return DEFAULT_MIN;
+        return ZERO;
     }
 
     /**
@@ -141,7 +142,7 @@ public class IntegerNodeProducer extends AbstractNodeProducer<JsonIntegerNode> {
      * @return maximal bound based on the given minimal bound
      */
     protected int getDefaultMax(int min) {
-        return 2 * min;
+        return min + ONE_HUNDRED;
     }
 
     /**
@@ -152,7 +153,7 @@ public class IntegerNodeProducer extends AbstractNodeProducer<JsonIntegerNode> {
      * @return minimal bound based on the given maximal bound
      */
     protected int getDefaultMin(int max) {
-        return DEFAULT_MIN;
+        return max - ONE_HUNDRED;
     }
 
 }

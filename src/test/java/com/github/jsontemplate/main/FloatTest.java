@@ -2,6 +2,7 @@ package com.github.jsontemplate.main;
 
 
 import com.jayway.jsonpath.DocumentContext;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -32,20 +33,32 @@ class FloatTest {
         assertThat(document.read("$.aField", Float.class), isIn(new Float[]{1.2f, 2.34f, 4.567f, 5.7f}));
     }
 
-    @Test
+    @RepeatedTest(20)
     void test_minParamFloatField() {
         DocumentContext document = parse("{aField : @f(min=11.22)}");
         assertThat(document.read("$.aField", Float.class), greaterThanOrEqualTo(11.22f));
     }
 
-    @Test
+    @RepeatedTest(20)
+    void test_negativeMinParamFloatField() {
+        DocumentContext document = parse("{aField : @f(min=-11.22)}");
+        assertThat(document.read("$.aField", Float.class), greaterThanOrEqualTo(-11.22f));
+    }
+
+    @RepeatedTest(20)
+    void test_negativeMaxParamFloatField() {
+        DocumentContext document = parse("{aField : @f(max=-11.22)}");
+        assertThat(document.read("$.aField", Float.class), lessThanOrEqualTo(-11.22f));
+    }
+
+    @RepeatedTest(20)
     void test_minMaxParamFloatFieldPositive() {
         DocumentContext document = parse("{aField : @f(min=11.22, max=22.33)}");
         assertThat(document.read("$.aField", Float.class), allOf(
                 greaterThanOrEqualTo(11.22f), lessThanOrEqualTo(22.33f)));
     }
 
-    @Test
+    @RepeatedTest(20)
     void test_minMaxParamFloatFieldNegative() {
         DocumentContext document = parse("{aField : @f(min=-22.11, max=-11.33)}");
         assertThat(document.read("$.aField", Float.class), allOf(
@@ -58,6 +71,16 @@ class FloatTest {
                 parse("{aField : @f(length=20)}"));
     }
 
+    @Test
+    void test_invalidRangeFloatField() {
+        assertThrows(IllegalArgumentException.class, () -> parse("{aField : @f(min=20, max=10)}"));
+    }
+
+    @Test
+    void test_nullFloatField() {
+        DocumentContext document = parse("{aField : @f(null)}");
+        assertThat(document.read("$.aField", Float.class), is(nullValue()));
+    }
 }
 
 

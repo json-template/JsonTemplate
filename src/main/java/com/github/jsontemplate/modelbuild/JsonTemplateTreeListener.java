@@ -167,11 +167,6 @@ public final class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListene
         stack.peek().addProperty(pop);
     }
 
-    @Override
-    public void enterItemVariableWrapper(JsonTemplateAntlrParser.ItemVariableWrapperContext ctx) {
-        stack.peek().getTypeSpec().setSingleParam(ctx.getText());
-    }
-
     private String stripRawText(String text) {
         if (text.startsWith(Token.RAW.getTag()) && text.endsWith(Token.RAW.getTag())) {
             return text.substring(1, text.length() - 1);

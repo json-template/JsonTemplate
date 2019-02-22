@@ -9,7 +9,11 @@ enum Token {
     /**
      * raw strings in template are wrapped with `
      */
-    RAW("`");
+    RAW("`"),
+    /**
+     * types in template are started with @
+     */
+    TYPE("@");
 
     private String tag;
 

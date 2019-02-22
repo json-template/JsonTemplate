@@ -18,9 +18,27 @@ class BooleanTest {
     }
 
     @Test
-    void test_fixedBooleanField() {
+    void test_trueBooleanField() {
         DocumentContext document = parse("{aField : @b(true)}");
         assertThat(document.read("$.aField", Boolean.class), is(true));
+    }
+
+    @Test
+    void test_falseBooleanField() {
+        DocumentContext document = parse("{aField : @b(false)}");
+        assertThat(document.read("$.aField", Boolean.class), is(false));
+    }
+
+    @Test
+    void test_invalidBooleanField() {
+        DocumentContext document = parse("{aField : @b(yes)}");
+        assertThat(document.read("$.aField", Boolean.class), is(false));
+    }
+
+    @Test
+    void test_nullBooleanField() {
+        DocumentContext document = parse("{aField : @b(null)}");
+        assertThat(document.read("$.aField", Boolean.class), is(nullValue()));
     }
 
     @Test

@@ -31,7 +31,7 @@ public class FloatNodeProducer extends AbstractNodeProducer<JsonFloatNode> {
 
     private static final String TYPE_NAME = "f";
     private static final float ZERO = 0f;
-    private static final int DEFAULT_RANGE = 100;
+    private static final float ONE_HUNDRED = 100f;
 
     @Override
     public String getTypeName() {
@@ -104,7 +104,8 @@ public class FloatNodeProducer extends AbstractNodeProducer<JsonFloatNode> {
 
         validateParamMap(copyParamMap);
 
-        if (min != null && max != null && min < max) {
+        if (min != null && max != null) {
+            shouldBeInAscOrder(min, max, "min", "max");
             return new JsonFloatNode(() -> randomFloatInRange(min, max));
         } else if (min != null && max == null) {
             return new JsonFloatNode(() -> randomFloatInRange(min, getDefaultMax(min)));
@@ -123,7 +124,7 @@ public class FloatNodeProducer extends AbstractNodeProducer<JsonFloatNode> {
      * @return maximal bound based on the given minimal bound
      */
     protected float getDefaultMax(float min) {
-        return 2 * min;
+        return min + ONE_HUNDRED;
     }
 
     /**
@@ -134,7 +135,7 @@ public class FloatNodeProducer extends AbstractNodeProducer<JsonFloatNode> {
      * @return minimal bound based on the given maximal bound
      */
     protected float getDefaultMin(float max) {
-        return ZERO;
+        return max - ONE_HUNDRED;
     }
 
     /**
@@ -143,6 +144,6 @@ public class FloatNodeProducer extends AbstractNodeProducer<JsonFloatNode> {
      * @return
      */
     protected float getDefaultRange() {
-        return DEFAULT_RANGE;
+        return ONE_HUNDRED;
     }
 }

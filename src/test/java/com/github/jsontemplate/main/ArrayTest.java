@@ -94,4 +94,13 @@ class ArrayTest {
         assertThat(document.read("$.anArray[3]", String.class), is("4"));
     }
 
+    @Test
+    void test_arrayWithDefaultStringType() {
+        DocumentContext document = parse("[1, @i(2), @b(false), @s(4)]");
+    }
+
+    @Test
+    void test_arrayWithObjectElement() {
+        DocumentContext document = parse("[{aField:@s}]");
+    }
 }

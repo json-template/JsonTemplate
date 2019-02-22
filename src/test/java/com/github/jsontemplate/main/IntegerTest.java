@@ -2,7 +2,10 @@ package com.github.jsontemplate.main;
 
 
 import com.jayway.jsonpath.DocumentContext;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static com.github.jsontemplate.test.TestUtils.parse;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -17,10 +20,11 @@ class IntegerTest {
         assertThat(document.read("$.aField", Integer.class), is(notNullValue()));
     }
 
-    @Test
-    void test_fixedIntegerField() {
-        DocumentContext document = parse("{aField : @i(5)}");
-        assertThat(document.read("$.aField", Integer.class), is(5));
+    @ParameterizedTest
+    @ValueSource(ints = {-1, 0, 1, Integer.MAX_VALUE, Integer.MIN_VALUE})
+    void test_fixedIntegerField(int candidate) {
+        DocumentContext document = parse(String.format("{aField : @i(%d)}", candidate));
+        assertThat(document.read("$.aField", Integer.class), is(candidate));
     }
 
     @Test
@@ -29,27 +33,41 @@ class IntegerTest {
         assertThat(document.read("$.aField", Integer.class), isIn(new Integer[]{20, 30, 40, 50}));
     }
 
-    @Test
+    @RepeatedTest(20)
     void test_minParamIntegerField() {
         DocumentContext document = parse("{aField : @i(min=11)}");
         assertThat(document.read("$.aField", Integer.class), greaterThanOrEqualTo(11));
     }
 
-    @Test
+    @RepeatedTest(20)
     void test_minMaxParamIntegerField() {
         DocumentContext document = parse("{aField : @i(min=10, max=20)}");
         assertThat(document.read("$.aField", Integer.class), allOf(
                 greaterThanOrEqualTo(10), lessThanOrEqualTo(20)));
     }
 
-    @Test
-    void test_invalidParamIntegerField() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            DocumentContext document = parse("{aField : @i(length=20)}");
-            assertThat(document.read("$.aField", Integer.class), is(5));
-        });
+    @RepeatedTest(20)
+    void test_minMaxNegativeParamIntegerField() {
+        DocumentContext document = parse("{aField : @i(min=-20, max=-10)}");
+        assertThat(document.read("$.aField", Integer.class), allOf(
+                greaterThanOrEqualTo(-20), lessThanOrEqualTo(-10)));
     }
 
+    @Test
+    void test_invalidParamIntegerField() {
+        assertThrows(IllegalArgumentException.class, () -> parse("{aField : @i(length=20)}"));
+    }
+
+    @Test
+    void test_invalidRangeIntegerField() {
+        assertThrows(IllegalArgumentException.class, () -> parse("{aField : @i(min=20, max=10)}"));
+    }
+
+    @Test
+    void test_nullIntegerField() {
+        DocumentContext document = parse("{aField : @i(null)}");
+        assertThat(document.read("$.aField", Integer.class), is(nullValue()));
+    }
 }
 
 

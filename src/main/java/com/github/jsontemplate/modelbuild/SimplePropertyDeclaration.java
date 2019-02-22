@@ -200,11 +200,11 @@ public class SimplePropertyDeclaration {
     }
 
     boolean isTypeDeclaration() {
-        return propertyName != null && propertyName.startsWith("@");
+        return propertyName != null && propertyName.startsWith(Token.TYPE.getTag());
     }
 
     private JsonNode findJsonNodeFromVariable(Map<String, JsonNode> variableMap, String name) {
-        if (name != null && name.startsWith("$")) {
+        if (name != null && name.startsWith(Token.VARIABLE.getTag())) {
             return variableMap.get(name.substring(1));
         }
         return null;

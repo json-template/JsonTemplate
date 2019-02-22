@@ -28,14 +28,12 @@ jsonArray : arrayTypeInfo? itemsArray ;
 arrayTypeInfo : jsonValue;
 itemsArray : '[' items? ']' arrayParamSpec?;
 arrayParamSpec : typeParamSpec;
-items : item (',' item)*;
-item : jsonValue | itemVariableWrapper;
-itemVariableWrapper : variableWrapper;
+items : item  (',' item)*;
+item : propertyValueSpec;
 
 variable : '$'variableName;
 variableName : IDENTIFIER;
 RAW : '`' .*? '`';
-
 
 IDENTIFIER : [a-zA-Z0-9]+;
 VALUE : ~([,:=@${}() \t\n\r]|'['|']')+;

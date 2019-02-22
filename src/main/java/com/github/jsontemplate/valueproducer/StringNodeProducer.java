@@ -101,15 +101,25 @@ public class StringNodeProducer extends AbstractNodeProducer<JsonStringNode> {
         validateParamMap(copyParamMap);
 
         if (length != null) {
+            shouldBePositive(length, "length");
             return new JsonStringNode(() -> produceString(length));
+
         } else if (min != null && max != null) {
+            shouldBePositive(min, "min");
+            shouldBePositive(max, "max");
+            shouldBeInAscOrder(min, max, "min", "max");
             return new JsonStringNode(() -> produceString(randomIntInRange(min, max)));
+
         } else if (min != null) {
             // max == null
+            shouldBePositive(min, "min");
             return new JsonStringNode(() -> produceString(randomIntInRange(min, getDefaultMax(min))));
+
         } else if (max != null) {
             // min == null
+            shouldBePositive(max, "max");
             return new JsonStringNode(() -> produceString(randomIntInRange(getDefaultMin(max), max)));
+
         } else { // no expected parameters
             return produce();
         }

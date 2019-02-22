@@ -237,7 +237,18 @@ public class JsonTemplate {
         rootDeclaration.collectTypeDeclaration(typeDeclList);
 
         for (SimplePropertyDeclaration typeDecl : typeDeclList) {
-            typeDecl.getParent().removeProperty(typeDecl);
+            SimplePropertyDeclaration parent = typeDecl.getParent();
+            parent.removeProperty(typeDecl);
+
+            // remove the type declaration wraper if it only contains a type declaration
+            if(parent.getProperties().isEmpty()) {
+                SimplePropertyDeclaration grandParent = parent.getParent();
+                if (grandParent != null) {
+                    grandParent.removeProperty(parent);
+                    parent.setParent(null);
+                }
+
+            }
             typeDecl.setParent(null);
         }
 
