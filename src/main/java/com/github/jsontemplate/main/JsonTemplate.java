@@ -206,8 +206,9 @@ public class JsonTemplate {
     private JsonNode buildJsonNode(String template) {
         buildVariableNodeMap();
 
-        SimplePropertyDeclaration rootDeclaration = parse(template);
-        Map<String, JsonNode> typeMap = buildTypeMap(rootDeclaration);
+        JsonTemplateTreeListener listener = parse(template);
+        SimplePropertyDeclaration rootDeclaration = listener.getJsonRoot();
+        Map<String, JsonNode> typeMap = buildTypeMap(listener.getTypeDefinitionList());
         rootDeclaration.applyVariablesToParameters(variableMap);
 
         JsonBuilder builder = new JsonBuilder();
@@ -220,7 +221,7 @@ public class JsonTemplate {
         variableMap.forEach((key, value) -> this.variableNodeMap.put(key, JsonNode.of(value)));
     }
 
-    private SimplePropertyDeclaration parse(String template) {
+    private JsonTemplateTreeListener parse(String template) {
         JsonTemplateAntlrLexer jsonTemplateLexer = new JsonTemplateAntlrLexer(CharStreams.fromString(template));
         CommonTokenStream commonTokenStream = new CommonTokenStream(jsonTemplateLexer);
         JsonTemplateAntlrParser parser = new JsonTemplateAntlrParser(commonTokenStream);
@@ -229,33 +230,10 @@ public class JsonTemplate {
 
         ParseTreeWalker parseTreeWalker = new ParseTreeWalker();
         parseTreeWalker.walk(listener, parser.root());
-        return listener.getRoot();
+        return listener;
     }
 
-    private Map<String, JsonNode> buildTypeMap(SimplePropertyDeclaration rootDeclaration) {
-        List<SimplePropertyDeclaration> typeDeclList = new ArrayList<>();
-        rootDeclaration.collectTypeDeclaration(typeDeclList);
-
-        for (SimplePropertyDeclaration typeDecl : typeDeclList) {
-            SimplePropertyDeclaration parent = typeDecl.getParent();
-            parent.removeProperty(typeDecl);
-
-            // remove the type declaration wraper if it only contains a type declaration
-            if(parent.getProperties().isEmpty()) {
-                SimplePropertyDeclaration grandParent = parent.getParent();
-                if (grandParent != null) {
-                    grandParent.removeProperty(parent);
-                    parent.setParent(null);
-                }
-
-            }
-            typeDecl.setParent(null);
-        }
-
-        return buildTypeMap(producerMap, typeDeclList);
-    }
-
-    private Map<String, JsonNode> buildTypeMap(Map<String, INodeProducer> producerMap, List<SimplePropertyDeclaration> typeDeclarations) {
+    private Map<String, JsonNode> buildTypeMap(List<SimplePropertyDeclaration> typeDeclarations) {
         Map<String, JsonNode> typeMap = new HashMap<>();
         Map<String, List<JsonWrapperNode>> missTypeMap = new HashMap<>();
         for (SimplePropertyDeclaration typeDecl : typeDeclarations) {
@@ -263,7 +241,7 @@ public class JsonTemplate {
             typeDecl.buildJsonTemplate(jsonBuilder, producerMap, typeMap,
                     variableNodeMap, new DefaultTypeBuildHandler(missTypeMap));
             JsonNode typeNode = jsonBuilder.build();
-            typeMap.put(typeDecl.getPropertyName().substring(1), typeNode);
+            typeMap.put(typeDecl.getPropertyName(), typeNode);
         }
         for (Map.Entry<String, List<JsonWrapperNode>> entry : missTypeMap.entrySet()) {
             JsonNode jsonNode = typeMap.get(entry.getKey());

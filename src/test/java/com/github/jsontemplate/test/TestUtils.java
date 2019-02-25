@@ -2,6 +2,7 @@ package com.github.jsontemplate.test;
 
 import com.github.jsontemplate.jsonbuild.JsonNode;
 import com.github.jsontemplate.main.JsonTemplate;
+import com.github.jsontemplate.valueproducer.INodeProducer;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 
@@ -26,4 +27,14 @@ public class TestUtils {
         System.out.println(json);
         return JsonPath.parse(json);
     }
+
+    public static DocumentContext parse(String template, INodeProducer producer) {
+        System.out.println("===== Template =====");
+        System.out.println(template);
+        String json = new JsonTemplate(template).withNodeProducer(producer).prettyPrint();
+        System.out.println("===== Generated Json =====");
+        System.out.println(json);
+        return JsonPath.parse(json);
+    }
+
 }

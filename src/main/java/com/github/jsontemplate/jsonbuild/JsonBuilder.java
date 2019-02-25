@@ -65,6 +65,11 @@ public final class JsonBuilder {
         return this;
     }
 
+    public JsonBuilder pushNode(JsonNode node) {
+        nodeStack.push(node);
+        return this;
+    }
+
     public JsonBuilder addArray() {
         JsonArrayNode jsonArrayNode = new JsonArrayNode();
         ((JsonArrayNode) nodeStack.peek()).addNode(jsonArrayNode);
@@ -79,16 +84,12 @@ public final class JsonBuilder {
         return this;
     }
 
-    public boolean isEmpty() {
-        return nodeStack.isEmpty();
-    }
-
     public boolean inObject() {
-        return nodeStack.peek() instanceof JsonObjectNode;
+        return !nodeStack.isEmpty() && nodeStack.peek() instanceof JsonObjectNode;
     }
 
     public boolean inArray() {
-        return nodeStack.peek() instanceof JsonArrayNode;
+        return !nodeStack.isEmpty() && nodeStack.peek() instanceof JsonArrayNode;
     }
 
     public JsonArrayNode peekArrayNode() {
@@ -97,7 +98,7 @@ public final class JsonBuilder {
 
     public JsonNode build() {
         if (!nodeStack.empty()) {
-            throw new IllegalStateException("Json is not build on root node");
+            return nodeStack.peek();
         } else {
             return lastPopNode;
         }

@@ -39,8 +39,15 @@ class DefaultTypeTest {
     }
 
     @Test
-    void test_customTypeAsDefaultType() {
-        DocumentContext document = parse("@address{home, office, @address:{city,street,number:@i}}");
+    void test_customSimpleTypeAsDefaultType() {
+        DocumentContext document = parse("@ls:@s(length=20), @ls{name, role}");
+        assertThat(document.read("$.name", String.class).length(), is(20));
+        assertThat(document.read("$.role", String.class).length(), is(20));
+    }
+
+    @Test
+    void test_customObjectTypeAsDefaultType() {
+        DocumentContext document = parse("@address:{city,street,number:@i}, @address{home, office}");
         assertThat(document.read("$.home.city", String.class), is(notNullValue()));
         assertThat(document.read("$.home.street", String.class), is(notNullValue()));
         assertThat(document.read("$.home.number", Integer.class), is(notNullValue()));
@@ -50,7 +57,13 @@ class DefaultTypeTest {
     }
 
     @Test
-    void test_customTypeAsDefaultTypeInArray() {
-        DocumentContext document = parse("@address[ {@address:{city,street,number:@i}} ](3)");
+    void test_customArrayTypeAsDefaultType() {
+        DocumentContext document = parse("@names:[](3), @names{group1, group2}");
+        assertThat(document.read("$.group1[0]", String.class), is(notNullValue()));
+        assertThat(document.read("$.group1[1]", String.class), is(notNullValue()));
+        assertThat(document.read("$.group1[2]", String.class), is(notNullValue()));
+        assertThat(document.read("$.group2[0]", String.class), is(notNullValue()));
+        assertThat(document.read("$.group2[1]", String.class), is(notNullValue()));
+        assertThat(document.read("$.group2[2]", String.class), is(notNullValue()));
     }
 }

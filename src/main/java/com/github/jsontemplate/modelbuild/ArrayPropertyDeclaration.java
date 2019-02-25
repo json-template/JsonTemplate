@@ -43,7 +43,7 @@ final class ArrayPropertyDeclaration extends SimplePropertyDeclaration {
             }
         }
         buildChildrenJsonTemplate(builder, producerMap, typeMap, variableMap, defaultHandler);
-        if (this.typeSpec == null) {
+        if (this.typeSpec.getTypeName() == null) {
             TypeSpec ancestorTypeSpec = findAncestorTypeSpec();
             this.typeSpec.setTypeName(ancestorTypeSpec.getTypeName());
         }

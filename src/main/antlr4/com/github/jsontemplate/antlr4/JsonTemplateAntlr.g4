@@ -1,14 +1,16 @@
 grammar JsonTemplateAntlr;
 
-root : jsonObject | jsonArray;
+root : templatePart (',' templatePart)*;
+templatePart : typeDefinition | jsonObject | jsonArray;
 jsonObject : objectTypeInfo? '{' properties '}';
 objectTypeInfo : jsonValue;
 properties : property (',' property)*;
 property : singleProperty | pairProperty;
-singleProperty : propertyNameSpec;
-pairProperty : propertyNameSpec ':' propertyValueSpec;
-propertyNameSpec : propertyName | typeDef ;
+singleProperty : propertyName;
+pairProperty : propertyName ':' propertyValueSpec;
 propertyName : IDENTIFIER;
+
+typeDefinition : typeDef ':' propertyValueSpec;
 typeDef : '@'typeName;
 typeName : IDENTIFIER;
 

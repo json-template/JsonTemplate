@@ -38,6 +38,7 @@ public class SimplePropertyDeclaration {
     protected List<SimplePropertyDeclaration> properties = new ArrayList<>();
     protected SimplePropertyDeclaration parent;
     protected TypeSpec arrayTypeSpec = new TypeSpec();
+    protected boolean isTypeDefinition = false;
 
     public TypeSpec getTypeSpec() {
         return typeSpec;
@@ -51,6 +52,13 @@ public class SimplePropertyDeclaration {
         return properties;
     }
 
+    public void markAsTypeDefinition() {
+        isTypeDefinition = true;
+    }
+
+    public boolean isTypeDefinition() {
+        return isTypeDefinition;
+    }
 
     public String getPropertyName() {
         return propertyName;
@@ -87,15 +95,6 @@ public class SimplePropertyDeclaration {
         return new ObjectPropertyDeclaration(this.propertyName);
     }
 
-    public void collectTypeDeclaration(List<SimplePropertyDeclaration> typeList) {
-        if (isTypeDeclaration()) {
-            typeList.add(this);
-        }
-        for (SimplePropertyDeclaration declaration : properties) {
-            declaration.collectTypeDeclaration(typeList);
-        }
-    }
-
     public void buildJsonTemplate(JsonBuilder builder, Map<String, INodeProducer> producerMap,
                                   Map<String, JsonNode> typeMap,
                                   Map<String, JsonNode> variableMap, DefaultBuildHandler defaultHandler) {
@@ -126,14 +125,16 @@ public class SimplePropertyDeclaration {
             }
         }
 
-        putOrAddNode(builder, jsonNode);
+        joinNode(builder, jsonNode);
     }
 
-    private void putOrAddNode(JsonBuilder builder, JsonNode jsonNode) {
+    private void joinNode(JsonBuilder builder, JsonNode jsonNode) {
         if (builder.inObject()) {
             builder.putNode(propertyName, jsonNode);
         } else if (builder.inArray()) {
             builder.addNode(jsonNode);
+        } else {
+            builder.pushNode(jsonNode);
         }
     }
 
