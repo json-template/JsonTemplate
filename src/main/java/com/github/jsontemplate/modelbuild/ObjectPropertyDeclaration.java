@@ -32,7 +32,9 @@ final class ObjectPropertyDeclaration extends SimplePropertyDeclaration {
     @Override
     public void buildJsonTemplate(JsonBuilder builder, Map<String, INodeProducer> producerMap,
                                   Map<String, JsonNode> typeMap,
-                                  Map<String, JsonNode> variableMap, DefaultBuildHandler defaultHandler) {
+                                  Map<String, JsonNode> variableMap,
+                                  String defaultTypeName,
+                                  DefaultBuildHandler defaultHandler) {
         if (parent == null) {
             builder.createObject();
         } else {
@@ -42,7 +44,7 @@ final class ObjectPropertyDeclaration extends SimplePropertyDeclaration {
                 builder.addObject();
             }
         }
-        buildChildrenJsonTemplate(builder, producerMap, typeMap, variableMap, defaultHandler);
+        buildChildrenJsonTemplate(builder, producerMap, typeMap, variableMap, defaultTypeName, defaultHandler);
         builder.end();
     }
 

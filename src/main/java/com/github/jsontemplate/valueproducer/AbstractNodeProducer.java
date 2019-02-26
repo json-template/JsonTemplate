@@ -98,11 +98,7 @@ public abstract class AbstractNodeProducer<T extends JsonNode> implements INodeP
     private <R> R pickParamValue(Map<String, String> paramMap, String paramName, Function<String, R> parser) {
         String paramValue = paramMap.remove(paramName);
         if (paramValue != null) {
-            try {
-                return parser.apply(paramValue);
-            } catch (Exception e) {
-                return null;
-            }
+            return parser.apply(paramValue);
         } else {
             return null;
         }

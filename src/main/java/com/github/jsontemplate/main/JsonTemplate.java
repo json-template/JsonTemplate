@@ -69,6 +69,7 @@ import java.util.Map;
  */
 public class JsonTemplate {
 
+    private String defaultTypeName = "s";
     private String template;
     private Map<String, Object> variableMap = new HashMap<>();
     private Map<String, INodeProducer> producerMap = new HashMap<>();
@@ -152,6 +153,15 @@ public class JsonTemplate {
         return this;
     }
 
+    public JsonTemplate withDefaultTypeName(String typeName) {
+        this.defaultTypeName = typeName;
+        return this;
+    }
+
+    public String getTemplate() {
+        return template;
+    }
+
     /**
      * Produces json string based on the given information, such as template string,
      * variables, and customized producers. Each execution
@@ -211,7 +221,7 @@ public class JsonTemplate {
         rootDeclaration.applyVariablesToParameters(variableMap);
 
         JsonBuilder builder = new JsonBuilder();
-        rootDeclaration.buildJsonTemplate(builder, producerMap, typeMap, variableNodeMap, new DefaultJsonBuildHandler());
+        rootDeclaration.buildJsonTemplate(builder, producerMap, typeMap, variableNodeMap, defaultTypeName, new DefaultJsonBuildHandler());
 
         return builder.build();
     }
@@ -238,7 +248,7 @@ public class JsonTemplate {
         for (SimplePropertyDeclaration typeDecl : typeDeclarations) {
             JsonBuilder jsonBuilder = new JsonBuilder();
             typeDecl.buildJsonTemplate(jsonBuilder, producerMap, typeMap,
-                    variableNodeMap, new DefaultTypeBuildHandler(missTypeMap));
+                    variableNodeMap, defaultTypeName, new DefaultTypeBuildHandler(missTypeMap));
             JsonNode typeNode = jsonBuilder.build();
             typeMap.put(typeDecl.getPropertyName(), typeNode);
         }

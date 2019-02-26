@@ -23,6 +23,7 @@ import com.github.jsontemplate.jsonbuild.JsonNullNode;
 import com.github.jsontemplate.jsonbuild.JsonWrapperNode;
 import com.github.jsontemplate.modelbuild.handler.DefaultBuildHandler;
 import com.github.jsontemplate.valueproducer.INodeProducer;
+import com.github.jsontemplate.valueproducer.StringNodeProducer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -95,9 +96,12 @@ public class SimplePropertyDeclaration {
         return new ObjectPropertyDeclaration(this.propertyName);
     }
 
-    public void buildJsonTemplate(JsonBuilder builder, Map<String, INodeProducer> producerMap,
+    public void buildJsonTemplate(JsonBuilder builder,
+                                  Map<String, INodeProducer> producerMap,
                                   Map<String, JsonNode> typeMap,
-                                  Map<String, JsonNode> variableMap, DefaultBuildHandler defaultHandler) {
+                                  Map<String, JsonNode> variableMap,
+                                  String defaultTypeName,
+                                  DefaultBuildHandler defaultHandler) {
         JsonNode jsonNode = null;
         if (isNullValue()) {
             jsonNode = new JsonNullNode();
@@ -106,7 +110,7 @@ public class SimplePropertyDeclaration {
             if (jsonNode == null) {
                 // it is not a variable, search type map
                 if (typeSpec.getTypeName() == null) {
-                    TypeSpec ancestorTypeSpec = findAncestorTypeSpec();
+                    TypeSpec ancestorTypeSpec = findAncestorTypeSpec(defaultTypeName);
                     this.typeSpec.setTypeName(ancestorTypeSpec.getTypeName());
                     if (typeSpec.getSingleParam() == null) {
                         this.typeSpec = ancestorTypeSpec;
@@ -138,7 +142,7 @@ public class SimplePropertyDeclaration {
         }
     }
 
-    protected TypeSpec findAncestorTypeSpec() {
+    protected TypeSpec findAncestorTypeSpec(String defaultTypeName) {
         TypeSpec curTypeSpec = this.typeSpec;
         SimplePropertyDeclaration declParent = this.getParent();
         while (curTypeSpec.getTypeName() == null && declParent != null) {
@@ -146,15 +150,14 @@ public class SimplePropertyDeclaration {
             declParent = declParent.getParent();
         }
         if (curTypeSpec.getTypeName() == null) {
-            curTypeSpec = getDefaultTypeSpec();
-            // todo improve, temporary solution for array default type
+            curTypeSpec = getDefaultTypeSpec(defaultTypeName);
         }
         return curTypeSpec;
     }
 
-    protected TypeSpec getDefaultTypeSpec() {
+    protected TypeSpec getDefaultTypeSpec(String defaultTypeName) {
         TypeSpec defaultTypeSpec = new TypeSpec();
-        defaultTypeSpec.setTypeName("s");
+        defaultTypeSpec.setTypeName(defaultTypeName);
         return defaultTypeSpec;
     }
 
@@ -194,9 +197,10 @@ public class SimplePropertyDeclaration {
 
     protected void buildChildrenJsonTemplate(JsonBuilder builder, Map<String, INodeProducer> producerMap,
                                              Map<String, JsonNode> typeMap,
-                                             Map<String, JsonNode> variableMap, DefaultBuildHandler defaultHandler) {
+                                             Map<String, JsonNode> variableMap, String defaultTypeName,
+                                             DefaultBuildHandler defaultHandler) {
         for (SimplePropertyDeclaration declaration : properties) {
-            declaration.buildJsonTemplate(builder, producerMap, typeMap, variableMap, defaultHandler);
+            declaration.buildJsonTemplate(builder, producerMap, typeMap, variableMap, defaultTypeName, defaultHandler);
         }
     }
 

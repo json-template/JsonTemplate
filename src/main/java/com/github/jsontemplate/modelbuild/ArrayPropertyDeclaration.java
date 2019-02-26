@@ -32,7 +32,8 @@ final class ArrayPropertyDeclaration extends SimplePropertyDeclaration {
     @Override
     public void buildJsonTemplate(JsonBuilder builder, Map<String, INodeProducer> producerMap,
                                   Map<String, JsonNode> typeMap,
-                                  Map<String, JsonNode> variableMap, DefaultBuildHandler defaultHandler) {
+                                  Map<String, JsonNode> variableMap, String defaultTypeName,
+                                  DefaultBuildHandler defaultHandler) {
         if (parent == null) {
             builder.createArray();
         } else {
@@ -42,9 +43,9 @@ final class ArrayPropertyDeclaration extends SimplePropertyDeclaration {
                 builder.addArray();
             }
         }
-        buildChildrenJsonTemplate(builder, producerMap, typeMap, variableMap, defaultHandler);
+        buildChildrenJsonTemplate(builder, producerMap, typeMap, variableMap, defaultTypeName, defaultHandler);
         if (this.typeSpec.getTypeName() == null) {
-            TypeSpec ancestorTypeSpec = findAncestorTypeSpec();
+            TypeSpec ancestorTypeSpec = findAncestorTypeSpec(defaultTypeName);
             this.typeSpec.setTypeName(ancestorTypeSpec.getTypeName());
         }
 

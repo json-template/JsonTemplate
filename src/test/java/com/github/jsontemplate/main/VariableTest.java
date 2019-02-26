@@ -1,7 +1,10 @@
 package com.github.jsontemplate.main;
 
 import com.jayway.jsonpath.DocumentContext;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -10,8 +13,13 @@ import java.util.Map;
 
 import static com.github.jsontemplate.test.ParserUtils.parse;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.both;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isIn;
+import static org.hamcrest.Matchers.lessThanOrEqualTo;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 class VariableTest {
@@ -38,6 +46,14 @@ class VariableTest {
         varMap.put("male", true);
         DocumentContext document = parse("{male : $male}", varMap);
         assertThat(document.read("$.male", Boolean.class), is(true));
+    }
+
+    @Test
+    void test_floatVariable() {
+        Map<String, Object> varMap = new HashMap<>();
+        varMap.put("balance", 1.23f);
+        DocumentContext document = parse("{balance : $balance}", varMap);
+        assertThat(document.read("$.balance", Float.class), is(1.23f));
     }
 
     @Test
@@ -76,7 +92,7 @@ class VariableTest {
     }
 
     @Test
-    void test_objectInSingleParam() {
+    void test_stringAsSingleParamInStringType() {
         Map<String, Object> variables = new HashMap<>();
         String value = "helloworld";
         variables.put("myValue", value);
@@ -85,6 +101,32 @@ class VariableTest {
     }
 
     @Test
+    void test_integerAsSingleParamInStringType() {
+        Map<String, Object> variables = new HashMap<>();
+        int value = 2;
+        variables.put("myValue", value);
+        DocumentContext document = parse("{aField: @s($myValue)}", variables);
+        assertThat(document.read("$.aField", String.class), is(Integer.toString(value)));
+    }
+
+    @Test
+    void test_stringAseSingleParamInIntegerType() {
+        Map<String, Object> variables = new HashMap<>();
+        String value = "hello";
+        variables.put("myValue", value);
+        assertThrows(NumberFormatException.class, ()-> parse("{aField: @i($myValue)}", variables));
+    }
+
+    @RepeatedTest(20)
+    void test_arrayInSingleParam() {
+        Map<String, Object> variables = new HashMap<>();
+        String[] value = new String[] {"A", "B", "C", "D"};
+        variables.put("myValue", value);
+        DocumentContext document = parse("{aField: @s($myValue)}", variables);
+        assertThat(document.read("$.aField", String.class), isIn(value));
+    }
+
+    @RepeatedTest(20)
     void test_listInSingleParam() {
         Map<String, Object> variables = new HashMap<>();
         List<String> value = Arrays.asList("A", "B", "C", "D");
@@ -93,14 +135,17 @@ class VariableTest {
         assertThat(document.read("$.aField", String.class), isIn(value));
     }
 
-    @Test
+
+    @RepeatedTest(20)
     void test_mapInSingleParam() {
         Map<String, Object> variables = new HashMap<>();
-        Map<String, String> value = new HashMap<>();
-        value.put("length", "20");
+        Map<String, Object> value = new HashMap<>();
+        value.put("min", 10);
+        value.put("max", "20");
         variables.put("config", value);
         DocumentContext document = parse("{aField: @s($config)}", variables);
-        assertThat(document.read("$.aField", String.class).length(), is(20));
+        assertThat(document.read("$.aField", String.class).length(),
+                is(both(greaterThanOrEqualTo(10)).and(lessThanOrEqualTo(20))));
     }
 
     @Test
