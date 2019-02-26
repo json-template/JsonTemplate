@@ -13,44 +13,44 @@ class BooleanTest {
 
     @Test
     void test_randomBooleanField() {
-        DocumentContext document = parse("{aField : @b}");
+        DocumentContext document = parse(new JsonTemplate("{aField : @b}"));
         assertThat(document.read("$.aField", Boolean.class), anyOf(is(true), is(false)));
     }
 
     @Test
     void test_trueBooleanField() {
-        DocumentContext document = parse("{aField : @b(true)}");
+        DocumentContext document = parse(new JsonTemplate("{aField : @b(true)}"));
         assertThat(document.read("$.aField", Boolean.class), is(true));
     }
 
     @Test
     void test_falseBooleanField() {
-        DocumentContext document = parse("{aField : @b(false)}");
+        DocumentContext document = parse(new JsonTemplate("{aField : @b(false)}"));
         assertThat(document.read("$.aField", Boolean.class), is(false));
     }
 
     @Test
     void test_invalidBooleanField() {
-        DocumentContext document = parse("{aField : @b(yes)}");
+        DocumentContext document = parse(new JsonTemplate("{aField : @b(yes)}"));
         assertThat(document.read("$.aField", Boolean.class), is(false));
     }
 
     @Test
     void test_nullBooleanField() {
-        DocumentContext document = parse("{aField : @b(null)}");
+        DocumentContext document = parse(new JsonTemplate("{aField : @b(null)}"));
         assertThat(document.read("$.aField", Boolean.class), is(nullValue()));
     }
 
     @Test
     void test_enumeratedBooleanField() {
-        DocumentContext document = parse("{aField : @b(true, true, false)}");
+        DocumentContext document = parse(new JsonTemplate("{aField : @b(true, true, false)}"));
         assertThat(document.read("$.aField", Boolean.class), isIn(new Boolean[]{true, false}));
     }
 
     @Test
     void test_paramBooleanField() {
         assertThrows(UnsupportedOperationException.class,
-                () -> parse("{aField : @b(min=11)}"));
+                () -> parse(new JsonTemplate("{aField : @b(min=11)}"));
 
     }
 

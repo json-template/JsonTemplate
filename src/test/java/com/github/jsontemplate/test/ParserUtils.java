@@ -9,9 +9,9 @@ import java.util.Map;
 
 public class ParserUtils {
 
-    public static DocumentContext parse(String template) {
-        String json = new JsonTemplate(template).prettyString();
-        comparePrint(template, json);
+    public static DocumentContext parse(JsonTemplate jsonTemplate) {
+        String json = jsonTemplate.prettyString();
+        comparePrint(jsonTemplate.getTemplate(), json);
         return JsonPath.parse(json);
     }
 

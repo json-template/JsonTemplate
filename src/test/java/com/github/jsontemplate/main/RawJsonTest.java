@@ -17,7 +17,7 @@ public class RawJsonTest {
                 "  \"jsonField\" : \"C\"\n" +
                 "}";
 
-        DocumentContext document = parse("{aField : @raw(`" + rawContent + "`)}");
+        DocumentContext document = parse(new JsonTemplate("{aField : @raw(`" + rawContent + "`)}"));
         assertThat(document.read("$.aField.jsonField", String.class), is("C"));
     }
 
@@ -27,8 +27,8 @@ public class RawJsonTest {
                 "  \"jsonField\" : \"C\"\n" +
                 "}";
 
-        DocumentContext document = parse("{aField : @raw($jsonContent)}",
-                Collections.singletonMap("jsonContent", rawContent));
+        DocumentContext document = parse(new JsonTemplate("{aField : @raw($jsonContent)}",
+                Collections.singletonMap("jsonContent", rawContent)));
         assertThat(document.read("$.aField.jsonField", String.class), is("C"));
     }
 
