@@ -38,7 +38,7 @@ public final class JsonFloatNode extends AbstractJsonValueNode<Float> {
     }
 
     @Override
-    public String print() {
+    public String compactString() {
         return Float.toString(supplier.get());
     }
 }

@@ -21,7 +21,7 @@ class IntegerNodeProducerTest {
 
     @Test
     void testProduce() {
-        String producedValue = producer.produce().print();
+        String producedValue = producer.produce().compactString();
         int producedInteger = Integer.parseInt(producedValue);
         assertThat(producedInteger, allOf(greaterThanOrEqualTo(defaultMin), lessThanOrEqualTo(defaultMax)));
     }
@@ -29,7 +29,7 @@ class IntegerNodeProducerTest {
     @Test
     void testProduceWithSingleParam() {
         int myValue = 12345;
-        String producedValue = producer.produce(Integer.toString(myValue)).print();
+        String producedValue = producer.produce(Integer.toString(myValue)).compactString();
         int producedInteger = Integer.parseInt(producedValue);
         assertThat(producedInteger, is(myValue));
     }
@@ -45,7 +45,7 @@ class IntegerNodeProducerTest {
     void testProduceWithListParam() {
         List<Integer> intValues = Arrays.asList(2, 3, 5, 7, 11, 13, 17, 19, 23, 29);
         List<String> stringValues = intValues.stream().map(Object::toString).collect(Collectors.toList());
-        String producedValue = producer.produce(stringValues).print();
+        String producedValue = producer.produce(stringValues).compactString();
         assertThat(producedValue, isIn(stringValues));
     }
 
@@ -56,7 +56,7 @@ class IntegerNodeProducerTest {
         int min = 20;
         mapParam.put("min", Integer.toString(min));
 
-        String producedValue = producer.produce(mapParam).print();
+        String producedValue = producer.produce(mapParam).compactString();
         int parsedInt = Integer.parseInt(producedValue);
 
         assertThat(parsedInt, greaterThanOrEqualTo(min));
@@ -69,7 +69,7 @@ class IntegerNodeProducerTest {
         int max = 80;
         mapParam.put("max", Integer.toString(max));
 
-        String producedValue = producer.produce(mapParam).print();
+        String producedValue = producer.produce(mapParam).compactString();
         int parsedInt = Integer.parseInt(producedValue);
 
         assertThat(parsedInt, lessThanOrEqualTo(max));
@@ -84,7 +84,7 @@ class IntegerNodeProducerTest {
         int max = 80;
         mapParam.put("max", Integer.toString(max));
 
-        String producedValue = producer.produce(mapParam).print();
+        String producedValue = producer.produce(mapParam).compactString();
         int parsedInt = Integer.parseInt(producedValue);
 
         assertThat(parsedInt, allOf(greaterThanOrEqualTo(min), lessThanOrEqualTo(max)));
@@ -98,7 +98,7 @@ class IntegerNodeProducerTest {
             int length = 9;
             paramMap.put("length", Integer.toString(length));
 
-            producer.produce(paramMap).print();
+            producer.produce(paramMap).compactString();
         });
     }
 }

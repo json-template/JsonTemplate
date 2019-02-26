@@ -1,6 +1,5 @@
 package com.github.jsontemplate.jsonbuild;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -13,7 +12,7 @@ class JsonIntegerNodeTest {
     @ValueSource(ints = {0, -1, 20, Integer.MAX_VALUE, Integer.MIN_VALUE})
     void testOf(int value) {
         JsonIntegerNode node = JsonIntegerNode.of(value);
-        String printedValue = node.print();
+        String printedValue = node.compactString();
 
         assertThat(Integer.parseInt(printedValue), is(value));
     }

@@ -38,7 +38,7 @@ public final class JsonStringNode extends AbstractJsonValueNode<String> {
     }
 
     @Override
-    public String print() {
+    public String compactString() {
         return "\"" + supplier.get() + "\"";
     }
 

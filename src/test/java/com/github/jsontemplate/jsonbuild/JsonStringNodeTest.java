@@ -1,6 +1,5 @@
 package com.github.jsontemplate.jsonbuild;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -13,7 +12,7 @@ class JsonStringNodeTest {
     @ValueSource(strings = {"abcde", "", " ", "!@#$%^&*()+-=\\/\n\t"})
     void testOf(String value) {
         JsonStringNode node = JsonStringNode.of(value);
-        String printedValue = node.print();
+        String printedValue = node.compactString();
 
         assertThat(printedValue, is("\"" + value + "\""));
     }

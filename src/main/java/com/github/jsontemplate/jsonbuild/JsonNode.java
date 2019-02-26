@@ -73,7 +73,7 @@ public interface JsonNode {
      *
      * @return
      */
-    String print();
+    String compactString();
 
     /**
      * Produces a json string with identations.
@@ -81,5 +81,5 @@ public interface JsonNode {
      * @param identation
      * @return
      */
-    String prettyPrint(int identation);
+    String prettyString(int identation);
 }

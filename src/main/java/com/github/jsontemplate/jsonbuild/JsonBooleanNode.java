@@ -38,7 +38,7 @@ public final class JsonBooleanNode extends AbstractJsonValueNode<Boolean> {
     }
 
     @Override
-    public String print() {
+    public String compactString() {
         return Boolean.toString(supplier.get());
     }
 

@@ -21,7 +21,7 @@ class StringNodeProducerTest {
     @Test
     @DisplayName("generates a random string, the default length is 5")
     void testProduce() {
-        String producedValue = producer.produce().print();
+        String producedValue = producer.produce().compactString();
         assertThat(producedValue, allOf(startsWith("\""), endsWith("\"")));
         assertThat(producedValue.length(), is(defaultLength + 2));
     }
@@ -30,7 +30,7 @@ class StringNodeProducerTest {
     @DisplayName("generates a fixed string")
     void testProduceWithSingleParam() {
         String fixedValue = "myValue";
-        String producedValue = producer.produce(fixedValue).print();
+        String producedValue = producer.produce(fixedValue).compactString();
         assertThat(producedValue, is("\"" + fixedValue + "\""));
     }
 
@@ -38,7 +38,7 @@ class StringNodeProducerTest {
     @DisplayName("select a string from a list of enumerated string values")
     void testProduceWithListParam() {
         List<String> strings = Arrays.asList("A", "B", "C");
-        String producedValue = producer.produce(strings).print();
+        String producedValue = producer.produce(strings).compactString();
         assertThat(producedValue, isIn(Arrays.asList("\"A\"", "\"B\"", "\"C\"")));
     }
 
@@ -50,7 +50,7 @@ class StringNodeProducerTest {
         int length = 11;
         paramMap.put("length", Integer.toString(length));
 
-        String producedValue = producer.produce(paramMap).print();
+        String producedValue = producer.produce(paramMap).compactString();
         assertThat(producedValue, allOf(startsWith("\""), endsWith("\"")));
         assertThat(producedValue.length(), is(length + 2));
     }
@@ -63,7 +63,7 @@ class StringNodeProducerTest {
         int min = 11;
         paramMap.put("min", Integer.toString(min));
 
-        String producedValue = producer.produce(paramMap).print();
+        String producedValue = producer.produce(paramMap).compactString();
         assertThat(producedValue, allOf(startsWith("\""), endsWith("\"")));
         assertThat(producedValue.length(), greaterThanOrEqualTo(min + 2));
     }
@@ -76,7 +76,7 @@ class StringNodeProducerTest {
         int max = 11;
         paramMap.put("max", Integer.toString(max));
 
-        String producedValue = producer.produce(paramMap).print();
+        String producedValue = producer.produce(paramMap).compactString();
         assertThat(producedValue, allOf(startsWith("\""), endsWith("\"")));
         assertThat(producedValue.length(), lessThanOrEqualTo(max + 2));
     }
@@ -90,7 +90,7 @@ class StringNodeProducerTest {
         paramMap.put("min", Integer.toString(min));
         paramMap.put("max", Integer.toString(max));
 
-        String producedValue = producer.produce(paramMap).print();
+        String producedValue = producer.produce(paramMap).compactString();
         assertThat(producedValue, allOf(startsWith("\""), endsWith("\"")));
         assertThat(producedValue.length(), allOf(greaterThanOrEqualTo(min + 2), lessThanOrEqualTo(max + 2)));
     }
@@ -106,7 +106,7 @@ class StringNodeProducerTest {
         paramMap.put("min", Integer.toString(min));
         paramMap.put("max", Integer.toString(max));
 
-        String producedValue = producer.produce(paramMap).print();
+        String producedValue = producer.produce(paramMap).compactString();
         assertThat(producedValue, allOf(startsWith("\""), endsWith("\"")));
         assertThat(producedValue.length(), is(length + 2));
     }
@@ -119,7 +119,7 @@ class StringNodeProducerTest {
             int length = 9;
             paramMap.put("size", Integer.toString(length));
 
-            producer.produce(paramMap).print();
+            producer.produce(paramMap).compactString();
         });
     }
 }

@@ -50,18 +50,18 @@ public final class JsonObjectNode implements JsonNode {
     }
 
     @Override
-    public String print() {
+    public String compactString() {
         String joinedChildren = children.entrySet().stream()
-                .map(entry -> entry.getKey() + ":" + entry.getValue().print())
+                .map(entry -> entry.getKey() + ":" + entry.getValue().compactString())
                 .collect(Collectors.joining(","));
         return "{" + joinedChildren + "}";
     }
 
     @Override
-    public String prettyPrint(int identation) {
+    public String prettyString(int identation) {
         String childSpaces = JsonNodeUtils.makeIdentation(identation + 1);
         String joinedIdentChildren = children.entrySet().stream()
-                .map(entry -> childSpaces + "\"" + entry.getKey() + "\" : " + entry.getValue().prettyPrint(identation + 1))
+                .map(entry -> childSpaces + "\"" + entry.getKey() + "\" : " + entry.getValue().prettyString(identation + 1))
                 .collect(Collectors.joining(",\n"));
         String spaces = JsonNodeUtils.makeIdentation(identation);
         return "{\n" +

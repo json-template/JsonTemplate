@@ -38,7 +38,6 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -57,7 +56,7 @@ import java.util.Map;
  * You can use the following code snippet to create the expected json.
  * <pre>
  * String template = "{city:Utrecht,street:Musicallaan,number:@i(413)}"
- * String json = new JsonTemplate(template).parse().print();<pre/>
+ * String json = new JsonTemplate(template).parse().prettyString();<pre/>
  * <br/>
  * If you need only a json which is schema compatible, the template can be specified as:
  * <pre>
@@ -86,7 +85,7 @@ public class JsonTemplate {
      * Example:
      * <pre>
      * String json = new JsonTemplate("{city:$cityVar}")
-     *                .withVar("cityVar", "Utrecht").parse().print();
+     *                .withVar("cityVar", "Utrecht").parse().compactString();
      * </pre>
      * In the end, the value of json is
      * <code>{"city":"Utrecht"}</code>
@@ -160,18 +159,18 @@ public class JsonTemplate {
      *
      * @return a compact json string
      */
-    public String print() {
+    public String compactString() {
         build();
-        return rootNode.print();
+        return rootNode.compactString();
     }
 
     /**
      * @return a json string with identation
-     * @see #print()
+     * @see #compactString()
      */
-    public String prettyPrint() {
+    public String prettyString() {
         build();
-        return rootNode.prettyPrint(0);
+        return rootNode.prettyString(0);
     }
 
 

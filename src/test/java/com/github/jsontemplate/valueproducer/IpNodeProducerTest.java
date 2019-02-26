@@ -20,7 +20,7 @@ class IpNodeProducerTest {
     @Test
     @DisplayName("generates a random ipv4 string")
     void testProduce() {
-        String producedValue = producer.produce().print();
+        String producedValue = producer.produce().compactString();
         assertThat(VALID_IPV4_PATTERN.matcher(producedValue).find(), is(true));
     }
 

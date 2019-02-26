@@ -18,7 +18,7 @@ class Base64NodeProducerTest {
     @Test
     @DisplayName("generate a random base64 string")
     void produce() {
-        String base64String = producer.produce().print();
+        String base64String = producer.produce().compactString();
         assertThat(base64String.length(), is(12 + 2));
     }
 
@@ -41,7 +41,7 @@ class Base64NodeProducerTest {
     void produceWithParamLengthModBy4() {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.put("length", "40");
-        String base64String = producer.produce(mapParam).print();
+        String base64String = producer.produce(mapParam).compactString();
         int expectedLength = 40 + 2; // 2 for quotes
         assertThat(base64String.length(), is(expectedLength));
     }
@@ -51,7 +51,7 @@ class Base64NodeProducerTest {
     void produceWithMapLengthModNotBy4() {
         Map<String, String> mapParam = new HashMap<>();
         mapParam.put("length", "41");
-        String base64String = producer.produce(mapParam).print();
+        String base64String = producer.produce(mapParam).compactString();
         int expectedLength = 44 + 2; // 2 for the quotes
         assertThat(base64String.length(), is(expectedLength));
     }

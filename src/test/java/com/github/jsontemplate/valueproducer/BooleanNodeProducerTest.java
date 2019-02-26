@@ -22,14 +22,14 @@ class BooleanNodeProducerTest {
     @Test
     @DisplayName("generates a random boolean string")
     void testProduce() {
-        String producedValue = producer.produce().print();
+        String producedValue = producer.produce().compactString();
         assertThat(producedValue, isIn(BOOLEAN_STRING_LIST));
     }
 
     @Test
     @DisplayName("generate a fixed boolean string")
     void testProduceWithSingleParam() {
-        String producedValue = producer.produce(STRING_TRUE).print();
+        String producedValue = producer.produce(STRING_TRUE).compactString();
         assertThat(producedValue, is(STRING_TRUE));
     }
 
@@ -37,14 +37,14 @@ class BooleanNodeProducerTest {
     @DisplayName("generates false with an invalid parameter")
     void testProduceWithNonBooleanSingleParam() {
         String singleParam = "yes";
-        String producedValue = producer.produce(singleParam).print();
+        String producedValue = producer.produce(singleParam).compactString();
         assertThat(producedValue, is("false"));
     }
 
     @Test
     @DisplayName("selects a value in a list of enumerated boolean strings")
     void testProduceWithListParam() {
-        String producedValue = producer.produce(BOOLEAN_STRING_LIST).print();
+        String producedValue = producer.produce(BOOLEAN_STRING_LIST).compactString();
         assertThat(producedValue, isIn(BOOLEAN_STRING_LIST));
     }
 

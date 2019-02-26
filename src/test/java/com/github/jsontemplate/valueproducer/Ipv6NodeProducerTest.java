@@ -20,7 +20,7 @@ class Ipv6NodeProducerTest {
     @Test
     @DisplayName("generates a random ipv6 string")
     void testProduce() {
-        String producedValue = producer.produce().print();
+        String producedValue = producer.produce().compactString();
         assertThat(VALID_IPV6_PATTERN.matcher(producedValue).find(), is(true));
     }
 

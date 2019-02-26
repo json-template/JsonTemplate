@@ -49,7 +49,7 @@ String template = "{" +
                   "    number : @i(413)" +
                   "  }" +
                   "}";
-String json = new JsonTemplate(template).parse().print();                      
+String json = new JsonTemplate(template).parse().prettyString();                      
 ``` 
 Does it look much cleaner?
 Suppose that you are test the format validation (pass the validation if all fields exist), 
@@ -69,7 +69,7 @@ String template = "{" +
                   "    number : @i" +
                   "  }" +
                   "}";
-String json = new JsonTemplate(template).parse().print();                      
+String json = new JsonTemplate(template).parse().prettyString();                      
 ``` 
 
 When do I need to use JsonTemplate?

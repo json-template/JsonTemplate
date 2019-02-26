@@ -35,7 +35,7 @@ public final class JsonIntegerNode extends AbstractJsonValueNode<Integer> {
     }
 
     @Override
-    public String print() {
+    public String compactString() {
         return Integer.toString(supplier.get());
     }
 }

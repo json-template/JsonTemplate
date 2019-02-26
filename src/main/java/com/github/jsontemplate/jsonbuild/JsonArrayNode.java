@@ -214,13 +214,13 @@ public final class JsonArrayNode implements JsonNode {
     }
 
     @Override
-    public String print() {
-        String joinedChildren = children.stream().map(JsonNode::print).collect(Collectors.joining(","));
+    public String compactString() {
+        String joinedChildren = children.stream().map(JsonNode::compactString).collect(Collectors.joining(","));
         return "[" + joinedChildren + "]";
     }
 
     @Override
-    public String prettyPrint(int identation) {
+    public String prettyString(int identation) {
         String childrenSpaces = JsonNodeUtils.makeIdentation(identation + 1);
         ArrayList<JsonNode> printChildren = new ArrayList<>();
 
@@ -229,7 +229,7 @@ public final class JsonArrayNode implements JsonNode {
         printChildren.addAll(additionalNodeList);
 
         String joinedIdentChildren = printChildren.stream()
-                .map(child -> childrenSpaces + child.prettyPrint(identation + 1))
+                .map(child -> childrenSpaces + child.prettyString(identation + 1))
                 .collect(Collectors.joining(",\n"));
 
         String spaces = JsonNodeUtils.makeIdentation(identation);

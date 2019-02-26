@@ -29,7 +29,7 @@ public final class JsonRawNode extends AbstractJsonValueNode<String> {
     }
 
     @Override
-    public String print() {
+    public String compactString() {
         return supplier.get();
     }
 }

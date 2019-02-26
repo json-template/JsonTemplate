@@ -33,12 +33,12 @@ public final class JsonWrapperNode implements JsonNode {
     }
 
     @Override
-    public String print() {
-        return jsonNode.print();
+    public String compactString() {
+        return jsonNode.compactString();
     }
 
     @Override
-    public String prettyPrint(int identation) {
-        return jsonNode.prettyPrint(identation);
+    public String prettyString(int identation) {
+        return jsonNode.prettyString(identation);
     }
 }

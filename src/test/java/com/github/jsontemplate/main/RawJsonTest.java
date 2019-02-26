@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 
-import static com.github.jsontemplate.test.TestUtils.parse;
+import static com.github.jsontemplate.test.ParserUtils.parse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
