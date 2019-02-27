@@ -21,8 +21,8 @@ import com.github.jsontemplate.antlr4.JsonTemplateAntlrParser;
 import com.github.jsontemplate.jsonbuild.JsonBuilder;
 import com.github.jsontemplate.jsonbuild.JsonNode;
 import com.github.jsontemplate.jsonbuild.JsonWrapperNode;
+import com.github.jsontemplate.modelbuild.BasePropertyDeclaration;
 import com.github.jsontemplate.modelbuild.JsonTemplateTreeListener;
-import com.github.jsontemplate.modelbuild.SimplePropertyDeclaration;
 import com.github.jsontemplate.modelbuild.handler.DefaultJsonBuildHandler;
 import com.github.jsontemplate.modelbuild.handler.DefaultTypeBuildHandler;
 import com.github.jsontemplate.valueproducer.*;
@@ -145,15 +145,15 @@ public class JsonTemplate {
      * <p/>
      * The pre-installed node producers are:
      * <ul>
-     *  <li>{@link SmartNodeProducer}</li>
-     *  <li>{@link StringNodeProducer}</li>
-     *  <li>{@link IntegerNodeProducer}</li>
-     *  <li>{@link BooleanNodeProducer}</li>
-     *  <li>{@link FloatNodeProducer}</li>
-     *  <li>{@link IpNodeProducer}</li>
-     *  <li>{@link Ipv6NodeProducer}</li>
-     *  <li>{@link Base64NodeProducer}</li>
-     *  <li>{@link RawStringNodeProducer}</li>
+     * <li>{@link SmartNodeProducer}</li>
+     * <li>{@link StringNodeProducer}</li>
+     * <li>{@link IntegerNodeProducer}</li>
+     * <li>{@link BooleanNodeProducer}</li>
+     * <li>{@link FloatNodeProducer}</li>
+     * <li>{@link IpNodeProducer}</li>
+     * <li>{@link Ipv6NodeProducer}</li>
+     * <li>{@link Base64NodeProducer}</li>
+     * <li>{@link RawStringNodeProducer}</li>
      * <ul/>
      *
      * @param nodeProducer
@@ -169,7 +169,7 @@ public class JsonTemplate {
      * in the template. It searches through its parents util it finds a parent who has
      * as default type or it reaches the root. If the default type of the root is not
      * explicitly specified. The default type is {@link SmartNodeProducer}.
-     *
+     * <p>
      * Example:
      * <pre>
      *     { obj1: @i{fieldA}, obj2: {fieldB} }
@@ -189,6 +189,11 @@ public class JsonTemplate {
         return this;
     }
 
+    /**
+     * Returns the input json template
+     *
+     * @return
+     */
     public String getTemplate() {
         return template;
     }
@@ -248,7 +253,7 @@ public class JsonTemplate {
         buildVariableNodeMap();
 
         JsonTemplateTreeListener listener = parse(template);
-        SimplePropertyDeclaration rootDeclaration = listener.getJsonRoot();
+        BasePropertyDeclaration rootDeclaration = listener.getJsonRoot();
         Map<String, JsonNode> typeMap = buildTypeMap(listener.getTypeDefinitionList());
         rootDeclaration.applyVariablesToParameters(variableMap);
 
@@ -274,10 +279,10 @@ public class JsonTemplate {
         return listener;
     }
 
-    private Map<String, JsonNode> buildTypeMap(List<SimplePropertyDeclaration> typeDeclarations) {
+    private Map<String, JsonNode> buildTypeMap(List<BasePropertyDeclaration> typeDeclarations) {
         Map<String, JsonNode> typeMap = new HashMap<>();
         Map<String, List<JsonWrapperNode>> missTypeMap = new HashMap<>();
-        for (SimplePropertyDeclaration typeDecl : typeDeclarations) {
+        for (BasePropertyDeclaration typeDecl : typeDeclarations) {
             JsonBuilder jsonBuilder = new JsonBuilder();
             typeDecl.buildJsonTemplate(jsonBuilder, producerMap, typeMap,
                     variableNodeMap, defaultTypeName, new DefaultTypeBuildHandler(missTypeMap));

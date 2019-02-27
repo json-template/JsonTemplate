@@ -23,7 +23,7 @@ import com.github.jsontemplate.valueproducer.INodeProducer;
 
 import java.util.Map;
 
-final class ObjectPropertyDeclaration extends SimplePropertyDeclaration {
+final class ObjectPropertyDeclaration extends BasePropertyDeclaration {
 
     ObjectPropertyDeclaration(String propertyName) {
         this.propertyName = propertyName;

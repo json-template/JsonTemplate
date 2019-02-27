@@ -16,14 +16,15 @@
 
 package com.github.jsontemplate.jsonbuild;
 
-import java.util.Stack;
+import java.util.Deque;
+import java.util.LinkedList;
 
 /**
  * The builder of the data structure consisting of json nodes.
  */
 public final class JsonBuilder {
 
-    private Stack<JsonNode> nodeStack = new Stack<>();
+    private Deque<JsonNode> nodeStack = new LinkedList<>();
     private JsonNode lastPopNode;
 
     public JsonBuilder createArray() {
@@ -97,7 +98,7 @@ public final class JsonBuilder {
     }
 
     public JsonNode build() {
-        if (!nodeStack.empty()) {
+        if (!nodeStack.isEmpty()) {
             return nodeStack.peek();
         } else {
             return lastPopNode;

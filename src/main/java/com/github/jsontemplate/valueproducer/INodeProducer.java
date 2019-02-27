@@ -24,19 +24,23 @@ import java.util.Map;
 /**
  * All node producers should implement this interface. The node producer
  * produces a json node which can print expected json string.
- * <p>
  * <p/>
  * JsonTemplate has implemented some basic node producers which can suit
  * most of the cases.
- * <br/>
- * Other libraries, such as Guava, Commons-lang, JFaker, support
- * powerful data generations. JsonTemplate does not make a choice for the users.
- * Users are freely to customize, extend, and add their own producers.
+ * <p/>
+ * Other libraries, such as Guava, Apache Commons, JFaker, support
+ * powerful data generations. Users are freely to customize, extend,
+ * and add their own producers.
  *
  * @param <T> the type of json node expected to be produced
  */
 public interface INodeProducer<T extends JsonNode> {
 
+    /**
+     * Returns the type name used in the template.
+     *
+     * @return
+     */
     String getTypeName();
 
     /**

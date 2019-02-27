@@ -20,40 +20,37 @@ import com.github.jsontemplate.antlr4.JsonTemplateAntlrBaseListener;
 import com.github.jsontemplate.antlr4.JsonTemplateAntlrParser;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Stack;
 import java.util.stream.IntStream;
 
 public final class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListener {
 
-    private Stack<SimplePropertyDeclaration> curStack;
+    private Deque<BasePropertyDeclaration> curStack;
     private boolean inArrayParamSpec;
     private boolean inPropertyVariableWrapper;
-    private SimplePropertyDeclaration jsonRoot;
-    private List<SimplePropertyDeclaration> typeDefinitionList = new ArrayList<>();
+    private BasePropertyDeclaration jsonRoot;
+    private List<BasePropertyDeclaration> typeDefinitionList = new ArrayList<>();
 
-    public SimplePropertyDeclaration getJsonRoot() {
+    public BasePropertyDeclaration getJsonRoot() {
         return jsonRoot;
     }
-    public List<SimplePropertyDeclaration> getTypeDefinitionList() {
+
+    public List<BasePropertyDeclaration> getTypeDefinitionList() {
         return typeDefinitionList;
     }
 
     @Override
     public void enterTemplatePart(JsonTemplateAntlrParser.TemplatePartContext ctx) {
-        curStack = new Stack<>();
+        curStack = new LinkedList<>();
     }
 
     @Override
     public void exitTemplatePart(JsonTemplateAntlrParser.TemplatePartContext ctx) {
-        SimplePropertyDeclaration peek = curStack.peek();
-        if (curStack.get(0).isTypeDefinition()) {
+        BasePropertyDeclaration peek = curStack.peek();
+        if (curStack.peekFirst().isTypeDefinition()) {
             typeDefinitionList.add(peek);
         } else {
             if (jsonRoot == null) {
@@ -66,23 +63,23 @@ public final class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListene
 
     @Override
     public void enterTypeDefinition(JsonTemplateAntlrParser.TypeDefinitionContext ctx) {
-        SimplePropertyDeclaration typeRoot = new SimplePropertyDeclaration();
+        BasePropertyDeclaration typeRoot = new BasePropertyDeclaration();
         typeRoot.markAsTypeDefinition();
         curStack.push(typeRoot);
 
-        SimplePropertyDeclaration typeBody = new SimplePropertyDeclaration();
+        BasePropertyDeclaration typeBody = new BasePropertyDeclaration();
         typeRoot.addProperty(typeBody);
         curStack.push(typeBody);
     }
 
     @Override
     public void enterPairProperty(JsonTemplateAntlrParser.PairPropertyContext ctx) {
-        curStack.push(new SimplePropertyDeclaration());
+        curStack.push(new BasePropertyDeclaration());
     }
 
     @Override
     public void exitPairProperty(JsonTemplateAntlrParser.PairPropertyContext ctx) {
-        SimplePropertyDeclaration pop = curStack.pop();
+        BasePropertyDeclaration pop = curStack.pop();
         curStack.peek().addProperty(pop);
     }
 
@@ -100,7 +97,7 @@ public final class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListene
     public void enterMapParam(JsonTemplateAntlrParser.MapParamContext ctx) {
         String key = ctx.getChild(0).getText();
         String value = stripRawText(ctx.getChild(2).getText());
-        SimplePropertyDeclaration peek = curStack.peek();
+        BasePropertyDeclaration peek = curStack.peek();
         if (inArrayParamSpec) {
             peek.getArrayTypeSpec().getMapParam().put(key, value);
         } else {
@@ -116,7 +113,7 @@ public final class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListene
                 .filter(text -> !",".equals(text))
                 .map(this::stripRawText)
                 .forEach(param -> {
-                    SimplePropertyDeclaration peek = curStack.peek();
+                    BasePropertyDeclaration peek = curStack.peek();
                     if (inArrayParamSpec) {
                         peek.getArrayTypeSpec().getListParam().add(param);
                     } else {
@@ -127,7 +124,7 @@ public final class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListene
 
     @Override
     public void enterSingleParam(JsonTemplateAntlrParser.SingleParamContext ctx) {
-        SimplePropertyDeclaration peek = curStack.peek();
+        BasePropertyDeclaration peek = curStack.peek();
         String text = stripRawText(ctx.getText());
         if (inArrayParamSpec) {
             peek.getArrayTypeSpec().setSingleParam(text);
@@ -173,41 +170,41 @@ public final class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListene
 
     @Override
     public void enterSingleProperty(JsonTemplateAntlrParser.SinglePropertyContext ctx) {
-        curStack.push(new SimplePropertyDeclaration());
+        curStack.push(new BasePropertyDeclaration());
     }
 
     @Override
     public void exitSingleProperty(JsonTemplateAntlrParser.SinglePropertyContext ctx) {
-        SimplePropertyDeclaration pop = curStack.pop();
+        BasePropertyDeclaration pop = curStack.pop();
         curStack.peek().addProperty(pop);
     }
 
     @Override
     public void enterJsonObject(JsonTemplateAntlrParser.JsonObjectContext ctx) {
         if (curStack.isEmpty()) {
-            curStack.push(new SimplePropertyDeclaration());
+            curStack.push(new BasePropertyDeclaration());
         }
-        SimplePropertyDeclaration pop = curStack.pop();
+        BasePropertyDeclaration pop = curStack.pop();
         curStack.push(pop.asObjectProperty());
     }
 
     @Override
     public void enterJsonArray(JsonTemplateAntlrParser.JsonArrayContext ctx) {
         if (curStack.isEmpty()) {
-            curStack.push(new SimplePropertyDeclaration());
+            curStack.push(new BasePropertyDeclaration());
         }
-        SimplePropertyDeclaration pop = curStack.pop();
+        BasePropertyDeclaration pop = curStack.pop();
         curStack.push(pop.asArrayProperty());
     }
 
     @Override
     public void enterItem(JsonTemplateAntlrParser.ItemContext ctx) {
-        curStack.push(new SimplePropertyDeclaration());
+        curStack.push(new BasePropertyDeclaration());
     }
 
     @Override
     public void exitItem(JsonTemplateAntlrParser.ItemContext ctx) {
-        SimplePropertyDeclaration pop = curStack.pop();
+        BasePropertyDeclaration pop = curStack.pop();
         curStack.peek().addProperty(pop);
     }
 

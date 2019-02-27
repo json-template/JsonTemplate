@@ -16,28 +16,19 @@
 
 package com.github.jsontemplate.modelbuild;
 
-import com.github.jsontemplate.jsonbuild.JsonArrayNode;
-import com.github.jsontemplate.jsonbuild.JsonBuilder;
-import com.github.jsontemplate.jsonbuild.JsonNode;
-import com.github.jsontemplate.jsonbuild.JsonNullNode;
-import com.github.jsontemplate.jsonbuild.JsonWrapperNode;
+import com.github.jsontemplate.jsonbuild.*;
 import com.github.jsontemplate.modelbuild.handler.DefaultBuildHandler;
 import com.github.jsontemplate.valueproducer.INodeProducer;
-import com.github.jsontemplate.valueproducer.StringNodeProducer;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
-public class SimplePropertyDeclaration {
+public class BasePropertyDeclaration {
 
     protected String propertyName;
     protected TypeSpec typeSpec = new TypeSpec();
-    protected List<SimplePropertyDeclaration> properties = new ArrayList<>();
-    protected SimplePropertyDeclaration parent;
+    protected List<BasePropertyDeclaration> properties = new ArrayList<>();
+    protected BasePropertyDeclaration parent;
     protected TypeSpec arrayTypeSpec = new TypeSpec();
     protected boolean isTypeDefinition = false;
 
@@ -49,7 +40,7 @@ public class SimplePropertyDeclaration {
         return arrayTypeSpec;
     }
 
-    public List<SimplePropertyDeclaration> getProperties() {
+    public List<BasePropertyDeclaration> getProperties() {
         return properties;
     }
 
@@ -70,21 +61,21 @@ public class SimplePropertyDeclaration {
     }
 
 
-    public void addProperty(SimplePropertyDeclaration propertyDeclaration) {
+    public void addProperty(BasePropertyDeclaration propertyDeclaration) {
         this.properties.add(propertyDeclaration);
         propertyDeclaration.setParent(this);
     }
 
-    public void removeProperty(SimplePropertyDeclaration propertyDeclaration) {
+    public void removeProperty(BasePropertyDeclaration propertyDeclaration) {
         this.properties.remove(propertyDeclaration);
         propertyDeclaration.setParent(null);
     }
 
-    public SimplePropertyDeclaration getParent() {
+    public BasePropertyDeclaration getParent() {
         return parent;
     }
 
-    public void setParent(SimplePropertyDeclaration parent) {
+    public void setParent(BasePropertyDeclaration parent) {
         this.parent = parent;
     }
 
@@ -144,7 +135,7 @@ public class SimplePropertyDeclaration {
 
     protected TypeSpec findAncestorTypeSpec(String defaultTypeName) {
         TypeSpec curTypeSpec = this.typeSpec;
-        SimplePropertyDeclaration declParent = this.getParent();
+        BasePropertyDeclaration declParent = this.getParent();
         while (curTypeSpec.getTypeName() == null && declParent != null) {
             curTypeSpec = declParent.getTypeSpec();
             declParent = declParent.getParent();
@@ -199,7 +190,7 @@ public class SimplePropertyDeclaration {
                                              Map<String, JsonNode> typeMap,
                                              Map<String, JsonNode> variableMap, String defaultTypeName,
                                              DefaultBuildHandler defaultHandler) {
-        for (SimplePropertyDeclaration declaration : properties) {
+        for (BasePropertyDeclaration declaration : properties) {
             declaration.buildJsonTemplate(builder, producerMap, typeMap, variableMap, defaultTypeName, defaultHandler);
         }
     }

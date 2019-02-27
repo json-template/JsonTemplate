@@ -18,6 +18,11 @@ package com.github.jsontemplate.valueproducer;
 
 import com.github.jsontemplate.jsonbuild.JsonRawNode;
 
+/**
+ * This class produces a {@link JsonRawNode} which prints the content
+ * of the given string without quotes. This is suitable for embedding
+ * another json string.
+ */
 public class RawStringNodeProducer extends AbstractNodeProducer<JsonRawNode> {
 
     /**

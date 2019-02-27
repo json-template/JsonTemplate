@@ -33,7 +33,6 @@ public class FloatNodeProducer extends AbstractNodeProducer<JsonFloatNode> {
      * The type name used in the template, e.g. {aFloatField: @f}
      */
     public static final String TYPE_NAME = "f";
-    private static final float ZERO = 0f;
     private static final float ONE_HUNDRED = 100f;
 
     @Override
@@ -110,9 +109,9 @@ public class FloatNodeProducer extends AbstractNodeProducer<JsonFloatNode> {
         if (min != null && max != null) {
             shouldBeInAscOrder(min, max, "min", "max");
             return new JsonFloatNode(() -> randomFloatInRange(min, max));
-        } else if (min != null && max == null) {
+        } else if (min != null) {
             return new JsonFloatNode(() -> randomFloatInRange(min, getDefaultMax(min)));
-        } else if (min == null && max != null) {
+        } else if (max != null) {
             return new JsonFloatNode(() -> randomFloatInRange(getDefaultMin(max), max));
         } else {
             return produce();

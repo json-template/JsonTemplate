@@ -18,9 +18,35 @@ package com.github.jsontemplate.valueproducer;
 
 import com.github.jsontemplate.jsonbuild.*;
 
+/**
+ * This is the default type in JsonTemplate. It produces a value with the type which
+ * the value looks like. For example:
+ *
+ * <ul>
+ * <li>"null" results in <i>null</i></li>
+ * <li>"true" results in <i>true</i></li>
+ * <li>"fAlSe" results in <i>false</i></li>
+ * <li>"1" results in <i>1</i></li>
+ * <li>"1f" results in <i>1.0</i></li>
+ * <li>"hello" results in <i>"hello"</i></li>
+ * </ul>
+ * <p>
+ * The smart type is designed to be used only for the fixed value.
+ * For example:
+ * <br/>
+ * {name : @smart(John)} will result in {name : John}
+ * <br/>
+ * However,
+ * <br/>
+ * {name : @smart} will result in {name : null}
+ */
 public class SmartNodeProducer extends AbstractNodeProducer<JsonNode> {
 
+    /**
+     * The type name used in the template, e.g. @smart{ name: John}
+     */
     public static final String TYPE_NAME = "smart";
+    private static final String NULL = "null";
 
     @Override
     public String getTypeName() {
@@ -34,10 +60,10 @@ public class SmartNodeProducer extends AbstractNodeProducer<JsonNode> {
 
     @Override
     public JsonNode produce(String value) {
-        if ("null".equalsIgnoreCase(value)) {
+        if (isNull(value)) {
             return new JsonNullNode();
         }
-        if ("true".equalsIgnoreCase(value) || "false".equalsIgnoreCase(value)) {
+        if (isBoolean(value)) {
             return new JsonBooleanNode(() -> Boolean.parseBoolean(value));
         }
         if (isInteger(value)) {
@@ -49,6 +75,33 @@ public class SmartNodeProducer extends AbstractNodeProducer<JsonNode> {
         return new JsonStringNode(() -> value);
     }
 
+    /**
+     * Checks if the value represents null.
+     *
+     * @param value
+     * @return
+     */
+    protected boolean isNull(String value) {
+        return NULL.equalsIgnoreCase(value);
+    }
+
+    /**
+     * Checks if the value represents a boolean value.
+     *
+     * @param value
+     * @return
+     */
+    protected boolean isBoolean(String value) {
+        return Boolean.TRUE.toString().equalsIgnoreCase(value) ||
+                Boolean.FALSE.toString().equalsIgnoreCase(value);
+    }
+
+    /**
+     * Checks if the value represents an integer value.
+     *
+     * @param value
+     * @return
+     */
     protected boolean isInteger(String value) {
         try {
             Integer.parseInt(value);
@@ -58,6 +111,12 @@ public class SmartNodeProducer extends AbstractNodeProducer<JsonNode> {
         }
     }
 
+    /**
+     * Checks if the value represents a float value.
+     *
+     * @param value
+     * @return
+     */
     protected boolean isFloat(String value) {
         try {
             Float.parseFloat(value);

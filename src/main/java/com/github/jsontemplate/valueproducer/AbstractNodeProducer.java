@@ -112,7 +112,7 @@ public abstract class AbstractNodeProducer<T extends JsonNode> implements INodeP
      * @return
      */
     protected int randomIntInRange(int min, int max) {
-        return ThreadLocalRandom.current().nextInt(min, max+1);
+        return ThreadLocalRandom.current().nextInt(min, max + 1);
     }
 
     /**

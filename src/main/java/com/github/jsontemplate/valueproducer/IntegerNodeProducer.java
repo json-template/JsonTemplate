@@ -110,9 +110,9 @@ public class IntegerNodeProducer extends AbstractNodeProducer<JsonIntegerNode> {
         if (min != null && max != null) {
             shouldBeInAscOrder(min, max, "min", "max");
             return new JsonIntegerNode(() -> randomIntInRange(min, max));
-        } else if (min != null && max == null) {
+        } else if (min != null) {
             return new JsonIntegerNode(() -> randomIntInRange(min, getDefaultMax(min)));
-        } else if (min == null && max != null) {
+        } else if (max != null) {
             return new JsonIntegerNode(() -> randomIntInRange(getDefaultMin(max), max));
         } else {
             return produce();
