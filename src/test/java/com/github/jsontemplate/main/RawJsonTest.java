@@ -3,8 +3,6 @@ package com.github.jsontemplate.main;
 import com.jayway.jsonpath.DocumentContext;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
-
 import static com.github.jsontemplate.test.ParserUtils.parse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -27,8 +25,9 @@ public class RawJsonTest {
                 "  \"jsonField\" : \"C\"\n" +
                 "}";
 
-        DocumentContext document = parse(new JsonTemplate("{aField : @raw($jsonContent)}",
-                Collections.singletonMap("jsonContent", rawContent)));
+        DocumentContext document = parse(
+                new JsonTemplate("{aField : @raw($jsonContent)}")
+                        .withVar("jsonContent", rawContent));
         assertThat(document.read("$.aField.jsonField", String.class), is("C"));
     }
 

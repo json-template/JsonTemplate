@@ -60,7 +60,7 @@ class IntegerTest {
 
     @Test
     void test_invalidRangeIntegerField() {
-        assertThrows(IllegalArgumentException.class, () -> parse(new JsonTemplate("{aField : @i(min=20, max=10)}"));
+        assertThrows(IllegalArgumentException.class, () -> parse(new JsonTemplate("{aField : @i(min=20, max=10)}")));
     }
 
     @Test

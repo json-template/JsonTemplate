@@ -12,20 +12,21 @@ import java.util.Random;
 
 import static com.github.jsontemplate.test.ParserUtils.parse;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
 public class CustomProducerTest {
 
     @Test
     public void testWithNewProducer() {
-        DocumentContext document = parse("{balance:@euro(20)}", new EuroProducer());
+        JsonTemplate jsonTemplate = new JsonTemplate("{balance:@euro(20)}").withNodeProducer(new EuroProducer());
+        DocumentContext document = parse(jsonTemplate);
         assertThat(document.read("$.balance", String.class), is("€20"));
     }
 
     @Test
     public void testWithExtendedProducer() {
-        DocumentContext document = parse("{ref:@s(GOF)}", new MyStringNodeProducer());
+        JsonTemplate jsonTemplate = new JsonTemplate("{ref:@s(GOF)}").withNodeProducer(new MyStringNodeProducer());
+        DocumentContext document = parse(jsonTemplate);
         assertThat(document.read("$.ref", String.class), is("[GOF]"));
     }
 
