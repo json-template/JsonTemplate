@@ -1,5 +1,6 @@
-package com.github.jsontemplate.main;
+package com.github.jsontemplate.templatetests;
 
+import com.github.jsontemplate.JsonTemplate;
 import com.github.jsontemplate.jsonbuild.JsonStringNode;
 import com.github.jsontemplate.valueproducer.INodeProducer;
 import com.github.jsontemplate.valueproducer.StringNodeProducer;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import static com.github.jsontemplate.test.ParserUtils.parse;
+import static com.github.jsontemplate.templatetests.ParserUtils.parse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 

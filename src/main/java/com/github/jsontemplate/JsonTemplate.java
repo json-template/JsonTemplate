@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.jsontemplate.main;
+package com.github.jsontemplate;
 
 import com.github.jsontemplate.antlr4.JsonTemplateAntlrLexer;
 import com.github.jsontemplate.antlr4.JsonTemplateAntlrParser;
@@ -25,15 +25,7 @@ import com.github.jsontemplate.modelbuild.JsonTemplateTreeListener;
 import com.github.jsontemplate.modelbuild.SimplePropertyDeclaration;
 import com.github.jsontemplate.modelbuild.handler.DefaultJsonBuildHandler;
 import com.github.jsontemplate.modelbuild.handler.DefaultTypeBuildHandler;
-import com.github.jsontemplate.valueproducer.Base64NodeProducer;
-import com.github.jsontemplate.valueproducer.BooleanNodeProducer;
-import com.github.jsontemplate.valueproducer.FloatNodeProducer;
-import com.github.jsontemplate.valueproducer.INodeProducer;
-import com.github.jsontemplate.valueproducer.IntegerNodeProducer;
-import com.github.jsontemplate.valueproducer.IpNodeProducer;
-import com.github.jsontemplate.valueproducer.Ipv6NodeProducer;
-import com.github.jsontemplate.valueproducer.RawStringNodeProducer;
-import com.github.jsontemplate.valueproducer.StringNodeProducer;
+import com.github.jsontemplate.valueproducer.*;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;

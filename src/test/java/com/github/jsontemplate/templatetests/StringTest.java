@@ -1,6 +1,7 @@
-package com.github.jsontemplate.main;
+package com.github.jsontemplate.templatetests;
 
 
+import com.github.jsontemplate.JsonTemplate;
 import com.jayway.jsonpath.DocumentContext;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
@@ -8,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static com.github.jsontemplate.test.ParserUtils.parse;
+import static com.github.jsontemplate.templatetests.ParserUtils.parse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
