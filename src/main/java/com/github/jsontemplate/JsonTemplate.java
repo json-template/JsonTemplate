@@ -47,25 +47,24 @@ import java.util.Map;
  * }<pre/>
  * You can use the following code snippet to create the expected json.
  * <pre>
- * String template = "{city:Utrecht,street:Musicallaan,number:@i(413)}"
- * String json = new JsonTemplate(template).parse().prettyString();<pre/>
+ * String template = "{city:Utrecht, street:Musicallaan, number:413}"
+ * String json = new JsonTemplate(template).prettyString();<pre/>
  * <br/>
  * If you need only a json which is schema compatible, the template can be specified as:
  * <pre>
- * String template = "{city,street,number:@i}"<pre/>
+ * String template = "{city:@s, street:@s, number:@i}"<pre/>
  *
- * <code>@i</code> refers to a value producer. You can freely extend or add value producers
- * to suit your needs.
+ * <code>@s</code>, <code>@i</code> refer to value producers.
  *
  * @see <a href="https://github.com/json-template/JsonTemplate">JsonTemplate GitHub<a/>
  */
 public class JsonTemplate {
 
-    private String defaultTypeName = "s";
+    private String defaultTypeName = SmartNodeProducer.TYPE_NAME;
     private String template;
-    private Map<String, Object> variableMap = new HashMap<>();
-    private Map<String, INodeProducer> producerMap = new HashMap<>();
-    private Map<String, JsonNode> variableNodeMap = new HashMap<>();
+    private Map<String, Object> variableMap = new HashMap<>(32);
+    private Map<String, INodeProducer> producerMap = new HashMap<>(32);
+    private Map<String, JsonNode> variableNodeMap = new HashMap<>(32);
     private JsonNode rootNode;
 
     public JsonTemplate(String template) {
@@ -78,18 +77,18 @@ public class JsonTemplate {
      * Example:
      * <pre>
      * String json = new JsonTemplate("{city:$cityVar}")
-     *                .withVar("cityVar", "Utrecht").parse().compactString();
+     *                .withVar("cityVar", "Utrecht").compactString();
      * </pre>
      * In the end, the value of json is
      * <code>{"city":"Utrecht"}</code>
      * <p/>
      * The variable can be set as a single parameter. For example,
      * <code>{city:@s($var)}</code>
-     * If var is a collection or an array with values, e.g., {"Amsterdam", "Utrecht"}.
+     * If var refers to a collection or an array, e.g., {"Amsterdam", "Utrecht"}.
      * The template is equal to the list parameter form {city:@s(Amsterdam, Utrecht)}
-     * which selects a value from the list parameter.
+     * which selects one value from the list parameter.
      * <p/>
-     * If var is a map, e.g., mapVar.put("length", 10). The template is equal to the
+     * If var refers to a map, e.g., mapVar.put("length", 10). The template is equal to the
      * map parameter form {city:@s(length=10)}.
      * <p/>
      * Otherwise, the string representation of the variable is used.
@@ -140,11 +139,51 @@ public class JsonTemplate {
         return this;
     }
 
+    /**
+     * Registers a node producer. The node producer can use a new type name and
+     * it can also overwrite a pre-installed one.
+     * <p/>
+     * The pre-installed node producers are:
+     * <ul>
+     *  <li>{@link SmartNodeProducer}</li>
+     *  <li>{@link StringNodeProducer}</li>
+     *  <li>{@link IntegerNodeProducer}</li>
+     *  <li>{@link BooleanNodeProducer}</li>
+     *  <li>{@link FloatNodeProducer}</li>
+     *  <li>{@link IpNodeProducer}</li>
+     *  <li>{@link Ipv6NodeProducer}</li>
+     *  <li>{@link Base64NodeProducer}</li>
+     *  <li>{@link RawStringNodeProducer}</li>
+     * <ul/>
+     *
+     * @param nodeProducer
+     * @return
+     */
     public JsonTemplate withNodeProducer(INodeProducer nodeProducer) {
         this.addProducer(nodeProducer);
         return this;
     }
 
+    /**
+     * Registers the default type name. If the type of a json value is not specified
+     * in the template. It searches through its parents util it finds a parent who has
+     * as default type or it reaches the root. If the default type of the root is not
+     * explicitly specified. The default type is {@link SmartNodeProducer}.
+     *
+     * Example:
+     * <pre>
+     *     { obj1: @i{fieldA}, obj2: {fieldB} }
+     * <pre/>
+     *
+     * the default type of root is not specified, by default it is @smart
+     * <br/>
+     * the default type of obj1 is specified, it is @i
+     * <br/>
+     * the default type of obj2 is not specified, it searches its parent and finds the default type @smart
+     *
+     * @param typeName
+     * @return
+     */
     public JsonTemplate withDefaultTypeName(String typeName) {
         this.defaultTypeName = typeName;
         return this;
@@ -155,9 +194,7 @@ public class JsonTemplate {
     }
 
     /**
-     * Produces json string based on the given information, such as template string,
-     * variables, and customized producers. Each execution
-     * produces a json string with different random values, if it has.
+     * Produces a compact json string.
      *
      * @return a compact json string
      */
@@ -167,6 +204,8 @@ public class JsonTemplate {
     }
 
     /**
+     * Produces a json string with identations.
+     *
      * @return a json string with identation
      * @see #compactString()
      */
@@ -178,6 +217,7 @@ public class JsonTemplate {
 
     private void initializeProducerMap() {
         INodeProducer[] producers = new INodeProducer[]{
+                new SmartNodeProducer(),
                 new StringNodeProducer(),
                 new IntegerNodeProducer(),
                 new BooleanNodeProducer(),

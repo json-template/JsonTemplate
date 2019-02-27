@@ -29,7 +29,10 @@ import java.util.stream.Collectors;
  */
 public class FloatNodeProducer extends AbstractNodeProducer<JsonFloatNode> {
 
-    private static final String TYPE_NAME = "f";
+    /**
+     * The type name used in the template, e.g. {aFloatField: @f}
+     */
+    public static final String TYPE_NAME = "f";
     private static final float ZERO = 0f;
     private static final float ONE_HUNDRED = 100f;
 

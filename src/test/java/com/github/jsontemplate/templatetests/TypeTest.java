@@ -66,7 +66,7 @@ class TypeTest {
     @Test
     void test_nestedObjectType() {
         DocumentContext document = parse(new JsonTemplate(
-                "@address : {city, street, number:@i}," +
+                "@address : {city:@s, street:@s , number:@i}," +
                         "@person : @address{office, home}," +
                         "@person[](2)"));
         assertThat(document.read("$[0].office.city", String.class), is(notNullValue()));
@@ -101,7 +101,7 @@ class TypeTest {
     @Test
     void test_objectInArrayType() {
         DocumentContext document = parse(new JsonTemplate(
-                "@methods : {name, paramCount:@i(min=0, max=5)}," +
+                "@methods : {name:@s, paramCount:@i(min=0, max=5)}," +
                         "@classes : @methods[](2)," +
                         "@classes[](2)"));
         assertThat(document.read("$.length()", Integer.class), is(2));

@@ -27,7 +27,10 @@ import java.util.Map;
  */
 public class Base64NodeProducer extends AbstractNodeProducer<JsonStringNode> {
 
-    private static final String TYPE_NAME = "base64";
+    /**
+     * The type name used in the template, e.g. {aBase64Field: @base64}
+     */
+    public static final String TYPE_NAME = "base64";
     private static final int DEFAULT_LENGTH = 12;
     private static final int THREE_BYTES = 3;
     private static final int FOUR_BASE64_CHARS = 4;

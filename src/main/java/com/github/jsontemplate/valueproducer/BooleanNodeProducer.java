@@ -27,7 +27,10 @@ import java.util.stream.Collectors;
  */
 public class BooleanNodeProducer extends AbstractNodeProducer<JsonBooleanNode> {
 
-    private static final String TYPE_NAME = "b";
+    /**
+     * The type name used in the template, e.g. {aBooleanField: @b}
+     */
+    public static final String TYPE_NAME = "b";
 
     @Override
     public String getTypeName() {

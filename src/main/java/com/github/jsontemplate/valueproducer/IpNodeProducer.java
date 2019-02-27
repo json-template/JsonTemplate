@@ -28,7 +28,10 @@ import java.util.stream.Collectors;
  */
 public class IpNodeProducer extends AbstractNodeProducer<JsonStringNode> {
 
-    private static final String TYPE_NAME = "ip";
+    /**
+     * The type name used in the template, e.g. {anIpField: @ip}
+     */
+    public static final String TYPE_NAME = "ip";
 
     private Random random = new Random();
 

@@ -29,7 +29,10 @@ import java.util.stream.Collectors;
  */
 public class IntegerNodeProducer extends AbstractNodeProducer<JsonIntegerNode> {
 
-    private static final String TYPE_NAME = "i";
+    /**
+     * The type name used in the template, e.g. {anIntegerField: @i}
+     */
+    public static final String TYPE_NAME = "i";
     private static final int ZERO = 0;
     private static final int ONE_HUNDRED = 100;
 

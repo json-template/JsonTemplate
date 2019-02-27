@@ -28,8 +28,11 @@ import java.util.stream.IntStream;
  */
 public class Ipv6NodeProducer extends AbstractNodeProducer<JsonStringNode> {
 
+    /**
+     * The type name used in the template, e.g. {anIpv6Field: @ipv6}
+     */
+    public static final String TYPE_NAME = "ipv6";
     private static final String LETTERS = "0123456789abcdef";
-    private static final String TYPE_NAME = "ipv6";
 
     private Random random = new Random();
 

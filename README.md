@@ -49,7 +49,7 @@ String template = "{" +
                   "    number : @i(413)" +
                   "  }" +
                   "}";
-String json = new JsonTemplate(template).parse().prettyString();                      
+String json = new JsonTemplate(template).prettyString();                      
 ``` 
 Does it look much cleaner?
 Suppose that you are test the format validation (pass the validation if all fields exist), 
@@ -69,7 +69,7 @@ String template = "{" +
                   "    number : @i" +
                   "  }" +
                   "}";
-String json = new JsonTemplate(template).parse().prettyString();                      
+String json = new JsonTemplate(template).prettyString();                      
 ``` 
 
 When do I need to use JsonTemplate?
@@ -467,7 +467,7 @@ If the variable has type of `Map`, it is transformed to a json object.
  ### use String.format()
  ```java
   String template = String.format("@s { a:%s, b:@s }", "valueA");
-  new JsonTemplate(tempalte).parse();
+  new JsonTemplate(tempalte).compactString();
  ```
  
 ```json

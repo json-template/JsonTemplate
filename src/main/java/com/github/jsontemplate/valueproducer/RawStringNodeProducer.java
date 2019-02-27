@@ -20,7 +20,10 @@ import com.github.jsontemplate.jsonbuild.JsonRawNode;
 
 public class RawStringNodeProducer extends AbstractNodeProducer<JsonRawNode> {
 
-    private static final String TYPE_NAME = "raw";
+    /**
+     * The type name used in the template, e.g. {aStringField: @raw}
+     */
+    public static final String TYPE_NAME = "raw";
 
     @Override
     public String getTypeName() {

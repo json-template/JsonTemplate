@@ -28,7 +28,10 @@ import java.util.Random;
  */
 public class StringNodeProducer extends AbstractNodeProducer<JsonStringNode> {
 
-    private static final String TYPE_NAME = "s";
+    /**
+     * The type name used in the template, e.g. {aStringField: @s}
+     */
+    public static final String TYPE_NAME = "s";
     private static final String ALPHABETIC = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private static final int DEFAULT_LENGTH = 5;
     private static final int DEFAULT_MIN_LENGTH = 0;
