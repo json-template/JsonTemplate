@@ -1,8 +1,8 @@
 # jsontemplate
-What is JsonTemplate?
-JsonTemplate is a tool for creating json string with a given schema.
+## What is JsonTemplate?
+JsonTemplate is a tool for creating json strings in a simpler way.
 
-What is the benefit of using JsonTemplate?
+## What can JsonTemplate do?
 Suppose that we want to create following json:
 ```json
 {
@@ -30,54 +30,46 @@ String json = "{" +
               "  }" +
               "}";
 ```
-Is your attention distracted by the slashes? Maybe you started to think about
-the second solution --- using object serializers
-Then you probably need to do the following steps:
+Or by using object serializers
 1. create object `Person`
 1. create object `Address`
 1. set each value
 1. use library such as Jackson to serialize it
 
+With JsonTemplate, you can achiev it with the following code:
 ```java
 String template = "{" +
                   "  name : John," +
-                  "  age : @i(23)," +
+                  "  age : 23," +
                   "  role : [ developer, tester ]," +
                   "  address : {" +
                   "    city : Utrecht," +
                   "    street : Musicallaan," +
-                  "    number : @i(413)" +
+                  "    number : 413" +
                   "  }" +
                   "}";
 String json = new JsonTemplate(template).prettyString();                      
 ``` 
-Does it look much cleaner?
-Suppose that you are test the format validation (pass the validation if all fields exist), 
-you don't care about the specific values or you don't want to spend effort in thinking
-the values, JsonTemplate allows you to focus on the schema of the json message. We can
-ommit the specific values in the previous example and write the template in the following
-way. Eventually, the values which are omitted will be created randomly.
+Much cleaner! No supporting classes needed.
+
+Suppose that what matters in your program is the schema instead of the specific values 
+in the json. For example, you need to test the validation logic in the controllers.
+JsonTemplate supports you to specify only the schema and generates a schema compatible
+json for you. The above example can be coded in the following way:
 
 ```java
 String template = "{" +
-                  "  name ," +
-                  "  age : @i," +
-                  "  role : [](2)," +
+                  "  name : @s," +
+                  "  age : @i(max=100)," +
+                  "  role : @s[](max=3)," +
                   "  address : {" +
-                  "    city," +
-                  "    street," +
+                  "    city : @s," +
+                  "    street : @s," +
                   "    number : @i" +
                   "  }" +
                   "}";
 String json = new JsonTemplate(template).prettyString();                      
 ``` 
-
-When do I need to use JsonTemplate?
-- you don't have message objects to be serialized
-- you don't rely on the given message objects
-- your focus is the schema instead of the values
-- you want to quickly create some dummy jsons
-Yes, JsonTemplate will help you to do your job.
 
 ## Example
 ### Value producers
@@ -111,11 +103,12 @@ Yes, JsonTemplate will help you to do your job.
 </pre></td></tr>
 </table>
 
-In JsonTemplate, **@** is the **type tag**. When it is placed at the value part,
+In JsonTemplate, **@x** is the **type name**. When it is at the value part,
 it represents a value with that type. In the above examples, `@s`, `@i`, `@b` 
 are **value producers** which produces values with types of string, integer, 
 and boolean respectively. If no parameter is given to a value producer, it generates 
-a random value by default. ?? what are the default settings.
+a random value by default.
+
 
 ### Value producers with a single parameter
 <table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
