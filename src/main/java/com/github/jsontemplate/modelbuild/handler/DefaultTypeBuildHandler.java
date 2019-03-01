@@ -32,7 +32,7 @@ public final class DefaultTypeBuildHandler implements DefaultBuildHandler {
     }
 
     @Override
-    public void handle(String valueTypeName) {
+    public JsonNode handle(String valueTypeName) {
         JsonNode jsonNode = new JsonWrapperNode();
         List<JsonWrapperNode> jsonWrapperNodes = missTypeMap.get(valueTypeName);
         if (jsonWrapperNodes == null) {
@@ -40,6 +40,7 @@ public final class DefaultTypeBuildHandler implements DefaultBuildHandler {
         } else {
             jsonWrapperNodes.add((JsonWrapperNode) jsonNode);
         }
+        return jsonNode;
     }
 
 }

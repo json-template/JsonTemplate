@@ -16,6 +16,8 @@
 
 package com.github.jsontemplate.modelbuild.handler;
 
+import com.github.jsontemplate.jsonbuild.JsonNode;
+
 public interface DefaultBuildHandler {
 
     /**
@@ -23,5 +25,5 @@ public interface DefaultBuildHandler {
      *
      * @param valueTypeName
      */
-    void handle(String valueTypeName);
+    JsonNode handle(String valueTypeName);
 }

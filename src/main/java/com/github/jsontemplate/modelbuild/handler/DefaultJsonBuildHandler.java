@@ -16,10 +16,12 @@
 
 package com.github.jsontemplate.modelbuild.handler;
 
+import com.github.jsontemplate.jsonbuild.JsonNode;
+
 public final class DefaultJsonBuildHandler implements DefaultBuildHandler {
 
     @Override
-    public void handle(String valueTypeName) {
+    public JsonNode handle(String valueTypeName) {
         throw new IllegalArgumentException("Unknown value type name " + valueTypeName);
     }
 }

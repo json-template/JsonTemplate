@@ -54,6 +54,9 @@ final class ArrayPropertyDeclaration extends BasePropertyDeclaration {
         if (jsonNode == null) {
             jsonNode = typeMap.get(this.typeSpec.getTypeName());
         }
+        if (jsonNode == null) {
+            jsonNode = defaultHandler.handle(this.typeSpec.getTypeName());
+        }
         setArrayInfo(builder.peekArrayNode(), jsonNode);
         builder.end();
     }
