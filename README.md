@@ -26,7 +26,7 @@ Suppose that we want to create the following json String,
 ```
 
 With JsonTemplate, you can do it in the following way. Compared to the typical solution,
-JsomTemplate saves you effort in reading and writing the escapted quotes "\"".
+JsomTemplate saves you effort in reading and writing the escaped quotes "\\"".
 ```java
 String template = "{" +
                   "  name : John," +
@@ -41,7 +41,7 @@ String template = "{" +
 String json = new JsonTemplate(template).prettyString();                      
 ``` 
 
-Suppose that what you need is only a schema-compatible json and you don't want to bother with the specific
+Furthermore, suppose that what you need is only a schema-compatible json and you don't want to bother with the specific
 values. This is usually the case when you test the validation logic in the controllers. 
 JsonTemplate allows you to code in the following way:
 
@@ -59,7 +59,7 @@ String template = "{" +
 String json = new JsonTemplate(template).prettyString();                      
 ``` 
 
-## Example
+## Examples
 ### Smart conversion
 <table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
 <tr><td><pre>
@@ -81,11 +81,12 @@ String json = new JsonTemplate(template).prettyString();
 </pre></td></tr>
 </table>
 JsonTemplate automatically converts a string into a json value with the type which the string
-looks like. For example, "23" looks like a number, therefore it is converted to an json numeric value.
-If this is not the intention, a specific **value producer** needs to be given, e.g. "@s(23)".  
+looks like. For example, "23" looks like a number, therefore it is converted to a json numeric value.
+
+If this is not the intention, a specific **value producer** needs to be given, e.g. `@s(23)`.  
 
 
-### Value producers without parameters
+### Value producers 
 <table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
 <tr><td><pre>
 {
@@ -99,22 +100,25 @@ If this is not the intention, a specific **value producer** needs to be given, e
 </table>
 
 In JsonTemplate, **@x** can refer to a **value producer** or a **value producer declaration** 
-(will be described later). When it is at the value part, it is a value producer.
-If the value producer (if support) is used without any parameter, it produces a random value by default.
+(will be described later). When it is at the value part, it is a value producer. 
 
-Following is the table about all the pre-installed value producers and whether they support 0 parameter.
+Following is the table about all the pre-installed value producers:
 
-| value producer | description | is 0 parameter supported |
-| ---        | ---         | --- |
-| @smart     | used for smart conversion, it is the default value producer which is implicitly used. | false, always produce null |
-| @s         | produces a string | true |
-| @i         | produces an integer | true |
-| @f         | produces a float | true |
-| @b         | produces a boolean | true |
-| @raw       | produces a raw string content | false | 
-| @ip        | produces an ip string | true |
-| @ipv6      | produces an ipv6 string | true |
-| @base64    | produces a base64 string | true |
+| value producer | description |
+| ---        | ---         |
+| @smart     | used for smart conversion, it is the default value producer which is implicitly used. |
+| @s         | produces a string |
+| @i         | produces an integer |
+| @f         | produces a float |
+| @b         | produces a boolean |
+| @raw       | produces a raw string content | 
+| @ip        | produces an ip string |
+| @ipv6      | produces an ipv6 string |
+| @base64    | produces a base64 string |
+
+//TODO
+
+
 
 ### Value producers with a single parameter
 <table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
@@ -132,17 +136,7 @@ Following is the table about all the pre-installed value producers and whether t
 If a **single parameter** is given, the value producer produces a fixed value correspondingly by default.
 Following is the table about whether pre-installed producers support a single parameter.
 
-| value producer | is single parameter supported |
-| ---        | ---         |
-| @smart     | true | 
-| @s         | true | 
-| @i         | true |
-| @f         | true | 
-| @b         | true |
-| @raw       | true | 
-| @ip        | false |
-| @ipv6      | false |
-| @base64    | false |  
+
 
 ### Value producers with a list parameter
 <table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
@@ -195,6 +189,30 @@ Following is the table about whether pre-installed producers support a list para
 
 If a **map parameter** is given, the value producer produces a value according to the map values. 
 Following is the table about whether pre-installed producers support a list parameter.
+
+| value producer | is single parameter supported |
+| ---        | ---         |
+| @smart     | true | 
+| @s         | true | 
+| @i         | true |
+| @f         | true | 
+| @b         | true |
+| @raw       | true | 
+| @ip        | false |
+| @ipv6      | false |
+| @base64    | false |  
+
+| producer |  none | single | list | map |
+| ---      | ---             | --- | --- | --- |
+| @smart   |        |false, always produce null |
+| @s       | [x] | produces a string | true |
+| @i       | [x] | true |
+| @f       | [x] | true |
+| @b       | [x] | true |
+| @raw     |  | false | 
+| @ip      | [x] | true |
+| @ipv6    | [x] | true |
+| @base64  | [x] | true |
 
 | value producer | is map parameter supported | allowed parameters
 | ---        | ---         | --- |
