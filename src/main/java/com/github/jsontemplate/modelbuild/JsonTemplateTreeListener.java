@@ -50,7 +50,7 @@ public final class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListene
     @Override
     public void exitTemplatePart(JsonTemplateAntlrParser.TemplatePartContext ctx) {
         BasePropertyDeclaration peek = curStack.peek();
-        if (curStack.peekFirst().isTypeDefinition()) {
+        if (curStack.peekLast().isTypeDefinition()) {
             typeDefinitionList.add(peek);
         } else {
             if (jsonRoot == null) {
