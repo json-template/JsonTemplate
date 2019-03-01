@@ -20,7 +20,9 @@ import com.github.jsontemplate.JsonTemplate;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 
-public class ParserUtils {
+public class TestUtils {
+
+    public final static int REPEATED_COUNT = 1;
 
     public static DocumentContext parse(JsonTemplate jsonTemplate) {
         String json = jsonTemplate.prettyString();
@@ -33,5 +35,6 @@ public class ParserUtils {
         System.out.println(template);
         System.out.println("===== Generated Json =====");
         System.out.println(generatedJson);
+        System.out.println();
     }
 }

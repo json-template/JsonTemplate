@@ -4,7 +4,7 @@ import com.github.jsontemplate.JsonTemplate;
 import com.jayway.jsonpath.DocumentContext;
 import org.junit.jupiter.api.Test;
 
-import static com.github.jsontemplate.templatetests.ParserUtils.parse;
+import static com.github.jsontemplate.templatetests.TestUtils.parse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -86,9 +86,7 @@ class TypeTest {
     @Test
     void test_nestedArrayType() {
         DocumentContext document = parse(new JsonTemplate(
-                "@methods : [](3)," +
-                        "@classes : @methods[](2)," +
-                        "@classes[](2)"));
+                        "@classes[](2), @classes:@methods[](2), @methods:@s[](3)"));
         assertThat(document.read("$.length()", Integer.class), is(2));
         assertThat(document.read("$[0].length()", Integer.class), is(2));
         assertThat(document.read("$[0].[0].length()", Integer.class), is(3));

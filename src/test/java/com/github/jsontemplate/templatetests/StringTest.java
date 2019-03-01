@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static com.github.jsontemplate.templatetests.ParserUtils.parse;
+import static com.github.jsontemplate.templatetests.TestUtils.parse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -40,13 +40,13 @@ class StringTest {
         assertThat(document.read("$.aField", String.class), is(nullValue()));
     }
 
-    @RepeatedTest(20)
+    @RepeatedTest(TestUtils.REPEATED_COUNT)
     void test_enumeratedStringField() {
         DocumentContext document = parse(new JsonTemplate("{aField : @s(A, B, C, D)}"));
         assertThat(document.read("$.aField", String.class), isIn(new String[]{"A", "B", "C", "D"}));
     }
 
-    @RepeatedTest(20)
+    @RepeatedTest(TestUtils.REPEATED_COUNT)
     void test_enumeratedStringFieldWithLiteralNull() {
         DocumentContext document = parse(new JsonTemplate("{aField : @s(A, B, C, null)}"));
         assertThat(document.read("$.aField", String.class), isIn(new String[]{"A", "B", "C", "null"}));
@@ -64,7 +64,7 @@ class StringTest {
                 () -> parse(new JsonTemplate("{aField : @s(length=-10)}")));
     }
 
-    @RepeatedTest(20)
+    @RepeatedTest(TestUtils.REPEATED_COUNT)
     void test_minParamStringField() {
         DocumentContext document = parse(new JsonTemplate("{aField : @s(min=11)}"));
         assertThat(document.read("$.aField", String.class).length(), greaterThanOrEqualTo(11));
@@ -76,7 +76,7 @@ class StringTest {
                 () -> parse(new JsonTemplate("{aField : @s(min=-1)}")));
     }
 
-    @RepeatedTest(20)
+    @RepeatedTest(TestUtils.REPEATED_COUNT)
     void test_minMaxParamStringField() {
         DocumentContext document = parse(new JsonTemplate("{aField : @s(min=10, max=20)}"));
         assertThat(document.read("$.aField", String.class).length(), allOf(

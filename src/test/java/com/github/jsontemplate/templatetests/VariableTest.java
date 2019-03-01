@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.github.jsontemplate.templatetests.ParserUtils.parse;
+import static com.github.jsontemplate.templatetests.TestUtils.parse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -102,7 +102,7 @@ class VariableTest {
         assertThrows(NumberFormatException.class, () -> parse(jsonTemplate));
     }
 
-    @RepeatedTest(20)
+    @RepeatedTest(TestUtils.REPEATED_COUNT)
     void test_arrayInSingleParam() {
         String[] value = new String[]{"A", "B", "C", "D"};
         JsonTemplate jsonTemplate = new JsonTemplate("{aField: @s($myValue)}").withVar("myValue", value);
@@ -110,7 +110,7 @@ class VariableTest {
         assertThat(document.read("$.aField", String.class), isIn(value));
     }
 
-    @RepeatedTest(20)
+    @RepeatedTest(TestUtils.REPEATED_COUNT)
     void test_listInSingleParam() {
         List<String> value = Arrays.asList("A", "B", "C", "D");
         JsonTemplate jsonTemplate = new JsonTemplate("{aField: @s($myValue)}").withVar("myValue", value);
@@ -118,7 +118,7 @@ class VariableTest {
         assertThat(document.read("$.aField", String.class), isIn(value));
     }
 
-    @RepeatedTest(20)
+    @RepeatedTest(TestUtils.REPEATED_COUNT)
     void test_multipleVarsInMapParam() {
         JsonTemplate jsonTemplate = new JsonTemplate("{aField: @s(min=$min,max=$max)}")
                 .withVar("min", 10)
@@ -128,7 +128,7 @@ class VariableTest {
                 is(both(greaterThanOrEqualTo(10)).and(lessThanOrEqualTo(20))));
     }
 
-    @RepeatedTest(20)
+    @RepeatedTest(TestUtils.REPEATED_COUNT)
     void test_varsMapInMapParam() {
         Map<String, Object> values = new HashMap<>();
         values.put("min", 10);
@@ -140,7 +140,7 @@ class VariableTest {
                 is(both(greaterThanOrEqualTo(10)).and(lessThanOrEqualTo(20))));
     }
 
-    @RepeatedTest(20)
+    @RepeatedTest(TestUtils.REPEATED_COUNT)
     void test_mapInSingleParam() {
         Map<String, Object> value = new HashMap<>();
         value.put("min", 10);

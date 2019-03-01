@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static com.github.jsontemplate.templatetests.ParserUtils.parse;
+import static com.github.jsontemplate.templatetests.TestUtils.parse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -34,32 +34,32 @@ class FloatTest {
         assertThat(document.read("$.aField", Float.class), isIn(new Float[]{1.2f, 2.34f, 4.567f, 5.7f}));
     }
 
-    @RepeatedTest(20)
+    @RepeatedTest(TestUtils.REPEATED_COUNT)
     void test_minParamFloatField() {
         DocumentContext document = parse(new JsonTemplate("{aField : @f(min=11.22)}"));
         assertThat(document.read("$.aField", Float.class), greaterThanOrEqualTo(11.22f));
     }
 
-    @RepeatedTest(20)
+    @RepeatedTest(TestUtils.REPEATED_COUNT)
     void test_negativeMinParamFloatField() {
         DocumentContext document = parse(new JsonTemplate("{aField : @f(min=-11.22)}"));
         assertThat(document.read("$.aField", Float.class), greaterThanOrEqualTo(-11.22f));
     }
 
-    @RepeatedTest(20)
+    @RepeatedTest(TestUtils.REPEATED_COUNT)
     void test_negativeMaxParamFloatField() {
         DocumentContext document = parse(new JsonTemplate("{aField : @f(max=-11.22)}"));
         assertThat(document.read("$.aField", Float.class), lessThanOrEqualTo(-11.22f));
     }
 
-    @RepeatedTest(20)
+    @RepeatedTest(TestUtils.REPEATED_COUNT)
     void test_minMaxParamFloatFieldPositive() {
         DocumentContext document = parse(new JsonTemplate("{aField : @f(min=11.22, max=22.33)}"));
         assertThat(document.read("$.aField", Float.class), allOf(
                 greaterThanOrEqualTo(11.22f), lessThanOrEqualTo(22.33f)));
     }
 
-    @RepeatedTest(20)
+    @RepeatedTest(TestUtils.REPEATED_COUNT)
     void test_minMaxParamFloatFieldNegative() {
         DocumentContext document = parse(new JsonTemplate("{aField : @f(min=-22.11, max=-11.33)}"));
         assertThat(document.read("$.aField", Float.class), allOf(
