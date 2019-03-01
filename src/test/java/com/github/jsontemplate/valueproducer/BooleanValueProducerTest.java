@@ -12,12 +12,12 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isIn;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class BooleanNodeProducerTest {
+class BooleanValueProducerTest {
 
     private static final String STRING_TRUE = Boolean.TRUE.toString();
     private static final String STRING_FALSE = Boolean.FALSE.toString();
     private static final List<String> BOOLEAN_STRING_LIST = Arrays.asList(STRING_TRUE, STRING_FALSE);
-    private BooleanNodeProducer producer = new BooleanNodeProducer();
+    private BooleanValueProducer producer = new BooleanValueProducer();
 
     @Test
     @DisplayName("generates a random boolean string")

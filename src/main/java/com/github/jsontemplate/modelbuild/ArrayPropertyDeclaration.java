@@ -19,7 +19,7 @@ package com.github.jsontemplate.modelbuild;
 import com.github.jsontemplate.jsonbuild.JsonBuilder;
 import com.github.jsontemplate.jsonbuild.JsonNode;
 import com.github.jsontemplate.modelbuild.handler.DefaultBuildHandler;
-import com.github.jsontemplate.valueproducer.INodeProducer;
+import com.github.jsontemplate.valueproducer.IValueProducer;
 
 import java.util.Map;
 
@@ -30,7 +30,7 @@ final class ArrayPropertyDeclaration extends BasePropertyDeclaration {
     }
 
     @Override
-    public void buildJsonTemplate(JsonBuilder builder, Map<String, INodeProducer> producerMap,
+    public void buildJsonTemplate(JsonBuilder builder, Map<String, IValueProducer> producerMap,
                                   Map<String, JsonNode> typeMap,
                                   Map<String, JsonNode> variableMap, String defaultTypeName,
                                   DefaultBuildHandler defaultHandler) {

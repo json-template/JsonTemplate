@@ -18,7 +18,7 @@ package com.github.jsontemplate.modelbuild;
 
 import com.github.jsontemplate.jsonbuild.*;
 import com.github.jsontemplate.modelbuild.handler.DefaultBuildHandler;
-import com.github.jsontemplate.valueproducer.INodeProducer;
+import com.github.jsontemplate.valueproducer.IValueProducer;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -88,7 +88,7 @@ public class BasePropertyDeclaration {
     }
 
     public void buildJsonTemplate(JsonBuilder builder,
-                                  Map<String, INodeProducer> producerMap,
+                                  Map<String, IValueProducer> producerMap,
                                   Map<String, JsonNode> typeMap,
                                   Map<String, JsonNode> variableMap,
                                   String defaultTypeName,
@@ -152,9 +152,9 @@ public class BasePropertyDeclaration {
         return defaultTypeSpec;
     }
 
-    protected JsonNode buildNodeFromProducer(Map<String, INodeProducer> producerMap) {
+    protected JsonNode buildNodeFromProducer(Map<String, IValueProducer> producerMap) {
         JsonNode jsonNode = null;
-        INodeProducer producer = producerMap.get(this.typeSpec.getTypeName());
+        IValueProducer producer = producerMap.get(this.typeSpec.getTypeName());
         if (producer != null) {
             if (typeSpec.getSingleParam() != null) {
                 jsonNode = producer.produce(typeSpec.getSingleParam());
@@ -169,7 +169,7 @@ public class BasePropertyDeclaration {
         return jsonNode;
     }
 
-    protected void handleComposite(JsonBuilder builder, Map<String, INodeProducer> producerMap, Map<String, JsonNode> typeMap, Map<String, List<JsonWrapperNode>> missTypeMap, Map<String, JsonNode> variableMap) {
+    protected void handleComposite(JsonBuilder builder, Map<String, IValueProducer> producerMap, Map<String, JsonNode> typeMap, Map<String, List<JsonWrapperNode>> missTypeMap, Map<String, JsonNode> variableMap) {
         throw new UnsupportedOperationException("Unexpected operation in simple property.");
     }
 
@@ -186,7 +186,7 @@ public class BasePropertyDeclaration {
         }
     }
 
-    protected void buildChildrenJsonTemplate(JsonBuilder builder, Map<String, INodeProducer> producerMap,
+    protected void buildChildrenJsonTemplate(JsonBuilder builder, Map<String, IValueProducer> producerMap,
                                              Map<String, JsonNode> typeMap,
                                              Map<String, JsonNode> variableMap, String defaultTypeName,
                                              DefaultBuildHandler defaultHandler) {

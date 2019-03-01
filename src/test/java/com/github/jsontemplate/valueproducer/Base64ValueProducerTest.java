@@ -11,9 +11,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class Base64NodeProducerTest {
+class Base64ValueProducerTest {
 
-    private Base64NodeProducer producer = new Base64NodeProducer();
+    private Base64ValueProducer producer = new Base64ValueProducer();
 
     @Test
     @DisplayName("generate a random base64 string")

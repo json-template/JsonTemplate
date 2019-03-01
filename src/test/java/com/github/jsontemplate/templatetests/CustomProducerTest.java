@@ -2,8 +2,8 @@ package com.github.jsontemplate.templatetests;
 
 import com.github.jsontemplate.JsonTemplate;
 import com.github.jsontemplate.jsonbuild.JsonStringNode;
-import com.github.jsontemplate.valueproducer.INodeProducer;
-import com.github.jsontemplate.valueproducer.StringNodeProducer;
+import com.github.jsontemplate.valueproducer.IValueProducer;
+import com.github.jsontemplate.valueproducer.StringValueProducer;
 import com.jayway.jsonpath.DocumentContext;
 import org.junit.jupiter.api.Test;
 
@@ -19,19 +19,19 @@ public class CustomProducerTest {
 
     @Test
     public void testWithNewProducer() {
-        JsonTemplate jsonTemplate = new JsonTemplate("{balance:@euro(20)}").withNodeProducer(new EuroProducer());
+        JsonTemplate jsonTemplate = new JsonTemplate("{balance:@euro(20)}").withValueProducer(new EuroProducer());
         DocumentContext document = parse(jsonTemplate);
         assertThat(document.read("$.balance", String.class), is("€20"));
     }
 
     @Test
     public void testWithExtendedProducer() {
-        JsonTemplate jsonTemplate = new JsonTemplate("{ref:@s(GOF)}").withNodeProducer(new MyStringNodeProducer());
+        JsonTemplate jsonTemplate = new JsonTemplate("{ref:@s(GOF)}").withValueProducer(new MyStringValueProducer());
         DocumentContext document = parse(jsonTemplate);
         assertThat(document.read("$.ref", String.class), is("[GOF]"));
     }
 
-    private static class MyStringNodeProducer extends StringNodeProducer {
+    private static class MyStringValueProducer extends StringValueProducer {
 
         @Override
         public JsonStringNode produce(String value) {
@@ -39,7 +39,7 @@ public class CustomProducerTest {
         }
     }
 
-    private static class EuroProducer implements INodeProducer<JsonStringNode> {
+    private static class EuroProducer implements IValueProducer<JsonStringNode> {
 
         @Override
         public String getTypeName() {

@@ -23,7 +23,7 @@ import com.github.jsontemplate.jsonbuild.JsonRawNode;
  * of the given string without quotes. This is suitable for embedding
  * another json string.
  */
-public class RawStringNodeProducer extends AbstractNodeProducer<JsonRawNode> {
+public class RawStringValueProducer extends AbstractValueProducer<JsonRawNode> {
 
     /**
      * The type name used in the template, e.g. {aStringField: @raw}

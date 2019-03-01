@@ -25,7 +25,7 @@ import java.util.Map;
  * This class produces a {@link JsonStringNode} which can generate an
  * base64 string.
  */
-public class Base64NodeProducer extends AbstractNodeProducer<JsonStringNode> {
+public class Base64ValueProducer extends AbstractValueProducer<JsonStringNode> {
 
     /**
      * The type name used in the template, e.g. {aBase64Field: @base64}
@@ -90,7 +90,7 @@ public class Base64NodeProducer extends AbstractNodeProducer<JsonStringNode> {
         if (outputLength % FOUR_BASE64_CHARS != 0) {
             originalLength += 1;
         }
-        String originalString = new StringNodeProducer().produceString(originalLength);
+        String originalString = new StringValueProducer().produceString(originalLength);
         return Base64.getEncoder().encodeToString(originalString.getBytes());
     }
 

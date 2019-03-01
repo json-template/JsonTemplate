@@ -34,7 +34,7 @@ import java.util.Map;
  *
  * @param <T> the type of json node expected to be produced
  */
-public interface INodeProducer<T extends JsonNode> {
+public interface IValueProducer<T extends JsonNode> {
 
     /**
      * Returns the type name used in the template.

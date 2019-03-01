@@ -40,7 +40,7 @@ import com.github.jsontemplate.jsonbuild.*;
  * <br/>
  * {name : @smart} will result in {name : null}
  */
-public class SmartNodeProducer extends AbstractNodeProducer<JsonNode> {
+public class SmartValueProducer extends AbstractValueProducer<JsonNode> {
 
     /**
      * The type name used in the template, e.g. @smart{ name: John}

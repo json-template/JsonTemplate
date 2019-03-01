@@ -1,7 +1,7 @@
 package com.github.jsontemplate.templatetests;
 
 import com.github.jsontemplate.JsonTemplate;
-import com.github.jsontemplate.valueproducer.IntegerNodeProducer;
+import com.github.jsontemplate.valueproducer.IntegerValueProducer;
 import com.jayway.jsonpath.DocumentContext;
 import org.junit.jupiter.api.Test;
 
@@ -71,7 +71,7 @@ class DefaultTypeTest {
     @Test
     void test_changeDefaultType() {
         JsonTemplate jsonTemplate = new JsonTemplate("{aField,bField}")
-                .withDefaultTypeName(IntegerNodeProducer.TYPE_NAME);
+                .withDefaultTypeName(IntegerValueProducer.TYPE_NAME);
         DocumentContext document = parse(jsonTemplate);
         assertThat(document.read("$.aField", Integer.class), is(notNullValue()));
         assertThat(document.read("$.bField", Integer.class), is(notNullValue()));

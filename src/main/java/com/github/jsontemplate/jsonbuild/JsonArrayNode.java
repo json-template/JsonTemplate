@@ -16,7 +16,7 @@
 
 package com.github.jsontemplate.jsonbuild;
 
-import com.github.jsontemplate.valueproducer.INodeProducer;
+import com.github.jsontemplate.valueproducer.IValueProducer;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -28,7 +28,7 @@ public final class JsonArrayNode implements JsonNode {
 
     private List<JsonNode> children = new LinkedList<>();
     private JsonNode defaultNode;
-    private INodeProducer defaultNodeProducer;
+    private IValueProducer defaultValueProducer;
     private Integer size;
     private Integer max;
     private Integer min;
@@ -70,8 +70,8 @@ public final class JsonArrayNode implements JsonNode {
         children.add(jsonNode);
     }
 
-    public INodeProducer getDefaultType() {
-        return defaultNodeProducer;
+    public IValueProducer getDefaultType() {
+        return defaultValueProducer;
     }
 
     /**
@@ -187,9 +187,9 @@ public final class JsonArrayNode implements JsonNode {
                 for (int i = 0; i < amount; i++) {
                     list.add(defaultNode);
                 }
-            } else if (defaultNodeProducer != null) {
+            } else if (defaultValueProducer != null) {
                 for (int i = 0; i < amount; i++) {
-                    list.add(defaultNodeProducer.produce());
+                    list.add(defaultValueProducer.produce());
                 }
             }
             return list;

@@ -26,7 +26,7 @@ import java.util.stream.IntStream;
  * This class produces a {@link JsonStringNode} which can generate an
  * ip string.
  */
-public class Ipv6NodeProducer extends AbstractNodeProducer<JsonStringNode> {
+public class Ipv6ValueProducer extends AbstractValueProducer<JsonStringNode> {
 
     /**
      * The type name used in the template, e.g. {anIpv6Field: @ipv6}

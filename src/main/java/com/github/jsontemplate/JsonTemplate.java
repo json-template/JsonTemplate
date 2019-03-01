@@ -60,10 +60,10 @@ import java.util.Map;
  */
 public class JsonTemplate {
 
-    private String defaultTypeName = SmartNodeProducer.TYPE_NAME;
+    private String defaultTypeName = SmartValueProducer.TYPE_NAME;
     private String template;
     private Map<String, Object> variableMap = new HashMap<>(32);
-    private Map<String, INodeProducer> producerMap = new HashMap<>(32);
+    private Map<String, IValueProducer> producerMap = new HashMap<>(32);
     private Map<String, JsonNode> variableNodeMap = new HashMap<>(32);
     private JsonNode rootNode;
 
@@ -145,22 +145,22 @@ public class JsonTemplate {
      * <p/>
      * The pre-installed node producers are:
      * <ul>
-     * <li>{@link SmartNodeProducer}</li>
-     * <li>{@link StringNodeProducer}</li>
-     * <li>{@link IntegerNodeProducer}</li>
-     * <li>{@link BooleanNodeProducer}</li>
-     * <li>{@link FloatNodeProducer}</li>
-     * <li>{@link IpNodeProducer}</li>
-     * <li>{@link Ipv6NodeProducer}</li>
-     * <li>{@link Base64NodeProducer}</li>
-     * <li>{@link RawStringNodeProducer}</li>
+     * <li>{@link SmartValueProducer}</li>
+     * <li>{@link StringValueProducer}</li>
+     * <li>{@link IntegerValueProducer}</li>
+     * <li>{@link BooleanValueProducer}</li>
+     * <li>{@link FloatValueProducer}</li>
+     * <li>{@link IpValueProducer}</li>
+     * <li>{@link Ipv6ValueProducer}</li>
+     * <li>{@link Base64ValueProducer}</li>
+     * <li>{@link RawStringValueProducer}</li>
      * <ul/>
      *
-     * @param nodeProducer
+     * @param valueProducer
      * @return
      */
-    public JsonTemplate withNodeProducer(INodeProducer nodeProducer) {
-        this.addProducer(nodeProducer);
+    public JsonTemplate withValueProducer(IValueProducer valueProducer) {
+        this.addProducer(valueProducer);
         return this;
     }
 
@@ -168,7 +168,7 @@ public class JsonTemplate {
      * Registers the default type name. If the type of a json value is not specified
      * in the template. It searches through its parents util it finds a parent who has
      * as default type or it reaches the root. If the default type of the root is not
-     * explicitly specified. The default type is {@link SmartNodeProducer}.
+     * explicitly specified. The default type is {@link SmartValueProducer}.
      * <p>
      * Example:
      * <pre>
@@ -221,22 +221,22 @@ public class JsonTemplate {
 
 
     private void initializeProducerMap() {
-        INodeProducer[] producers = new INodeProducer[]{
-                new SmartNodeProducer(),
-                new StringNodeProducer(),
-                new IntegerNodeProducer(),
-                new BooleanNodeProducer(),
-                new FloatNodeProducer(),
-                new IpNodeProducer(),
-                new Ipv6NodeProducer(),
-                new Base64NodeProducer(),
-                new RawStringNodeProducer()
+        IValueProducer[] producers = new IValueProducer[]{
+                new SmartValueProducer(),
+                new StringValueProducer(),
+                new IntegerValueProducer(),
+                new BooleanValueProducer(),
+                new FloatValueProducer(),
+                new IpValueProducer(),
+                new Ipv6ValueProducer(),
+                new Base64ValueProducer(),
+                new RawStringValueProducer()
         };
 
         Arrays.stream(producers).forEach(this::addProducer);
     }
 
-    private void addProducer(INodeProducer producer) {
+    private void addProducer(IValueProducer producer) {
         producerMap.put(producer.getTypeName(), producer);
     }
 

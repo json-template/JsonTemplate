@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 /**
  * This class produces a {@link JsonBooleanNode JsonBooleanNode} which can generate json boolean value.
  */
-public class BooleanNodeProducer extends AbstractNodeProducer<JsonBooleanNode> {
+public class BooleanValueProducer extends AbstractValueProducer<JsonBooleanNode> {
 
     /**
      * The type name used in the template, e.g. {aBooleanField: @b}

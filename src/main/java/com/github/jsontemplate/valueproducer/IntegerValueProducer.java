@@ -16,7 +16,7 @@
 
 package com.github.jsontemplate.valueproducer;
 
-import com.github.jsontemplate.jsonbuild.JsonFloatNode;
+import com.github.jsontemplate.jsonbuild.JsonIntegerNode;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,15 +25,16 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
- * This class produces a {@link JsonFloatNode JsonFloatNode} which can generate json numeric(float) value.
+ * This class produces a {@link JsonIntegerNode JsonIntegerNode} which can generate json numeric(integer) value.
  */
-public class FloatNodeProducer extends AbstractNodeProducer<JsonFloatNode> {
+public class IntegerValueProducer extends AbstractValueProducer<JsonIntegerNode> {
 
     /**
-     * The type name used in the template, e.g. {aFloatField: @f}
+     * The type name used in the template, e.g. {anIntegerField: @i}
      */
-    public static final String TYPE_NAME = "f";
-    private static final float ONE_HUNDRED = 100f;
+    public static final String TYPE_NAME = "i";
+    private static final int ZERO = 0;
+    private static final int ONE_HUNDRED = 100;
 
     @Override
     public String getTypeName() {
@@ -41,56 +42,56 @@ public class FloatNodeProducer extends AbstractNodeProducer<JsonFloatNode> {
     }
 
     /**
-     * Produces a node which can generate a random float.
+     * Produces a node which can generate a random integer.
      * The range of the integer is obtained from
-     * {@link #getDefaultRange()}
+     * {@link #getDefaultMin() getDefaultMin()} and {@link #getDefaultMax() getDefaultMax()}
      * By default, the range is 0 to 100.
      *
-     * @return produced JsonFloatNode
+     * @return produced JsonIntegerNode
      */
     @Override
-    public JsonFloatNode produce() {
-        return new JsonFloatNode(() -> new Random().nextFloat() * getDefaultRange());
+    public JsonIntegerNode produce() {
+        return new JsonIntegerNode(() -> randomIntInRange(getDefaultMin(), getDefaultMax()));
     }
 
     /**
-     * Produces a node which can generate a fixed float.
+     * Produces a node which can generate a fixed integer.
      *
-     * @param value the string representation of the float
+     * @param value the string representation of the integer
      * @return
      */
     @Override
-    public JsonFloatNode produce(String value) {
-        float parsedFloat = Float.parseFloat(value);
-        return new JsonFloatNode(() -> parsedFloat);
+    public JsonIntegerNode produce(String value) {
+        int parsedInt = Integer.parseInt(value);
+        return new JsonIntegerNode(() -> parsedInt);
     }
 
     /**
      * Produces a node which selects a string in a list.
-     * The selected string is parsed to an float.
+     * The selected string is parsed to an integer.
      *
      * @param valueList the enumerated string values
      * @return
      */
     @Override
-    public JsonFloatNode produce(List<String> valueList) {
-        List<Float> parsedValueList = valueList.stream().map(Float::parseFloat).collect(Collectors.toList());
-        return new JsonFloatNode(() -> parsedValueList.get(new Random().nextInt(parsedValueList.size())));
+    public JsonIntegerNode produce(List<String> valueList) {
+        List<Integer> parsedValueList = valueList.stream().map(Integer::parseInt).collect(Collectors.toList());
+        return new JsonIntegerNode(() -> parsedValueList.get(new Random().nextInt(parsedValueList.size())));
     }
 
     /**
-     * Produces a node which generates an float based on a configuration.
+     * Produces a node which generates an integer based on a configuration.
      * <br/>
      * Following parameters are currently supported:
      * <ul>
      * <li>min - the minimal value of the generated integer,
      * if the maximal value is not given, it is returned from
-     * {@link #getDefaultMax(float) getDefaultMax(float)} which is 2 times
+     * {@link #getDefaultMax(int) getDefaultMax(int)} which is 2 times
      * greater than the minimal length.
      * </li>
      * <li>max - the maximal length of the generated string,
      * if the minimal value is not given, it is returned from
-     * {@link #getDefaultMin(float) getDefaultMin(float)} which is 0
+     * {@link #getDefaultMin(int) getDefaultMin(int)} which is 0
      * </li>
      * <ul/>
      *
@@ -98,24 +99,42 @@ public class FloatNodeProducer extends AbstractNodeProducer<JsonFloatNode> {
      * @return
      */
     @Override
-    public JsonFloatNode produce(Map<String, String> paramMap) {
+    public JsonIntegerNode produce(Map<String, String> paramMap) {
         Map<String, String> copyParamMap = new HashMap<>(paramMap);
 
-        Float min = pickFloatParam(copyParamMap, "min");
-        Float max = pickFloatParam(copyParamMap, "max");
+        Integer min = pickIntegerParam(copyParamMap, "min");
+        Integer max = pickIntegerParam(copyParamMap, "max");
 
         validateParamMap(copyParamMap);
 
         if (min != null && max != null) {
             shouldBeInAscOrder(min, max, "min", "max");
-            return new JsonFloatNode(() -> randomFloatInRange(min, max));
+            return new JsonIntegerNode(() -> randomIntInRange(min, max));
         } else if (min != null) {
-            return new JsonFloatNode(() -> randomFloatInRange(min, getDefaultMax(min)));
+            return new JsonIntegerNode(() -> randomIntInRange(min, getDefaultMax(min)));
         } else if (max != null) {
-            return new JsonFloatNode(() -> randomFloatInRange(getDefaultMin(max), max));
+            return new JsonIntegerNode(() -> randomIntInRange(getDefaultMin(max), max));
         } else {
             return produce();
         }
+    }
+
+    /**
+     * Returns the default maximal bound of the default range.
+     *
+     * @return
+     */
+    protected int getDefaultMax() {
+        return ONE_HUNDRED;
+    }
+
+    /**
+     * Returns the default mininal bound of the default range.
+     *
+     * @return
+     */
+    protected int getDefaultMin() {
+        return ZERO;
     }
 
     /**
@@ -125,7 +144,7 @@ public class FloatNodeProducer extends AbstractNodeProducer<JsonFloatNode> {
      * @param min the specified minimal bound
      * @return maximal bound based on the given minimal bound
      */
-    protected float getDefaultMax(float min) {
+    protected int getDefaultMax(int min) {
         return min + ONE_HUNDRED;
     }
 
@@ -136,16 +155,8 @@ public class FloatNodeProducer extends AbstractNodeProducer<JsonFloatNode> {
      * @param max the specified maximal bound
      * @return minimal bound based on the given maximal bound
      */
-    protected float getDefaultMin(float max) {
+    protected int getDefaultMin(int max) {
         return max - ONE_HUNDRED;
     }
 
-    /**
-     * Returns the default maximal bound of the default range.
-     *
-     * @return
-     */
-    protected float getDefaultRange() {
-        return ONE_HUNDRED;
-    }
 }

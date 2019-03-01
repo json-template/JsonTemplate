@@ -26,7 +26,7 @@ import java.util.Random;
 /**
  * This class produces a {@link JsonStringNode JsonStringNode} which can generate json string value.
  */
-public class StringNodeProducer extends AbstractNodeProducer<JsonStringNode> {
+public class StringValueProducer extends AbstractValueProducer<JsonStringNode> {
 
     /**
      * The type name used in the template, e.g. {aStringField: @s}

@@ -13,9 +13,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class IntegerNodeProducerTest {
+class IntegerValueProducerTest {
 
-    private IntegerNodeProducer producer = new IntegerNodeProducer();
+    private IntegerValueProducer producer = new IntegerValueProducer();
     private int defaultMin = 0;
     private int defaultMax = 100;
 

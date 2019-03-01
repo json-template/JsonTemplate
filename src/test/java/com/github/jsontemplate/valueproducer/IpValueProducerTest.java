@@ -10,12 +10,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class IpNodeProducerTest {
+class IpValueProducerTest {
 
     private static final String ipv4Pattern = "(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])";
     private static Pattern VALID_IPV4_PATTERN = Pattern.compile(ipv4Pattern, Pattern.CASE_INSENSITIVE);
 
-    private IpNodeProducer producer = new IpNodeProducer();
+    private IpValueProducer producer = new IpValueProducer();
 
     @Test
     @DisplayName("generates a random ipv4 string")
