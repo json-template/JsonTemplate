@@ -19,7 +19,7 @@ package com.github.jsontemplate.modelbuild.handler;
 import com.github.jsontemplate.jsonbuild.JsonNode;
 import com.github.jsontemplate.jsonbuild.JsonWrapperNode;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,12 +33,14 @@ public final class DefaultTypeBuildHandler implements DefaultBuildHandler {
 
     @Override
     public JsonNode handle(String valueTypeName) {
-        JsonNode jsonNode = new JsonWrapperNode();
+        JsonWrapperNode jsonNode = new JsonWrapperNode();
         List<JsonWrapperNode> jsonWrapperNodes = missTypeMap.get(valueTypeName);
         if (jsonWrapperNodes == null) {
-            missTypeMap.put(valueTypeName, Arrays.asList((JsonWrapperNode) jsonNode));
+            List<JsonWrapperNode> wrapperNodes = new ArrayList<>();
+            wrapperNodes.add(jsonNode);
+            missTypeMap.put(valueTypeName, wrapperNodes);
         } else {
-            jsonWrapperNodes.add((JsonWrapperNode) jsonNode);
+            jsonWrapperNodes.add(jsonNode);
         }
         return jsonNode;
     }
