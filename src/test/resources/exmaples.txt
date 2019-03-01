@@ -1,0 +1,960 @@
+===== Template =====
+{ipField : @ip}
+===== Generated Json =====
+{
+  "ipField" : "218.78.236.115"
+}
+
+===== Template =====
+{ipv6Field : @ipv6}
+===== Generated Json =====
+{
+  "ipv6Field" : "4fbe:9b12:1699:2a61:303c:5a85:0a37:6b83"
+}
+
+===== Template =====
+{base64Field : @base64}
+===== Generated Json =====
+{
+  "base64Field" : "YnVYd294aFdF"
+}
+
+===== Template =====
+{anArray : @s[](min=1, max=10)}
+===== Generated Json =====
+{
+  "anArray" : [
+    "RFDSa",
+    "pDCLB",
+    "hOpxo",
+    "EexNn",
+    "CUVyY",
+    "VqRrb",
+    "UJTMZ",
+    "QsNKB",
+    "IoqaO"
+  ]
+}
+
+===== Template =====
+{anArray : @s[](3)}
+===== Generated Json =====
+{
+  "anArray" : [
+    "sUSBA",
+    "oxXEd",
+    "ioViq"
+  ]
+}
+
+===== Template =====
+[{aField:@s}]
+===== Generated Json =====
+[
+  {
+    "aField" : "xucZB"
+  }
+]
+
+===== Template =====
+{anArray : @s[](1, 10)}
+===== Generated Json =====
+{
+  "anArray" : [
+    "sRaqC"
+  ]
+}
+
+===== Template =====
+@s[](min=1, max=10)
+===== Generated Json =====
+[
+  "jlNLk",
+  "ONrlb",
+  "strWz",
+  "tCqAH",
+  "GxEZf",
+  "BcvYq",
+  "mwuGm",
+  "zPrSX",
+  "xvoTx"
+]
+
+===== Template =====
+{anArray:[@s(1), @s(2), @s(3), @s(4)]}
+===== Generated Json =====
+{
+  "anArray" : [
+    "1",
+    "2",
+    "3",
+    "4"
+  ]
+}
+
+===== Template =====
+{anArray:@s[1, 2, 3, 4](2)}
+===== Generated Json =====
+{
+  "anArray" : [
+    "1",
+    "2",
+    "3",
+    "4"
+  ]
+}
+
+===== Template =====
+{anArray : @s[](size=3)}
+===== Generated Json =====
+{
+  "anArray" : [
+    "OwtDB",
+    "tcVWP",
+    "BkODu"
+  ]
+}
+
+===== Template =====
+{anArray:@s[1, 2, 3, 4]}
+===== Generated Json =====
+{
+  "anArray" : [
+    "1",
+    "2",
+    "3",
+    "4"
+  ]
+}
+
+===== Template =====
+{anArray:@s[1, 2, 3, 4](6)}
+===== Generated Json =====
+{
+  "anArray" : [
+    "1",
+    "2",
+    "3",
+    "4",
+    "SHbRf",
+    "qRoah"
+  ]
+}
+
+===== Template =====
+[1, @i(2), @b(false), @s(4)]
+===== Generated Json =====
+[
+  1,
+  2,
+  false,
+  "4"
+]
+
+===== Template =====
+{anArray:@s[1, @i(2), @b(false), @s(4)]}
+===== Generated Json =====
+{
+  "anArray" : [
+    "1",
+    2,
+    false,
+    "4"
+  ]
+}
+
+===== Template =====
+{anArray : @s[]}
+===== Generated Json =====
+{
+  "anArray" : [
+
+  ]
+}
+
+===== Template =====
+{aField : @b(yes)}
+===== Generated Json =====
+{
+  "aField" : false
+}
+
+===== Template =====
+{aField : @b(true)}
+===== Generated Json =====
+{
+  "aField" : true
+}
+
+===== Template =====
+{aField : @b(false)}
+===== Generated Json =====
+{
+  "aField" : false
+}
+
+===== Template =====
+{aField : @b}
+===== Generated Json =====
+{
+  "aField" : true
+}
+
+===== Template =====
+{aField : @b(null)}
+===== Generated Json =====
+{
+  "aField" : null
+}
+
+===== Template =====
+{aField : @b(true, true, false)}
+===== Generated Json =====
+{
+  "aField" : false
+}
+
+===== Template =====
+{balance:@euro(20)}
+===== Generated Json =====
+{
+  "balance" : "€20"
+}
+
+===== Template =====
+{ref:@s(GOF)}
+===== Generated Json =====
+{
+  "ref" : "[GOF]"
+}
+
+===== Template =====
+@ls:@s(length=20), @ls{name, role}
+===== Generated Json =====
+{
+  "name" : "FblGhxhVaYIrvvtsuryo",
+  "role" : "eSJESpXbfijoeoeyCjvb"
+}
+
+===== Template =====
+{fieldA, fieldB}
+===== Generated Json =====
+{
+  "fieldA" : null,
+  "fieldB" : null
+}
+
+===== Template =====
+{name:John, age:20, height:1.8, male:true, role: null}
+===== Generated Json =====
+{
+  "name" : "John",
+  "age" : 20,
+  "height" : 1.8,
+  "male" : true,
+  "role" : null
+}
+
+===== Template =====
+@i{fieldA, fieldB}
+===== Generated Json =====
+{
+  "fieldA" : 73,
+  "fieldB" : 52
+}
+
+===== Template =====
+@i{fieldA, fieldB : @f { fieldC }}
+===== Generated Json =====
+{
+  "fieldA" : 73,
+  "fieldB" : {
+    "fieldC" : 79.44497
+  }
+}
+
+===== Template =====
+@address:@s{city,street,number:@i}, @address{home, office}
+===== Generated Json =====
+{
+  "home" : {
+    "city" : "cCdna",
+    "street" : "cgFDz",
+    "number" : 93
+  },
+  "office" : {
+    "city" : "GRddj",
+    "street" : "bxgGR",
+    "number" : 15
+  }
+}
+
+===== Template =====
+[John, 20, 1.8, true, null]
+===== Generated Json =====
+[
+  "John",
+  20,
+  1.8,
+  true,
+  null
+]
+
+===== Template =====
+@names:@s[](3), @names{group1, group2}
+===== Generated Json =====
+{
+  "group1" : [
+    "Lfmts",
+    "QaaPU",
+    "DxZsF"
+  ],
+  "group2" : [
+    "Nnphu",
+    "gpAzC",
+    "zoqzp"
+  ]
+}
+
+===== Template =====
+{aField,bField}
+===== Generated Json =====
+{
+  "aField" : 76,
+  "bField" : 68
+}
+
+===== Template =====
+@s(length=10){fieldA, fieldB: @s(length=20)}
+===== Generated Json =====
+{
+  "fieldA" : "nNVduQnKmu",
+  "fieldB" : "NBKPXneoIdlGAqlZTrRO"
+}
+
+===== Template =====
+{aField : @f(min=-11.22)}
+===== Generated Json =====
+{
+  "aField" : -2.3144646
+}
+
+===== Template =====
+{aField : @f(min=11.22)}
+===== Generated Json =====
+{
+  "aField" : 38.086674
+}
+
+===== Template =====
+{aField : @f(null)}
+===== Generated Json =====
+{
+  "aField" : null
+}
+
+===== Template =====
+{aField : @f(max=-11.22)}
+===== Generated Json =====
+{
+  "aField" : -78.87732
+}
+
+===== Template =====
+{aField : @f}
+===== Generated Json =====
+{
+  "aField" : 94.19532
+}
+
+===== Template =====
+{aField : @f(1.2, 2.34, 4.567, 5.7)}
+===== Generated Json =====
+{
+  "aField" : 2.34
+}
+
+===== Template =====
+{aField : @f(5)}
+===== Generated Json =====
+{
+  "aField" : 5.0
+}
+
+===== Template =====
+{aField : @f(5.0)}
+===== Generated Json =====
+{
+  "aField" : 5.0
+}
+
+===== Template =====
+{aField : @f(5f)}
+===== Generated Json =====
+{
+  "aField" : 5.0
+}
+
+===== Template =====
+{aField : @f(5.0f)}
+===== Generated Json =====
+{
+  "aField" : 5.0
+}
+
+===== Template =====
+{aField : @f(10.4F)}
+===== Generated Json =====
+{
+  "aField" : 10.4
+}
+
+===== Template =====
+{aField : @f(9E-2F)}
+===== Generated Json =====
+{
+  "aField" : 0.09
+}
+
+===== Template =====
+{aField : @f(3.8E8)}
+===== Generated Json =====
+{
+  "aField" : 3.8E8
+}
+
+===== Template =====
+{aField : @f(min=11.22, max=22.33)}
+===== Generated Json =====
+{
+  "aField" : 17.84706
+}
+
+===== Template =====
+{aField : @f(min=-22.11, max=-11.33)}
+===== Generated Json =====
+{
+  "aField" : -12.666423
+}
+
+===== Template =====
+{aField : @i(min=10, max=20)}
+===== Generated Json =====
+{
+  "aField" : 18
+}
+
+===== Template =====
+{aField : @i(-1)}
+===== Generated Json =====
+{
+  "aField" : -1
+}
+
+===== Template =====
+{aField : @i(0)}
+===== Generated Json =====
+{
+  "aField" : 0
+}
+
+===== Template =====
+{aField : @i(1)}
+===== Generated Json =====
+{
+  "aField" : 1
+}
+
+===== Template =====
+{aField : @i(2147483647)}
+===== Generated Json =====
+{
+  "aField" : 2147483647
+}
+
+===== Template =====
+{aField : @i(-2147483648)}
+===== Generated Json =====
+{
+  "aField" : -2147483648
+}
+
+===== Template =====
+{aField : @i}
+===== Generated Json =====
+{
+  "aField" : 17
+}
+
+===== Template =====
+{aField : @i(null)}
+===== Generated Json =====
+{
+  "aField" : null
+}
+
+===== Template =====
+{aField : @i(min=11)}
+===== Generated Json =====
+{
+  "aField" : 97
+}
+
+===== Template =====
+{aField : @i(min=-20, max=-10)}
+===== Generated Json =====
+{
+  "aField" : -20
+}
+
+===== Template =====
+{aField : @i(20, 30, 40, 50)}
+===== Generated Json =====
+{
+  "aField" : 30
+}
+
+===== Template =====
+{anObject:{aField:@s, bField:@s}}
+===== Generated Json =====
+{
+  "anObject" : {
+    "aField" : "FhGjF",
+    "bField" : "SNLzn"
+  }
+}
+
+===== Template =====
+{anObject:{aField:@s}}
+===== Generated Json =====
+{
+  "anObject" : {
+    "aField" : "ctdZr"
+  }
+}
+
+===== Template =====
+{objA:{objB:{objC:{objD:{aField:@s}}}}}
+===== Generated Json =====
+{
+  "objA" : {
+    "objB" : {
+      "objC" : {
+        "objD" : {
+          "aField" : "CiCqA"
+        }
+      }
+    }
+  }
+}
+
+===== Template =====
+{objA:{fieldA:@s},objB:{fieldB:@i}}
+===== Generated Json =====
+{
+  "objA" : {
+    "fieldA" : "NcuxT"
+  },
+  "objB" : {
+    "fieldB" : 11
+  }
+}
+
+===== Template =====
+{aField : @raw(`{
+  "jsonField" : "C"
+}`)}
+===== Generated Json =====
+{
+  "aField" : {
+  "jsonField" : "C"
+}
+}
+
+===== Template =====
+{aField : @raw($jsonContent)}
+===== Generated Json =====
+{
+  "aField" : {
+  "jsonField" : "C"
+}
+}
+
+===== Template =====
+{aField : @s(`!@#$%^&*()-=
+{}[]abc`)}
+===== Generated Json =====
+{
+  "aField" : "!@#$%^&*()-=
+{}[]abc"
+}
+
+===== Template =====
+{aField : @s(A, B, C, D)}
+===== Generated Json =====
+{
+  "aField" : "A"
+}
+
+===== Template =====
+{aField : @s(min=10, max=20)}
+===== Generated Json =====
+{
+  "aField" : "CyAmNNGxpAujKOzsTn"
+}
+
+===== Template =====
+{aField : @s(myValue)}
+===== Generated Json =====
+{
+  "aField" : "myValue"
+}
+
+===== Template =====
+{aField : @s(123)}
+===== Generated Json =====
+{
+  "aField" : "123"
+}
+
+===== Template =====
+{aField : @s(1.2.3.4)}
+===== Generated Json =====
+{
+  "aField" : "1.2.3.4"
+}
+
+===== Template =====
+{aField : @s(100%)}
+===== Generated Json =====
+{
+  "aField" : "100%"
+}
+
+===== Template =====
+{aField : @s(#123)}
+===== Generated Json =====
+{
+  "aField" : "#123"
+}
+
+===== Template =====
+{aField : @s(1*2/3-4)}
+===== Generated Json =====
+{
+  "aField" : "1*2/3-4"
+}
+
+===== Template =====
+{aField : @s(null)}
+===== Generated Json =====
+{
+  "aField" : null
+}
+
+===== Template =====
+{aField : @s(min=11)}
+===== Generated Json =====
+{
+  "aField" : "lhBHhFPaRTOqcFwcvhqRNg"
+}
+
+===== Template =====
+{aField : @s}
+===== Generated Json =====
+{
+  "aField" : "ylgXG"
+}
+
+===== Template =====
+{aField : @s(A, B, C, null)}
+===== Generated Json =====
+{
+  "aField" : "C"
+}
+
+===== Template =====
+{aField : @s(length=10)}
+===== Generated Json =====
+{
+  "aField" : "MpOrhnStEK"
+}
+
+===== Template =====
+@address:{city:@s,street:@s,number:@i},{office:@address, home:@address}
+===== Generated Json =====
+{
+  "office" : {
+    "city" : "Aobrv",
+    "street" : "hpuVV",
+    "number" : 98
+  },
+  "home" : {
+    "city" : "kqKgE",
+    "street" : "mymly",
+    "number" : 89
+  }
+}
+
+===== Template =====
+@address:{city:@s(length=10),street:@s(length=20),number:@i(min=1000)},{office:@address, home:@address}
+===== Generated Json =====
+{
+  "office" : {
+    "city" : "RikSrdsldB",
+    "street" : "aHjQQuirSjhyeBnzEewh",
+    "number" : 1071
+  },
+  "home" : {
+    "city" : "oSDYZyvRmQ",
+    "street" : "OfkfscXJErmdVoSiwzre",
+    "number" : 1007
+  }
+}
+
+===== Template =====
+@address:{city:@s(Amsterdam, Utrecht), street:@s, number:@i(5, 10, 15)},{office:@address, home:@address }
+===== Generated Json =====
+{
+  "office" : {
+    "city" : "Utrecht",
+    "street" : "HSkJN",
+    "number" : 5
+  },
+  "home" : {
+    "city" : "Amsterdam",
+    "street" : "tcOVE",
+    "number" : 5
+  }
+}
+
+===== Template =====
+@methods : {name:@s, paramCount:@i(min=0, max=5)},@classes : @methods[](2),@classes[](2)
+===== Generated Json =====
+[
+  [
+    {
+      "name" : "fKNES",
+      "paramCount" : 1
+    },
+    {
+      "name" : "uaREs",
+      "paramCount" : 1
+    }
+  ],
+  [
+    {
+      "name" : "lqZIw",
+      "paramCount" : 0
+    },
+    {
+      "name" : "gFWae",
+      "paramCount" : 1
+    }
+  ]
+]
+
+===== Template =====
+@address:{city:@s(Amsterdam),street:@s,number:@i(5)},{office:@address, home:@address}
+===== Generated Json =====
+{
+  "office" : {
+    "city" : "Amsterdam",
+    "street" : "fCIZL",
+    "number" : 5
+  },
+  "home" : {
+    "city" : "Amsterdam",
+    "street" : "fOdbg",
+    "number" : 5
+  }
+}
+
+===== Template =====
+@address : {city:@s, street:@s , number:@i},@person : @address{office, home},@person[](2)
+===== Generated Json =====
+[
+  {
+    "office" : {
+      "city" : "LXRXG",
+      "street" : "JlSTW",
+      "number" : 84
+    },
+    "home" : {
+      "city" : "cAtcQ",
+      "street" : "wlgDq",
+      "number" : 56
+    }
+  },
+  {
+    "office" : {
+      "city" : "IZwcj",
+      "street" : "eEVUu",
+      "number" : 30
+    },
+    "home" : {
+      "city" : "MWkDZ",
+      "street" : "TZNAX",
+      "number" : 13
+    }
+  }
+]
+
+===== Template =====
+@classes[](2), @classes:@methods[](2), @methods:@s[](3)
+===== Generated Json =====
+[
+  [
+    [
+      "FMBLH",
+      "JWGNJ",
+      "xFguk"
+    ],
+    [
+      "IGMNa",
+      "mFlwa",
+      "TxRdF"
+    ]
+  ],
+  [
+    [
+      "vbzkR",
+      "rXEqa",
+      "NGNEl"
+    ],
+    [
+      "pVloK",
+      "HHLSn",
+      "vdSCJ"
+    ]
+  ]
+]
+
+===== Template =====
+{aField: @s($myValue)}
+===== Generated Json =====
+{
+  "aField" : "helloworld"
+}
+
+===== Template =====
+{aField: @s($myValue)}
+===== Generated Json =====
+{
+  "aField" : "A"
+}
+
+===== Template =====
+{person : $person}
+===== Generated Json =====
+{
+  "person" : {
+    "roles" : [
+      "Admin",
+      "Finance",
+      "HR"
+    ],
+    "name" : "John",
+    "age" : 20,
+    "male" : true
+  }
+}
+
+===== Template =====
+{aField: @s($myValue)}
+===== Generated Json =====
+{
+  "aField" : "C"
+}
+
+===== Template =====
+{aField: @s($config)}
+===== Generated Json =====
+{
+  "aField" : "tfteXzPtmQLXYALxh"
+}
+
+===== Template =====
+{age : $age}
+===== Generated Json =====
+{
+  "age" : 20
+}
+
+===== Template =====
+{letters : $letters}
+===== Generated Json =====
+{
+  "letters" : [
+    "A",
+    "B",
+    "C"
+  ]
+}
+
+===== Template =====
+{name : $name}
+===== Generated Json =====
+{
+  "name" : "John"
+}
+
+===== Template =====
+{balance : $balance}
+===== Generated Json =====
+{
+  "balance" : 1.23
+}
+
+===== Template =====
+{aField: @s(A, B, $myValue, D)}
+===== Generated Json =====
+{
+  "aField" : "hello"
+}
+
+===== Template =====
+{aField: @s($myValue)}
+===== Generated Json =====
+{
+  "aField" : "2"
+}
+
+===== Template =====
+{aField: @s(length=$size)}
+===== Generated Json =====
+{
+  "aField" : "vDHequJxVEEbRJnzbWPe"
+}
+
+===== Template =====
+{letters : $letters}
+===== Generated Json =====
+{
+  "letters" : [
+    "A",
+    "B",
+    "C"
+  ]
+}
+
+===== Template =====
+{aField: @s(min=$min,max=$max)}
+===== Generated Json =====
+{
+  "aField" : "pOAKKpjNiUxHrPmzgY"
+}
+
+===== Template =====
+{male : $male}
+===== Generated Json =====
+{
+  "male" : true
+}
+
+===== Template =====
+{aField: @s(min=$min,max=$max)}
+===== Generated Json =====
+{
+  "aField" : "MhqOCTyOIQBrqPIgzJ"
+}
