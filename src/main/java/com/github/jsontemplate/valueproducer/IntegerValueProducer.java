@@ -17,6 +17,7 @@
 package com.github.jsontemplate.valueproducer;
 
 import com.github.jsontemplate.jsonbuild.JsonIntegerNode;
+import com.github.jsontemplate.jsonbuild.supplier.ListParamSupplier;
 
 import java.util.HashMap;
 import java.util.List;
@@ -76,7 +77,7 @@ public class IntegerValueProducer extends AbstractValueProducer<JsonIntegerNode>
     @Override
     public JsonIntegerNode produce(List<String> valueList) {
         List<Integer> parsedValueList = valueList.stream().map(Integer::parseInt).collect(Collectors.toList());
-        return new JsonIntegerNode(() -> parsedValueList.get(new Random().nextInt(parsedValueList.size())));
+        return new JsonIntegerNode(new ListParamSupplier<>(parsedValueList));
     }
 
     /**

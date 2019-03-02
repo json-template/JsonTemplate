@@ -17,6 +17,7 @@
 package com.github.jsontemplate.valueproducer;
 
 import com.github.jsontemplate.jsonbuild.JsonStringNode;
+import com.github.jsontemplate.jsonbuild.supplier.ListParamSupplier;
 
 import java.util.HashMap;
 import java.util.List;
@@ -72,7 +73,7 @@ public class StringValueProducer extends AbstractValueProducer<JsonStringNode> {
      */
     @Override
     public JsonStringNode produce(List<String> valueList) {
-        return new JsonStringNode(() -> valueList.get(new Random().nextInt(valueList.size())));
+        return new JsonStringNode(new ListParamSupplier<>(valueList));
     }
 
     /**

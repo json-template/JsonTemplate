@@ -17,6 +17,7 @@
 package com.github.jsontemplate.valueproducer;
 
 import com.github.jsontemplate.jsonbuild.JsonFloatNode;
+import com.github.jsontemplate.jsonbuild.supplier.ListParamSupplier;
 
 import java.util.HashMap;
 import java.util.List;
@@ -75,7 +76,7 @@ public class FloatValueProducer extends AbstractValueProducer<JsonFloatNode> {
     @Override
     public JsonFloatNode produce(List<String> valueList) {
         List<Float> parsedValueList = valueList.stream().map(Float::parseFloat).collect(Collectors.toList());
-        return new JsonFloatNode(() -> parsedValueList.get(new Random().nextInt(parsedValueList.size())));
+        return new JsonFloatNode(new ListParamSupplier<>(parsedValueList));
     }
 
     /**

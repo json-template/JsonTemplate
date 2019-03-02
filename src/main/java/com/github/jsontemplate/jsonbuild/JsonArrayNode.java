@@ -28,7 +28,6 @@ public final class JsonArrayNode implements JsonNode {
 
     private List<JsonNode> children = new LinkedList<>();
     private JsonNode defaultNode;
-    private IValueProducer defaultValueProducer;
     private Integer size;
     private Integer max;
     private Integer min;
@@ -68,10 +67,6 @@ public final class JsonArrayNode implements JsonNode {
      */
     public void addNode(JsonNode jsonNode) {
         children.add(jsonNode);
-    }
-
-    public IValueProducer getDefaultType() {
-        return defaultValueProducer;
     }
 
     /**
@@ -186,10 +181,6 @@ public final class JsonArrayNode implements JsonNode {
             if (defaultNode != null) {
                 for (int i = 0; i < amount; i++) {
                     list.add(defaultNode);
-                }
-            } else if (defaultValueProducer != null) {
-                for (int i = 0; i < amount; i++) {
-                    list.add(defaultValueProducer.produce());
                 }
             }
             return list;

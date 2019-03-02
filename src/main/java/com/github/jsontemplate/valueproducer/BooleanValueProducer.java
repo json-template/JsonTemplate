@@ -17,6 +17,7 @@
 package com.github.jsontemplate.valueproducer;
 
 import com.github.jsontemplate.jsonbuild.JsonBooleanNode;
+import com.github.jsontemplate.jsonbuild.supplier.ListParamSupplier;
 
 import java.util.List;
 import java.util.Random;
@@ -69,6 +70,6 @@ public class BooleanValueProducer extends AbstractValueProducer<JsonBooleanNode>
     @Override
     public JsonBooleanNode produce(List<String> valueList) {
         List<Boolean> parsedValueList = valueList.stream().map(Boolean::parseBoolean).collect(Collectors.toList());
-        return new JsonBooleanNode(() -> parsedValueList.get(new Random().nextInt(parsedValueList.size())));
+        return new JsonBooleanNode(new ListParamSupplier<>(parsedValueList));
     }
 }
