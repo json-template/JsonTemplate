@@ -58,7 +58,7 @@ public class FloatValueProducer extends AbstractValueProducer<JsonFloatNode> {
      * Produces a node which can generate a fixed float.
      *
      * @param value the string representation of the float
-     * @return
+     * @return the produced json float node
      */
     @Override
     public JsonFloatNode produce(String value) {
@@ -71,7 +71,7 @@ public class FloatValueProducer extends AbstractValueProducer<JsonFloatNode> {
      * The selected string is parsed to an float.
      *
      * @param valueList the enumerated string values
-     * @return
+     * @return the produced json float node
      */
     @Override
     public JsonFloatNode produce(List<String> valueList) {
@@ -81,7 +81,7 @@ public class FloatValueProducer extends AbstractValueProducer<JsonFloatNode> {
 
     /**
      * Produces a node which generates an float based on a configuration.
-     * <br/>
+     * <br>
      * Following parameters are currently supported:
      * <ul>
      * <li>min - the minimal value of the generated integer,
@@ -93,10 +93,10 @@ public class FloatValueProducer extends AbstractValueProducer<JsonFloatNode> {
      * if the minimal value is not given, it is returned from
      * {@link #getDefaultMin(float) getDefaultMin(float)} which is 0
      * </li>
-     * <ul/>
+     * </ul>
      *
      * @param paramMap configuration
-     * @return
+     * @return the produced json float node
      */
     @Override
     public JsonFloatNode produce(Map<String, String> paramMap) {
@@ -144,7 +144,7 @@ public class FloatValueProducer extends AbstractValueProducer<JsonFloatNode> {
     /**
      * Returns the default maximal bound of the default range.
      *
-     * @return
+     * @return the default range
      */
     protected float getDefaultRange() {
         return ONE_HUNDRED;

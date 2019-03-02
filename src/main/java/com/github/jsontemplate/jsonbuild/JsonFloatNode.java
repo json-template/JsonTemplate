@@ -30,8 +30,8 @@ public final class JsonFloatNode extends AbstractJsonValueNode<Float> {
     /**
      * Creates a JsonFloatNode with a given float value.
      *
-     * @param value
-     * @return
+     * @param value the float value to be converted
+     * @return the converted json float node
      */
     public static JsonFloatNode of(Float value) {
         return new JsonFloatNode(() -> value);

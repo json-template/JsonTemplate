@@ -45,7 +45,7 @@ public class Base64ValueProducer extends AbstractValueProducer<JsonStringNode> {
      * The length of the string is returned from
      * {@link #getDefaultLength() getDefaultLength()}
      *
-     * @return
+     * @return the produced json string node
      */
     @Override
     public JsonStringNode produce() {
@@ -54,7 +54,7 @@ public class Base64ValueProducer extends AbstractValueProducer<JsonStringNode> {
 
     /**
      * Produces a node which generate base64 string based on a configuration.
-     * <br/>
+     * <br>
      * Following parameters are currently supported:
      * <ul>
      * <li>length - the length of the generated base64 string.
@@ -62,11 +62,10 @@ public class Base64ValueProducer extends AbstractValueProducer<JsonStringNode> {
      * generated string will be rounded up to the next integer
      * which is multiple of 4.
      * </li>
-     * <p>
-     * <ul/>
+     * </ul>
      *
      * @param paramMap configuration
-     * @return
+     * @return the produced json string node
      */
     @Override
     public JsonStringNode produce(Map<String, String> paramMap) {
@@ -82,7 +81,7 @@ public class Base64ValueProducer extends AbstractValueProducer<JsonStringNode> {
      * which is multiple of 4.
      *
      * @param outputLength expected length of the base64 string
-     * @return
+     * @return the produced base64 format string
      */
     protected String produceBase64(int outputLength) {
 
@@ -97,7 +96,7 @@ public class Base64ValueProducer extends AbstractValueProducer<JsonStringNode> {
     /**
      * Returns the default length of the base64 string
      *
-     * @return
+     * @return the default length
      */
     protected int getDefaultLength() {
         return DEFAULT_LENGTH;

@@ -27,7 +27,7 @@ public final class JsonNullNode implements JsonValueNode {
     }
 
     @Override
-    public String prettyString(int identation) {
+    public String prettyString(int indentation) {
         return compactString();
     }
 }

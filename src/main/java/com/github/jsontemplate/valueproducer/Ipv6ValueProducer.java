@@ -44,7 +44,7 @@ public class Ipv6ValueProducer extends AbstractValueProducer<JsonStringNode> {
     /**
      * Produces a node which can generate a random ipv6 string
      *
-     * @return
+     * @return the produced json string node
      */
     @Override
     public JsonStringNode produce() {
@@ -54,7 +54,7 @@ public class Ipv6ValueProducer extends AbstractValueProducer<JsonStringNode> {
     /**
      * Produces an ipv6 string
      *
-     * @return
+     * @return the produced ipv6 format string
      */
     protected String produceIp() {
         return IntStream.range(0, 8)

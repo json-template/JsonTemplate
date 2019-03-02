@@ -41,8 +41,8 @@ public interface JsonNode {
      * </li>
      * </ul>
      *
-     * @param obj
-     * @return
+     * @param obj the object to be converted
+     * @return the converted json node
      */
     static JsonNode of(Object obj) {
         JsonNode jsonNode;
@@ -71,15 +71,15 @@ public interface JsonNode {
     /**
      * Produces a json string in a compact format.
      *
-     * @return
+     * @return a compact string of the json
      */
     String compactString();
 
     /**
-     * Produces a json string with identations.
+     * Produces a json string with indentations.
      *
-     * @param identation
-     * @return
+     * @param indentation the amount of indentations
+     * @return a json string with indentations
      */
-    String prettyString(int identation);
+    String prettyString(int indentation);
 }

@@ -41,7 +41,7 @@ public class BooleanValueProducer extends AbstractValueProducer<JsonBooleanNode>
     /**
      * Produces a node which can generate a random boolean value
      *
-     * @return
+     * @return the produced json boolean node
      */
     @Override
     public JsonBooleanNode produce() {
@@ -51,8 +51,8 @@ public class BooleanValueProducer extends AbstractValueProducer<JsonBooleanNode>
     /**
      * Produces a node which can generate a fixed boolean value
      *
-     * @param value
-     * @return
+     * @param value string representation of the boolean value
+     * @return the produced json boolean node
      */
     @Override
     public JsonBooleanNode produce(String value) {
@@ -65,7 +65,7 @@ public class BooleanValueProducer extends AbstractValueProducer<JsonBooleanNode>
      * The selected string is parsed to a boolean.
      *
      * @param valueList the enumerated string values
-     * @return
+     * @return the produced json boolean node
      */
     @Override
     public JsonBooleanNode produce(List<String> valueList) {

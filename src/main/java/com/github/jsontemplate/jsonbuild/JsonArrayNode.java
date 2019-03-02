@@ -35,8 +35,8 @@ public final class JsonArrayNode implements JsonNode {
     /**
      * Creates a JsonArrayNode with a given collection.
      *
-     * @param collection
-     * @return
+     * @param collection list of elements
+     * @return json array node
      */
     public static JsonArrayNode of(Collection<?> collection) {
         JsonArrayNode jsonArrayNode = new JsonArrayNode();
@@ -49,8 +49,8 @@ public final class JsonArrayNode implements JsonNode {
     /**
      * Creates a JsonArrayNode with a given array.
      *
-     * @param objects
-     * @return
+     * @param objects array of elements
+     * @return json array node
      */
     public static JsonArrayNode of(Object[] objects) {
         JsonArrayNode jsonArrayNode = new JsonArrayNode();
@@ -63,7 +63,7 @@ public final class JsonArrayNode implements JsonNode {
     /**
      * Add a JsonNode as its elements.
      *
-     * @param jsonNode
+     * @param jsonNode a child node
      */
     public void addNode(JsonNode jsonNode) {
         children.add(jsonNode);
@@ -72,7 +72,7 @@ public final class JsonArrayNode implements JsonNode {
     /**
      * Sets the default node.
      *
-     * @param jsonNode
+     * @param jsonNode default node
      */
     public void setDefaultNode(JsonNode jsonNode) {
         this.defaultNode = jsonNode;
@@ -81,14 +81,14 @@ public final class JsonArrayNode implements JsonNode {
     /**
      * Sets the single parameter. This parameter is for the array
      * instead of the elements.
-     * <p/>
+     * <p>
      * By default, the single parameter is interpreted as the size
      * specification of the array.
-     * <p/>
+     * <p>
      * For example, template <code>@s[](5)</code> is a short hand
      * for <code>@s[](size=5)</code>.
      *
-     * @param singleParam
+     * @param singleParam single parameter of the array specification
      * @see #setParameters(Map)
      */
     public void setParameters(String singleParam) {
@@ -98,27 +98,27 @@ public final class JsonArrayNode implements JsonNode {
     /**
      * Sets the list parameter. This parameter is for the array
      * instead of the elements.
-     * <p/>
+     * <p>
      * By default, the list parameter is interpreted as the size range
      * specification of the array.
-     * <p/>
+     * <p>
      * For example, template <code>@s[](2, 5)</code> is a short hand
      * for <code>@s[](min=2, max=5)</code>.
      *
-     * @param singleParam
+     * @param listParam the list parameter of the array specification
      * @see #setParameters(Map)
      */
-    public void setParameters(List<String> singleParam) {
-        min = Integer.parseInt(singleParam.get(0));
-        max = Integer.parseInt(singleParam.get(1));
+    public void setParameters(List<String> listParam) {
+        min = Integer.parseInt(listParam.get(0));
+        max = Integer.parseInt(listParam.get(1));
     }
 
     /**
      * Sets the map parameter. This parameter is for the array
      * instead of the elements.
-     * <p/>
+     * <p>
      * Currently, only size, min, max are supported.
-     * <p/>
+     * <p>
      * If the template has already specified the contained elements,
      * The result size range will always first satisfy the elements,
      * then the size specification, and at last the min and max specification.
@@ -128,7 +128,7 @@ public final class JsonArrayNode implements JsonNode {
      * "@s[A, B, C](size=2)", the result size is 3, the result
      * array will contain "A", "B", "C", and none random strings.
      * </li>
-     * * <li>
+     * <li>
      * "@s[A, B, C](size=4)", the result size is 4, the result
      * array will contain "A", "B", "C", and 1 random strings.
      * </li>
@@ -147,7 +147,7 @@ public final class JsonArrayNode implements JsonNode {
      * </li>
      * </ul>
      *
-     * @param mapParam
+     * @param mapParam the map parameter of the array specification
      */
     public void setParameters(Map<String, String> mapParam) {
         size = readParam(mapParam, "size");
@@ -204,8 +204,8 @@ public final class JsonArrayNode implements JsonNode {
     }
 
     @Override
-    public String prettyString(int identation) {
-        String childrenSpaces = JsonNodeUtils.makeIdentation(identation + 1);
+    public String prettyString(int indentation) {
+        String childrenSpaces = JsonNodeUtils.makeIdentation(indentation + 1);
         ArrayList<JsonNode> printChildren = new ArrayList<>();
 
         printChildren.addAll(children);
@@ -213,10 +213,10 @@ public final class JsonArrayNode implements JsonNode {
         printChildren.addAll(additionalNodeList);
 
         String joinedIdentChildren = printChildren.stream()
-                .map(child -> childrenSpaces + child.prettyString(identation + 1))
+                .map(child -> childrenSpaces + child.prettyString(indentation + 1))
                 .collect(Collectors.joining(",\n"));
 
-        String spaces = JsonNodeUtils.makeIdentation(identation);
+        String spaces = JsonNodeUtils.makeIdentation(indentation);
         return "[\n" +
                 joinedIdentChildren +
                 "\n" + spaces + "]";

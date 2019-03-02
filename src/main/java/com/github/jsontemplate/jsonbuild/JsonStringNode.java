@@ -30,8 +30,8 @@ public final class JsonStringNode extends AbstractJsonValueNode<String> {
     /**
      * Creates a JsonStringNode with a given string value.
      *
-     * @param value
-     * @return
+     * @param value the string value to be converted
+     * @return the converted json string node
      */
     public static JsonStringNode of(String value) {
         return new JsonStringNode(() -> value);

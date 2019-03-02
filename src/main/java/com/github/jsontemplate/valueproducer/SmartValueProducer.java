@@ -33,11 +33,11 @@ import com.github.jsontemplate.jsonbuild.*;
  * <p>
  * The smart type is designed to be used only for the fixed value.
  * For example:
- * <br/>
+ * <br>
  * {name : @smart(John)} will result in {name : John}
- * <br/>
+ * <br>
  * However,
- * <br/>
+ * <br>
  * {name : @smart} will result in {name : null}
  */
 public class SmartValueProducer extends AbstractValueProducer<JsonNode> {
@@ -63,66 +63,51 @@ public class SmartValueProducer extends AbstractValueProducer<JsonNode> {
         if (isNull(value)) {
             return new JsonNullNode();
         }
-        if (isBoolean(value)) {
-            return new JsonBooleanNode(() -> Boolean.parseBoolean(value));
+
+        Boolean parsedBoolean = parseBoolean(value);
+        if (parsedBoolean != null) {
+            return new JsonBooleanNode(() -> parsedBoolean);
         }
-        if (isInteger(value)) {
-            return new JsonIntegerNode(() -> Integer.parseInt(value));
+
+        Integer parsedInteger = parseInteger(value);
+        if (parsedInteger != null) {
+            return new JsonIntegerNode(() -> parsedInteger);
         }
-        if (isFloat(value)) {
-            return new JsonFloatNode(() -> Float.parseFloat(value));
+
+        Float parsedFloat = parseFloat(value);
+        if (parsedFloat != null) {
+            return new JsonFloatNode(() -> parsedFloat);
         }
+
         return new JsonStringNode(() -> value);
     }
 
-    /**
-     * Checks if the value represents null.
-     *
-     * @param value
-     * @return
-     */
-    protected boolean isNull(String value) {
+    private boolean isNull(String value) {
         return NULL.equalsIgnoreCase(value);
     }
 
-    /**
-     * Checks if the value represents a boolean value.
-     *
-     * @param value
-     * @return
-     */
-    protected boolean isBoolean(String value) {
-        return Boolean.TRUE.toString().equalsIgnoreCase(value) ||
-                Boolean.FALSE.toString().equalsIgnoreCase(value);
-    }
-
-    /**
-     * Checks if the value represents an integer value.
-     *
-     * @param value
-     * @return
-     */
-    protected boolean isInteger(String value) {
-        try {
-            Integer.parseInt(value);
-            return true;
-        } catch (NumberFormatException nfe) {
-            return false;
+    private Boolean parseBoolean(String value) {
+        if (Boolean.TRUE.toString().equalsIgnoreCase(value) ||
+                Boolean.FALSE.toString().equalsIgnoreCase(value)) {
+            return Boolean.parseBoolean(value);
+        } else {
+            return null;
         }
     }
 
-    /**
-     * Checks if the value represents a float value.
-     *
-     * @param value
-     * @return
-     */
-    protected boolean isFloat(String value) {
+    private Integer parseInteger(String value) {
         try {
-            Float.parseFloat(value);
-            return true;
+            return Integer.parseInt(value);
         } catch (NumberFormatException nfe) {
-            return false;
+            return null;
+        }
+    }
+
+    private Float parseFloat(String value) {
+        try {
+            return Float.parseFloat(value);
+        } catch (NumberFormatException nfe) {
+            return null;
         }
     }
 }

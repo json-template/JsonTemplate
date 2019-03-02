@@ -59,7 +59,7 @@ public class IntegerValueProducer extends AbstractValueProducer<JsonIntegerNode>
      * Produces a node which can generate a fixed integer.
      *
      * @param value the string representation of the integer
-     * @return
+     * @return the produced json integer node
      */
     @Override
     public JsonIntegerNode produce(String value) {
@@ -72,7 +72,7 @@ public class IntegerValueProducer extends AbstractValueProducer<JsonIntegerNode>
      * The selected string is parsed to an integer.
      *
      * @param valueList the enumerated string values
-     * @return
+     * @return the produced json integer node
      */
     @Override
     public JsonIntegerNode produce(List<String> valueList) {
@@ -82,7 +82,7 @@ public class IntegerValueProducer extends AbstractValueProducer<JsonIntegerNode>
 
     /**
      * Produces a node which generates an integer based on a configuration.
-     * <br/>
+     * <br>
      * Following parameters are currently supported:
      * <ul>
      * <li>min - the minimal value of the generated integer,
@@ -94,10 +94,10 @@ public class IntegerValueProducer extends AbstractValueProducer<JsonIntegerNode>
      * if the minimal value is not given, it is returned from
      * {@link #getDefaultMin(int) getDefaultMin(int)} which is 0
      * </li>
-     * <ul/>
+     * </ul>
      *
      * @param paramMap configuration
-     * @return
+     * @return the produced json integer node
      */
     @Override
     public JsonIntegerNode produce(Map<String, String> paramMap) {
@@ -123,7 +123,7 @@ public class IntegerValueProducer extends AbstractValueProducer<JsonIntegerNode>
     /**
      * Returns the default maximal bound of the default range.
      *
-     * @return
+     * @return the default maximal bound
      */
     protected int getDefaultMax() {
         return ONE_HUNDRED;
@@ -132,7 +132,7 @@ public class IntegerValueProducer extends AbstractValueProducer<JsonIntegerNode>
     /**
      * Returns the default mininal bound of the default range.
      *
-     * @return
+     * @return the default minimal bound
      */
     protected int getDefaultMin() {
         return ZERO;

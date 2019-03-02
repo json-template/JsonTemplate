@@ -27,8 +27,8 @@ public final class JsonIntegerNode extends AbstractJsonValueNode<Integer> {
     /**
      * Creates a JsonIntegerNode with a given integer value.
      *
-     * @param value
-     * @return
+     * @param value the integer value to be converted
+     * @return the converted json integer node
      */
     public static JsonIntegerNode of(Integer value) {
         return new JsonIntegerNode(() -> value);

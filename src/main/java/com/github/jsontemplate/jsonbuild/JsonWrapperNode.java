@@ -38,7 +38,7 @@ public final class JsonWrapperNode implements JsonNode {
     }
 
     @Override
-    public String prettyString(int identation) {
-        return jsonNode.prettyString(identation);
+    public String prettyString(int indentation) {
+        return jsonNode.prettyString(indentation);
     }
 }

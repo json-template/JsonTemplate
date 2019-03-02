@@ -43,7 +43,7 @@ public class IpValueProducer extends AbstractValueProducer<JsonStringNode> {
     /**
      * Produces a node which can generate a random ip string
      *
-     * @return
+     * @return the produced json string node
      */
     @Override
     public JsonStringNode produce() {
@@ -53,7 +53,7 @@ public class IpValueProducer extends AbstractValueProducer<JsonStringNode> {
     /**
      * Produces an ip string
      *
-     * @return
+     * @return ip format string
      */
     protected String produceIp() {
         int[] ipParts = new int[]{

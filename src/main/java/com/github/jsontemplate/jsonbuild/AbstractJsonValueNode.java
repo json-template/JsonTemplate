@@ -27,7 +27,7 @@ abstract class AbstractJsonValueNode<T> implements JsonValueNode {
     }
 
     @Override
-    public final String prettyString(int identation) {
+    public final String prettyString(int indentation) {
         return compactString();
     }
 }
