@@ -262,7 +262,11 @@ public class BasePropertyDeclaration {
         for (Map.Entry<String, String> entry : typeSpec.getMapParam().entrySet()) {
             if (entry.getValue().startsWith(Token.VARIABLE.getTag())) {
                 Object variable = variableMap.get(entry.getValue().substring(1));
-                typeSpec.getMapParam().put(entry.getKey(), variable.toString());
+                if (variable != null) {
+                    typeSpec.getMapParam().put(entry.getKey(), variable.toString());
+                } else {
+                    throw new IllegalArgumentException("Unknown variable name: " + entry.getValue());
+                }
             }
         }
     }

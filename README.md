@@ -52,7 +52,7 @@ JsonTemplate allows you to code in the following way:
 String template = "{" +
                   "  name : @s," +
                   "  age : @i(max=100)," +
-                  "  role : @s[](max=3)," +
+                  "  role : @s[](min=1, max=3)," +
                   "  address : {" +
                   "    city : @s," +
                   "    street : @s," +
@@ -166,7 +166,7 @@ If a **list parameter** is given, the value producer randomly selects a value fr
 }
 </pre></td><td><pre>
 {
-  "aField" : "awpVXpJTxb"
+  "aField" : "AgPkUNKonauaxJgct"
 }
 </pre></td></tr>
 </table>
@@ -235,17 +235,17 @@ The size configuration of the generated array is placed after `[]`.
 ### Array producer with elements
 <table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
 <tr><td><pre>
-@s [ 1, 2, 3, 4 ]
+@s[ 1, 2, 3, 4 ]
 </pre></td><td><pre>
 [ "1", "2", "3", "4" ]
 </pre></td></tr>
 <tr><td><pre>
-@s [ 1, 2, 3, 4 ](6)
+@s[ 1, 2, 3, 4 ](6)
 </pre></td><td><pre>
 [ "1", "2", "3", "4", "qRTWm", "RTBik" ]
 </pre></td></tr>
 <tr><td><pre>
-@s [ 1, @i(2), @b(false), @s(4) ]
+@s[ 1, @i(2), @b(false), @s(4) ]
 </pre></td><td><pre>
 [ "1", 2, false, "4" ]
 </pre></td></tr>

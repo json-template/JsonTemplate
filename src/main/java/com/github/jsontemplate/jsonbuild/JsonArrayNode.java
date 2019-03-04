@@ -167,7 +167,7 @@ public final class JsonArrayNode implements JsonNode {
         if (size != null) {
             return addtionalNodeList(size);
         } else if (max != null && children.size() < max) {
-            int randomSize = new Random().nextInt(max - min) + min;
+            int randomSize = new Random().nextInt(max - min + 1) + min;
             return addtionalNodeList(randomSize);
         } else {
             return Collections.emptyList();
