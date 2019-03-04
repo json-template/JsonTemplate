@@ -23,9 +23,15 @@ import com.jayway.jsonpath.JsonPath;
 public class TestUtils {
 
     public final static int REPEATED_COUNT = 1;
+    public final static boolean PRETTY = true;
 
     public static DocumentContext parse(JsonTemplate jsonTemplate) {
-        String json = jsonTemplate.prettyString();
+        String json;
+        if (PRETTY) {
+            json = jsonTemplate.prettyString();
+        } else {
+            json = jsonTemplate.compactString();
+        }
         comparePrint(jsonTemplate.getTemplate(), json);
         return JsonPath.parse(json);
     }

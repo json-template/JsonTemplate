@@ -199,19 +199,19 @@ public final class JsonArrayNode implements JsonNode {
 
     @Override
     public String compactString() {
-        String joinedChildren = children.stream().map(JsonNode::compactString).collect(Collectors.joining(","));
+        List<JsonNode> printChildren = prepareChildrenToPrint();
+        String joinedChildren = printChildren.stream()
+                .map(JsonNode::compactString)
+                .collect(Collectors.joining(","));
+
         return "[" + joinedChildren + "]";
     }
 
     @Override
     public String prettyString(int indentation) {
         String childrenSpaces = JsonNodeUtils.makeIdentation(indentation + 1);
-        ArrayList<JsonNode> printChildren = new ArrayList<>();
 
-        printChildren.addAll(children);
-        List<JsonNode> additionalNodeList = prepareAdditionalNodeList();
-        printChildren.addAll(additionalNodeList);
-
+        List<JsonNode> printChildren = prepareChildrenToPrint();
         String joinedIdentChildren = printChildren.stream()
                 .map(child -> childrenSpaces + child.prettyString(indentation + 1))
                 .collect(Collectors.joining(",\n"));
@@ -222,4 +222,11 @@ public final class JsonArrayNode implements JsonNode {
                 "\n" + spaces + "]";
     }
 
+    private List<JsonNode> prepareChildrenToPrint() {
+        List<JsonNode> printChildren = new ArrayList<>();
+        printChildren.addAll(children);
+        List<JsonNode> additionalNodeList = prepareAdditionalNodeList();
+        printChildren.addAll(additionalNodeList);
+        return printChildren;
+    }
 }
