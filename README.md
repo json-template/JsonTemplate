@@ -1,6 +1,9 @@
 # JsonTemplate
 **A Java tool for generating json strings.**
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.json-template/jsontemplate/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.json-template/jsontemplate)
+[![Javadoc](https://www.javadoc.io/badge/com.github.json-template/jsontemplate.svg)](http://www.javadoc.io/doc/com.github.json-template/jsontemplate)
+
 ## Getting started
 
 ```xml
@@ -393,7 +396,7 @@ With `JsomTemplate.withValueProducer(IValueProducer)`, users can freely
 extend the pre-installed values producers or create new ones.
 
 Above is just a peek for the list of features.
-For more examples, [examples.txt](test/resources/examples.txt) provides part of the logs in tests. 
+For more examples, [examples.txt](src/test/resources/examples.txt) provides part of the logs in tests. 
 
 ## Support 
 If you have issues, great ideas, or comments, please let us know. 
