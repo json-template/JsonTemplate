@@ -52,7 +52,7 @@ public final class JsonObjectNode implements JsonNode {
     @Override
     public String compactString() {
         String joinedChildren = children.entrySet().stream()
-                .map(entry -> entry.getKey() + ":" + entry.getValue().compactString())
+                .map(entry -> "\"" + entry.getKey() + "\":" + entry.getValue().compactString())
                 .collect(Collectors.joining(","));
         return "{" + joinedChildren + "}";
     }
