@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Haihan Yin
+ * Copyright 2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,9 +23,15 @@ import com.jayway.jsonpath.JsonPath;
 public class TestUtils {
 
     public final static int REPEATED_COUNT = 1;
+    public final static boolean PRETTY = true;
 
     public static DocumentContext parse(JsonTemplate jsonTemplate) {
-        String json = jsonTemplate.prettyString();
+        String json;
+        if (PRETTY) {
+            json = jsonTemplate.prettyString();
+        } else {
+            json = jsonTemplate.compactString();
+        }
         comparePrint(jsonTemplate.getTemplate(), json);
         return JsonPath.parse(json);
     }

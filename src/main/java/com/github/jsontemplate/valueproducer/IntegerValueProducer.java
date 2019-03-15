@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Haihan Yin
+ * Copyright 2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 package com.github.jsontemplate.valueproducer;
 
 import com.github.jsontemplate.jsonbuild.JsonIntegerNode;
+import com.github.jsontemplate.jsonbuild.supplier.ListParamSupplier;
 
 import java.util.HashMap;
 import java.util.List;
@@ -58,7 +59,7 @@ public class IntegerValueProducer extends AbstractValueProducer<JsonIntegerNode>
      * Produces a node which can generate a fixed integer.
      *
      * @param value the string representation of the integer
-     * @return
+     * @return the produced json integer node
      */
     @Override
     public JsonIntegerNode produce(String value) {
@@ -71,17 +72,17 @@ public class IntegerValueProducer extends AbstractValueProducer<JsonIntegerNode>
      * The selected string is parsed to an integer.
      *
      * @param valueList the enumerated string values
-     * @return
+     * @return the produced json integer node
      */
     @Override
     public JsonIntegerNode produce(List<String> valueList) {
         List<Integer> parsedValueList = valueList.stream().map(Integer::parseInt).collect(Collectors.toList());
-        return new JsonIntegerNode(() -> parsedValueList.get(new Random().nextInt(parsedValueList.size())));
+        return new JsonIntegerNode(new ListParamSupplier<>(parsedValueList));
     }
 
     /**
      * Produces a node which generates an integer based on a configuration.
-     * <br/>
+     * <br>
      * Following parameters are currently supported:
      * <ul>
      * <li>min - the minimal value of the generated integer,
@@ -93,10 +94,10 @@ public class IntegerValueProducer extends AbstractValueProducer<JsonIntegerNode>
      * if the minimal value is not given, it is returned from
      * {@link #getDefaultMin(int) getDefaultMin(int)} which is 0
      * </li>
-     * <ul/>
+     * </ul>
      *
      * @param paramMap configuration
-     * @return
+     * @return the produced json integer node
      */
     @Override
     public JsonIntegerNode produce(Map<String, String> paramMap) {
@@ -122,7 +123,7 @@ public class IntegerValueProducer extends AbstractValueProducer<JsonIntegerNode>
     /**
      * Returns the default maximal bound of the default range.
      *
-     * @return
+     * @return the default maximal bound
      */
     protected int getDefaultMax() {
         return ONE_HUNDRED;
@@ -131,7 +132,7 @@ public class IntegerValueProducer extends AbstractValueProducer<JsonIntegerNode>
     /**
      * Returns the default mininal bound of the default range.
      *
-     * @return
+     * @return the default minimal bound
      */
     protected int getDefaultMin() {
         return ZERO;

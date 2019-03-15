@@ -1,13 +1,16 @@
 # JsonTemplate
 **A Java tool for generating json strings.**
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.json-template/jsontemplate/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.json-template/jsontemplate)
+[![Javadoc](https://www.javadoc.io/badge/com.github.json-template/jsontemplate.svg)](http://www.javadoc.io/doc/com.github.json-template/jsontemplate)
+
 ## Getting started
 
 ```xml
 <dependency>
     <groupId>com.github.json-template</groupId>
     <artifactId>jsontemplate</artifactId>
-    <version>1.0.0</version>
+    <version>0.2.0</version>
 </dependency>
 ```
 
@@ -49,7 +52,7 @@ JsonTemplate allows you to code in the following way:
 String template = "{" +
                   "  name : @s," +
                   "  age : @i(max=100)," +
-                  "  role : @s[](max=3)," +
+                  "  role : @s[](min=1, max=3)," +
                   "  address : {" +
                   "    city : @s," +
                   "    street : @s," +
@@ -116,10 +119,6 @@ Following is the table about all the pre-installed value producers:
 | @ipv6      | produces an ipv6 string |
 | @base64    | produces a base64 string |
 
-//TODO
-
-
-
 ### Value producers with a single parameter
 <table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
 <tr><td><pre>
@@ -134,9 +133,6 @@ Following is the table about all the pre-installed value producers:
 </table>
 
 If a **single parameter** is given, the value producer produces a fixed value correspondingly by default.
-Following is the table about whether pre-installed producers support a single parameter.
-
-
 
 ### Value producers with a list parameter
 <table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
@@ -152,18 +148,6 @@ Following is the table about whether pre-installed producers support a single pa
 </table>
 
 If a **list parameter** is given, the value producer randomly selects a value from that list by default.
-Following is the table about whether pre-installed producers support a list parameter.
-| value producer | is single parameter supported |
-| ---        | ---         |
-| @smart     | false | 
-| @s         | true | 
-| @i         | true |
-| @f         | true | 
-| @b         | true |
-| @raw       | false | 
-| @ip        | false |
-| @ipv6      | false |
-| @base64    | false |
 
 ### Value producers with a map parameter
 <table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
@@ -182,49 +166,26 @@ Following is the table about whether pre-installed producers support a list para
 }
 </pre></td><td><pre>
 {
-  "aField" : "awpVXpJTxb"
+  "aField" : "AgPkUNKonauaxJgct"
 }
 </pre></td></tr>
 </table>
 
 If a **map parameter** is given, the value producer produces a value according to the map values. 
-Following is the table about whether pre-installed producers support a list parameter.
 
-| value producer | is single parameter supported |
-| ---        | ---         |
-| @smart     | true | 
-| @s         | true | 
-| @i         | true |
-| @f         | true | 
-| @b         | true |
-| @raw       | true | 
-| @ip        | false |
-| @ipv6      | false |
-| @base64    | false |  
+Following is the table about whether each type of parameter is supported by the pre-installed producers.
 
-| producer |  none | single | list | map |
-| ---      | ---             | --- | --- | --- |
-| @smart   |        |false, always produce null |
-| @s       | [x] | produces a string | true |
-| @i       | [x] | true |
-| @f       | [x] | true |
-| @b       | [x] | true |
-| @raw     |  | false | 
-| @ip      | [x] | true |
-| @ipv6    | [x] | true |
-| @base64  | [x] | true |
-
-| value producer | is map parameter supported | allowed parameters
-| ---        | ---         | --- |
-| @smart     | false | |
-| @s         | true | length, max, min |
-| @i         | true | max, min |
-| @f         | true | max, min |
-| @b         | false | |
-| @raw       | false | |
-| @ip        | false | |
-| @ipv6      | false | |
-| @base64    | true | length |
+| producer |  none              | single | list | map |
+| ---      | ---                | ---    | ---  | --- |
+| @smart   | no, produce null   | yes    | no   | no |
+| @s       | yes                | yes    | yes  | yes, supported parameters: length, max, min |
+| @i       | yes                | yes    | yes  | yes, supported parameters: max, min |
+| @f       | yes                | yes    | yes  | yes, supported parameters: max, min |
+| @b       | yes                | yes    | yes  | no |
+| @raw     | no                 | yes    | no   | no |
+| @ip      | yes                | no     | no   | no |
+| @ipv6    | yes                | no     | no   | no |
+| @base64  | yes                | no     | no   | yes, supported parameters: length |
  
 
 ### Json objects
@@ -247,7 +208,7 @@ Following is the table about whether pre-installed producers support a list para
 </table>
 
 A json object consists of a set of properties. Each property can be specified
-with a value producer.
+with a value producer. The default type is @smart which is implicitly used.
 
 ### Array producer with size configuration
 <table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
@@ -263,33 +224,28 @@ with a value producer.
 </pre></td></tr>
 </table>
 
-Array tag **[]** indicate the expression is for producing an array. 
+Array tag **[]** indicates producing a json array. 
 The default value producer for the array elements is placed before `[]`. 
 The size configuration of the generated array is placed after `[]`. 
 
 - `(3)` means size of 3 and it is a shorthand of `(size=3)`
 - `(1, 10)` means the size range is between 1 and 10 and it is a short hand of
 `(min=1, max=10)`
-- `(min=1)` means the minimum size is 1, by default the maximum size is 2 times
-greater than the minimum value which is 2 in this case. There is no shorthand.
-- `(max=10)` means the maximem size is 10, by default the minimum size is 0.
-There is no shorthand.
-
 
 ### Array producer with elements
 <table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
 <tr><td><pre>
-@s [ 1, 2, 3, 4 ]
+@s[ 1, 2, 3, 4 ]
 </pre></td><td><pre>
 [ "1", "2", "3", "4" ]
 </pre></td></tr>
 <tr><td><pre>
-@s [ 1, 2, 3, 4 ](6)
+@s[ 1, 2, 3, 4 ](6)
 </pre></td><td><pre>
 [ "1", "2", "3", "4", "qRTWm", "RTBik" ]
 </pre></td></tr>
 <tr><td><pre>
-@s [ 1, @i(2), @b(false), @s(4) ]
+@s[ 1, @i(2), @b(false), @s(4) ]
 </pre></td><td><pre>
 [ "1", 2, false, "4" ]
 </pre></td></tr>
@@ -353,8 +309,11 @@ The order between multiple declarations do not matter.
 </pre></td><td>
 </table>
  
-In the above example, the properties have only names and the values are omitted. 
-In this case, the default value producers will fill the value.
+In the above example, the default value producer is explicitly specified as `@s`.
+If nothing is specified, `@smart` is used. In case of `@s`, it supports none parameters.
+Therefore, the values of fieldA and fieldB can be omitted. `@s` will generate
+a random value form them.
+
 The mechanism of searching the default value producer is the same as Java inheritance:
 It starts from itself to the root, util it finds a value producer.
 
@@ -437,7 +396,7 @@ With `JsomTemplate.withValueProducer(IValueProducer)`, users can freely
 extend the pre-installed values producers or create new ones.
 
 Above is just a peek for the list of features.
-For more examples, [examples.txt](test/resources/examples.txt) provides part of the logs in tests. 
+For more examples, [examples.txt](src/test/resources/examples.txt) provides part of the logs in tests. 
 
 ## Support 
 If you have issues, great ideas, or comments, please let us know. 

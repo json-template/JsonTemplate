@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Haihan Yin
+ * Copyright 2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 package com.github.jsontemplate.valueproducer;
 
 import com.github.jsontemplate.jsonbuild.JsonStringNode;
+import com.github.jsontemplate.jsonbuild.supplier.ListParamSupplier;
 
 import java.util.HashMap;
 import java.util.List;
@@ -57,7 +58,7 @@ public class StringValueProducer extends AbstractValueProducer<JsonStringNode> {
      * Produces a node which can generate a fixed string.
      *
      * @param value the fixed json string value
-     * @return
+     * @return the produced json string node
      */
     @Override
     public JsonStringNode produce(String value) {
@@ -68,16 +69,16 @@ public class StringValueProducer extends AbstractValueProducer<JsonStringNode> {
      * Produces a node which select a string in a list.
      *
      * @param valueList the enumerated string values
-     * @return
+     * @return the produced json string node
      */
     @Override
     public JsonStringNode produce(List<String> valueList) {
-        return new JsonStringNode(() -> valueList.get(new Random().nextInt(valueList.size())));
+        return new JsonStringNode(new ListParamSupplier<>(valueList));
     }
 
     /**
      * Produces a node which generate string based on a configuration.
-     * <br/>
+     * <br>
      * Following parameters are currently supported:
      * <ul>
      * <li>length - the length of the generated string</li>
@@ -88,10 +89,10 @@ public class StringValueProducer extends AbstractValueProducer<JsonStringNode> {
      * <li>max - the maximal length of the generated string,
      * if the minimal length is not given, it is 0
      * </li>
-     * <ul/>
+     * </ul>
      *
      * @param paramMap configuration
-     * @return
+     * @return the produced json string node
      */
     @Override
     public JsonStringNode produce(Map<String, String> paramMap) {
@@ -131,7 +132,7 @@ public class StringValueProducer extends AbstractValueProducer<JsonStringNode> {
     /**
      * Returns the default length of the random string to be generated.
      *
-     * @return
+     * @return the default length
      */
     protected int getDefaultLength() {
         return DEFAULT_LENGTH;
@@ -140,8 +141,8 @@ public class StringValueProducer extends AbstractValueProducer<JsonStringNode> {
     /**
      * Returns the default maximal length if it is not given in the map parameter.
      *
-     * @param min
-     * @return
+     * @param min the specified minimal bound
+     * @return maximal bound
      */
     protected int getDefaultMax(int min) {
         return 2 * min;
@@ -161,7 +162,7 @@ public class StringValueProducer extends AbstractValueProducer<JsonStringNode> {
      * Produces a random alphabetic string with a given length
      *
      * @param length the expected length of the string to be generated
-     * @return
+     * @return a random string
      */
     public String produceString(int length) {
         char[] chars = new char[length];

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Haihan Yin
+ * Copyright 2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,26 +37,26 @@ import java.util.Map;
 
 /**
  * JsonTemplate is for generating a json string based on a schema specification.
- * <br/>
+ * <br>
  * For example, to have a json like the following one
  * <pre>
  * {
  *   "city" : "Utrecht",
  *   "street" : "Musicallaan",
  *   "number" : 413
- * }<pre/>
+ * }</pre>
  * You can use the following code snippet to create the expected json.
  * <pre>
  * String template = "{city:Utrecht, street:Musicallaan, number:413}"
- * String json = new JsonTemplate(template).prettyString();<pre/>
- * <br/>
+ * String json = new JsonTemplate(template).prettyString();</pre>
+ * <br>
  * If you need only a json which is schema compatible, the template can be specified as:
  * <pre>
- * String template = "{city:@s, street:@s, number:@i}"<pre/>
+ * String template = "{city:@s, street:@s, number:@i}"</pre>
  *
  * <code>@s</code>, <code>@i</code> refer to value producers.
  *
- * @see <a href="https://github.com/json-template/JsonTemplate">JsonTemplate GitHub<a/>
+ * @see <a href="https://github.com/json-template/JsonTemplate">JsonTemplate GitHub</a>
  */
 public class JsonTemplate {
 
@@ -75,52 +75,54 @@ public class JsonTemplate {
     /**
      * Registers a variable which is used in the template.
      * Example:
+     *
      * <pre>
      * String json = new JsonTemplate("{city:$cityVar}")
      *                .withVar("cityVar", "Utrecht").compactString();
      * </pre>
+     *
      * In the end, the value of json is
      * <code>{"city":"Utrecht"}</code>
-     * <p/>
+     * <p>
      * The variable can be set as a single parameter. For example,
      * <code>{city:@s($var)}</code>
      * If var refers to a collection or an array, e.g., {"Amsterdam", "Utrecht"}.
      * The template is equal to the list parameter form {city:@s(Amsterdam, Utrecht)}
      * which selects one value from the list parameter.
-     * <p/>
+     * <p>
      * If var refers to a map, e.g., mapVar.put("length", 10). The template is equal to the
      * map parameter form {city:@s(length=10)}.
-     * <p/>
+     * <p>
      * Otherwise, the string representation of the variable is used.
-     * <p/>
+     * <p>
      * The variable can be set as an element of the list parameter. For example,
      * <code>{city:@s(Amsterdam, $anotherCity)}</code>. No matter what the type
      * of $anotherCity is, the string representation of the variable is always
      * used.
-     * <p/>
+     * <p>
      * The variable can be set as a value in the map parameter. For example,
      * <code>{city:@s(length=$expectedLength)}</code>. No matter what the type
      * of $expectedLength is, the string representation of the variable is always
      * used.
-     * <p/>
+     * <p>
      * The variable can be set as a json value. For example,
      * <code>{city:$cityVar}</code>
-     * <p/>
+     * <p>
      * If $cityVar is null, it is converted to a json null value.
-     * <br/>
+     * <br>
      * If $cityVar is an integer or a float, it is converted to a json numeric value.
-     * <br/>
+     * <br>
      * If $cityVar is a boolean, it is converted to a json boolean value.
-     * <br/>
+     * <br>
      * If $cityVar is an array or a collection, it is converted to a json array.
-     * <br/>
+     * <br>
      * If $cityVar is a map, it is converted to a json object.
-     * <br/>
+     * <br>
      * Otherwise, it is converted to a json string object.
      *
      * @param variableName name of the variable without the leading '$'
      * @param variable     variable value
-     * @return
+     * @return itself
      */
     public JsonTemplate withVar(String variableName, Object variable) {
         this.variableMap.put(variableName, variable);
@@ -131,7 +133,7 @@ public class JsonTemplate {
      * Registers a map of variables which are used in the template.
      *
      * @param variables map of variables
-     * @return
+     * @return itself
      * @see #withVar(String, Object)
      */
     public JsonTemplate withVars(Map<String, Object> variables) {
@@ -142,7 +144,7 @@ public class JsonTemplate {
     /**
      * Registers a node producer. The node producer can use a new type name and
      * it can also overwrite a pre-installed one.
-     * <p/>
+     * <p>
      * The pre-installed node producers are:
      * <ul>
      * <li>{@link SmartValueProducer}</li>
@@ -154,10 +156,10 @@ public class JsonTemplate {
      * <li>{@link Ipv6ValueProducer}</li>
      * <li>{@link Base64ValueProducer}</li>
      * <li>{@link RawStringValueProducer}</li>
-     * <ul/>
+     * </ul>
      *
-     * @param valueProducer
-     * @return
+     * @param valueProducer the customized value producer
+     * @return itself
      */
     public JsonTemplate withValueProducer(IValueProducer valueProducer) {
         this.addProducer(valueProducer);
@@ -173,16 +175,16 @@ public class JsonTemplate {
      * Example:
      * <pre>
      *     { obj1: @i{fieldA}, obj2: {fieldB} }
-     * <pre/>
+     * </pre>
      *
      * the default type of root is not specified, by default it is @smart
-     * <br/>
+     * <br>
      * the default type of obj1 is specified, it is @i
-     * <br/>
+     * <br>
      * the default type of obj2 is not specified, it searches its parent and finds the default type @smart
      *
-     * @param typeName
-     * @return
+     * @param typeName the default type name
+     * @return itself
      */
     public JsonTemplate withDefaultTypeName(String typeName) {
         this.defaultTypeName = typeName;
@@ -192,7 +194,7 @@ public class JsonTemplate {
     /**
      * Returns the input json template
      *
-     * @return
+     * @return the original json template
      */
     public String getTemplate() {
         return template;

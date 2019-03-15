@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Haihan Yin
+ * Copyright 2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ public class Ipv6ValueProducer extends AbstractValueProducer<JsonStringNode> {
     /**
      * Produces a node which can generate a random ipv6 string
      *
-     * @return
+     * @return the produced json string node
      */
     @Override
     public JsonStringNode produce() {
@@ -54,7 +54,7 @@ public class Ipv6ValueProducer extends AbstractValueProducer<JsonStringNode> {
     /**
      * Produces an ipv6 string
      *
-     * @return
+     * @return the produced ipv6 format string
      */
     protected String produceIp() {
         return IntStream.range(0, 8)

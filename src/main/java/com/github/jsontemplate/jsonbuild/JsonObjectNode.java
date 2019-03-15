@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Haihan Yin
+ * Copyright 2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,8 +30,8 @@ public final class JsonObjectNode implements JsonNode {
     /**
      * Creates a JsonObjectNode with a given map.
      *
-     * @param valueMap
-     * @return
+     * @param valueMap the map value to be converted
+     * @return the converted json object node
      */
     public static JsonObjectNode of(Map<String, ?> valueMap) {
         JsonObjectNode jsonObjectNode = new JsonObjectNode();
@@ -42,8 +42,8 @@ public final class JsonObjectNode implements JsonNode {
     /**
      * Adds a child
      *
-     * @param key
-     * @param node
+     * @param key name
+     * @param node value
      */
     public void putNode(String key, JsonNode node) {
         this.children.put(key, node);
@@ -58,12 +58,12 @@ public final class JsonObjectNode implements JsonNode {
     }
 
     @Override
-    public String prettyString(int identation) {
-        String childSpaces = JsonNodeUtils.makeIdentation(identation + 1);
+    public String prettyString(int indentation) {
+        String childSpaces = JsonNodeUtils.makeIdentation(indentation + 1);
         String joinedIdentChildren = children.entrySet().stream()
-                .map(entry -> childSpaces + "\"" + entry.getKey() + "\" : " + entry.getValue().prettyString(identation + 1))
+                .map(entry -> childSpaces + "\"" + entry.getKey() + "\" : " + entry.getValue().prettyString(indentation + 1))
                 .collect(Collectors.joining(",\n"));
-        String spaces = JsonNodeUtils.makeIdentation(identation);
+        String spaces = JsonNodeUtils.makeIdentation(indentation);
         return "{\n" +
                 joinedIdentChildren +
                 "\n" + spaces + "}";

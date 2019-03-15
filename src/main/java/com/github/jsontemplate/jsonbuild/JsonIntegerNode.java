@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Haihan Yin
+ * Copyright 2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,8 +27,8 @@ public final class JsonIntegerNode extends AbstractJsonValueNode<Integer> {
     /**
      * Creates a JsonIntegerNode with a given integer value.
      *
-     * @param value
-     * @return
+     * @param value the integer value to be converted
+     * @return the converted json integer node
      */
     public static JsonIntegerNode of(Integer value) {
         return new JsonIntegerNode(() -> value);

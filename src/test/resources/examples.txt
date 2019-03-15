@@ -2,21 +2,24 @@
 {ipField : @ip}
 ===== Generated Json =====
 {
-  "ipField" : "218.78.236.115"
+  "ipField" : "142.191.121.16"
 }
 
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
 ===== Template =====
 {ipv6Field : @ipv6}
 ===== Generated Json =====
 {
-  "ipv6Field" : "4fbe:9b12:1699:2a61:303c:5a85:0a37:6b83"
+  "ipv6Field" : "9163:3d5a:b831:4077:9f65:4742:89de:80ce"
 }
 
 ===== Template =====
 {base64Field : @base64}
 ===== Generated Json =====
 {
-  "base64Field" : "YnVYd294aFdF"
+  "base64Field" : "dXd5ckZ5WEZM"
 }
 
 ===== Template =====
@@ -24,15 +27,12 @@
 ===== Generated Json =====
 {
   "anArray" : [
-    "RFDSa",
-    "pDCLB",
-    "hOpxo",
-    "EexNn",
-    "CUVyY",
-    "VqRrb",
-    "UJTMZ",
-    "QsNKB",
-    "IoqaO"
+    "AhMoQ",
+    "ZzBvB",
+    "rkdsM",
+    "axrHw",
+    "qISsg",
+    "yBpUO"
   ]
 }
 
@@ -41,27 +41,25 @@
 ===== Generated Json =====
 {
   "anArray" : [
-    "sUSBA",
-    "oxXEd",
-    "ioViq"
+    "GZjDf",
+    "LuyvC",
+    "CRoLD"
   ]
 }
-
-===== Template =====
-[{aField:@s}]
-===== Generated Json =====
-[
-  {
-    "aField" : "xucZB"
-  }
-]
 
 ===== Template =====
 {anArray : @s[](1, 10)}
 ===== Generated Json =====
 {
   "anArray" : [
-    "sRaqC"
+    "Bcfwu",
+    "bobjl",
+    "kWowa",
+    "dLsed",
+    "pICST",
+    "nMAfX",
+    "WWQZo",
+    "upTYk"
   ]
 }
 
@@ -69,15 +67,13 @@
 @s[](min=1, max=10)
 ===== Generated Json =====
 [
-  "jlNLk",
-  "ONrlb",
-  "strWz",
-  "tCqAH",
-  "GxEZf",
-  "BcvYq",
-  "mwuGm",
-  "zPrSX",
-  "xvoTx"
+  "pRBBL",
+  "rGBUW",
+  "vyzPk",
+  "FDAUk",
+  "zSbmg",
+  "ZkVer",
+  "vewrY"
 ]
 
 ===== Template =====
@@ -109,9 +105,9 @@
 ===== Generated Json =====
 {
   "anArray" : [
-    "OwtDB",
-    "tcVWP",
-    "BkODu"
+    "gONio",
+    "EtnUq",
+    "QEIQO"
   ]
 }
 
@@ -136,20 +132,10 @@
     "2",
     "3",
     "4",
-    "SHbRf",
-    "qRoah"
+    "xYcsk",
+    "SINfn"
   ]
 }
-
-===== Template =====
-[1, @i(2), @b(false), @s(4)]
-===== Generated Json =====
-[
-  1,
-  2,
-  false,
-  "4"
-]
 
 ===== Template =====
 {anArray:@s[1, @i(2), @b(false), @s(4)]}
@@ -232,8 +218,8 @@
 @ls:@s(length=20), @ls{name, role}
 ===== Generated Json =====
 {
-  "name" : "FblGhxhVaYIrvvtsuryo",
-  "role" : "eSJESpXbfijoeoeyCjvb"
+  "name" : "xFGXrzYAyLpYZYhiCCnv",
+  "role" : "EjXsbkrNGeuQnAqimmSZ"
 }
 
 ===== Template =====
@@ -259,17 +245,17 @@
 @i{fieldA, fieldB}
 ===== Generated Json =====
 {
-  "fieldA" : 73,
-  "fieldB" : 52
+  "fieldA" : 32,
+  "fieldB" : 61
 }
 
 ===== Template =====
 @i{fieldA, fieldB : @f { fieldC }}
 ===== Generated Json =====
 {
-  "fieldA" : 73,
+  "fieldA" : 72,
   "fieldB" : {
-    "fieldC" : 79.44497
+    "fieldC" : 40.653008
   }
 }
 
@@ -278,14 +264,14 @@
 ===== Generated Json =====
 {
   "home" : {
-    "city" : "cCdna",
-    "street" : "cgFDz",
-    "number" : 93
+    "city" : "hCBOt",
+    "street" : "AwEgn",
+    "number" : 59
   },
   "office" : {
-    "city" : "GRddj",
-    "street" : "bxgGR",
-    "number" : 15
+    "city" : "kLKMs",
+    "street" : "VWvbd",
+    "number" : 55
   }
 }
 
@@ -305,14 +291,14 @@
 ===== Generated Json =====
 {
   "group1" : [
-    "Lfmts",
-    "QaaPU",
-    "DxZsF"
+    "hqKDK",
+    "pKEIk",
+    "paPvE"
   ],
   "group2" : [
-    "Nnphu",
-    "gpAzC",
-    "zoqzp"
+    "cbzTH",
+    "KfWzH",
+    "PuzOG"
   ]
 }
 
@@ -320,30 +306,30 @@
 {aField,bField}
 ===== Generated Json =====
 {
-  "aField" : 76,
-  "bField" : 68
+  "aField" : 83,
+  "bField" : 13
 }
 
 ===== Template =====
 @s(length=10){fieldA, fieldB: @s(length=20)}
 ===== Generated Json =====
 {
-  "fieldA" : "nNVduQnKmu",
-  "fieldB" : "NBKPXneoIdlGAqlZTrRO"
+  "fieldA" : "judFQGxwjM",
+  "fieldB" : "PlPtqUxBUTcQSpoFZevs"
 }
 
 ===== Template =====
 {aField : @f(min=-11.22)}
 ===== Generated Json =====
 {
-  "aField" : -2.3144646
+  "aField" : 10.740949
 }
 
 ===== Template =====
 {aField : @f(min=11.22)}
 ===== Generated Json =====
 {
-  "aField" : 38.086674
+  "aField" : 84.116646
 }
 
 ===== Template =====
@@ -357,21 +343,21 @@
 {aField : @f(max=-11.22)}
 ===== Generated Json =====
 {
-  "aField" : -78.87732
+  "aField" : -24.129936
 }
 
 ===== Template =====
 {aField : @f}
 ===== Generated Json =====
 {
-  "aField" : 94.19532
+  "aField" : 76.872444
 }
 
 ===== Template =====
 {aField : @f(1.2, 2.34, 4.567, 5.7)}
 ===== Generated Json =====
 {
-  "aField" : 2.34
+  "aField" : 1.2
 }
 
 ===== Template =====
@@ -427,21 +413,21 @@
 {aField : @f(min=11.22, max=22.33)}
 ===== Generated Json =====
 {
-  "aField" : 17.84706
+  "aField" : 21.497488
 }
 
 ===== Template =====
 {aField : @f(min=-22.11, max=-11.33)}
 ===== Generated Json =====
 {
-  "aField" : -12.666423
+  "aField" : -17.127266
 }
 
 ===== Template =====
 {aField : @i(min=10, max=20)}
 ===== Generated Json =====
 {
-  "aField" : 18
+  "aField" : 13
 }
 
 ===== Template =====
@@ -483,7 +469,7 @@
 {aField : @i}
 ===== Generated Json =====
 {
-  "aField" : 17
+  "aField" : 94
 }
 
 ===== Template =====
@@ -497,21 +483,21 @@
 {aField : @i(min=11)}
 ===== Generated Json =====
 {
-  "aField" : 97
+  "aField" : 53
 }
 
 ===== Template =====
 {aField : @i(min=-20, max=-10)}
 ===== Generated Json =====
 {
-  "aField" : -20
+  "aField" : -17
 }
 
 ===== Template =====
 {aField : @i(20, 30, 40, 50)}
 ===== Generated Json =====
 {
-  "aField" : 30
+  "aField" : 40
 }
 
 ===== Template =====
@@ -519,8 +505,8 @@
 ===== Generated Json =====
 {
   "anObject" : {
-    "aField" : "FhGjF",
-    "bField" : "SNLzn"
+    "aField" : "gjUFN",
+    "bField" : "xYjFd"
   }
 }
 
@@ -529,7 +515,7 @@
 ===== Generated Json =====
 {
   "anObject" : {
-    "aField" : "ctdZr"
+    "aField" : "OydIk"
   }
 }
 
@@ -541,7 +527,7 @@
     "objB" : {
       "objC" : {
         "objD" : {
-          "aField" : "CiCqA"
+          "aField" : "NZekC"
         }
       }
     }
@@ -553,10 +539,10 @@
 ===== Generated Json =====
 {
   "objA" : {
-    "fieldA" : "NcuxT"
+    "fieldA" : "tvvgf"
   },
   "objB" : {
-    "fieldB" : 11
+    "fieldB" : 96
   }
 }
 
@@ -600,7 +586,7 @@
 {aField : @s(min=10, max=20)}
 ===== Generated Json =====
 {
-  "aField" : "CyAmNNGxpAujKOzsTn"
+  "aField" : "IAvBSbDvtv"
 }
 
 ===== Template =====
@@ -656,28 +642,28 @@
 {aField : @s(min=11)}
 ===== Generated Json =====
 {
-  "aField" : "lhBHhFPaRTOqcFwcvhqRNg"
+  "aField" : "iZVQftbbCNUNttQhQ"
 }
 
 ===== Template =====
 {aField : @s}
 ===== Generated Json =====
 {
-  "aField" : "ylgXG"
+  "aField" : "uDueV"
 }
 
 ===== Template =====
 {aField : @s(A, B, C, null)}
 ===== Generated Json =====
 {
-  "aField" : "C"
+  "aField" : "A"
 }
 
 ===== Template =====
 {aField : @s(length=10)}
 ===== Generated Json =====
 {
-  "aField" : "MpOrhnStEK"
+  "aField" : "xkLpECvHnS"
 }
 
 ===== Template =====
@@ -685,14 +671,14 @@
 ===== Generated Json =====
 {
   "office" : {
-    "city" : "Aobrv",
-    "street" : "hpuVV",
-    "number" : 98
+    "city" : "eytUy",
+    "street" : "JWPwd",
+    "number" : 56
   },
   "home" : {
-    "city" : "kqKgE",
-    "street" : "mymly",
-    "number" : 89
+    "city" : "ZGyYl",
+    "street" : "kEzgf",
+    "number" : 83
   }
 }
 
@@ -701,14 +687,14 @@
 ===== Generated Json =====
 {
   "office" : {
-    "city" : "RikSrdsldB",
-    "street" : "aHjQQuirSjhyeBnzEewh",
-    "number" : 1071
+    "city" : "YcTtDqfIhR",
+    "street" : "ZQKsENLBTXSfcygbZjkH",
+    "number" : 1019
   },
   "home" : {
-    "city" : "oSDYZyvRmQ",
-    "street" : "OfkfscXJErmdVoSiwzre",
-    "number" : 1007
+    "city" : "lIsgiDHFnJ",
+    "street" : "KfleVUgupwPrjAqkYDTu",
+    "number" : 1085
   }
 }
 
@@ -717,13 +703,13 @@
 ===== Generated Json =====
 {
   "office" : {
-    "city" : "Utrecht",
-    "street" : "HSkJN",
-    "number" : 5
+    "city" : "Amsterdam",
+    "street" : "jHklJ",
+    "number" : 10
   },
   "home" : {
-    "city" : "Amsterdam",
-    "street" : "tcOVE",
+    "city" : "Utrecht",
+    "street" : "wkfGb",
     "number" : 5
   }
 }
@@ -734,22 +720,22 @@
 [
   [
     {
-      "name" : "fKNES",
-      "paramCount" : 1
+      "name" : "zgOMM",
+      "paramCount" : 4
     },
     {
-      "name" : "uaREs",
-      "paramCount" : 1
+      "name" : "fukCv",
+      "paramCount" : 5
     }
   ],
   [
     {
-      "name" : "lqZIw",
-      "paramCount" : 0
+      "name" : "mleEB",
+      "paramCount" : 5
     },
     {
-      "name" : "gFWae",
-      "paramCount" : 1
+      "name" : "jBEJF",
+      "paramCount" : 4
     }
   ]
 ]
@@ -760,12 +746,12 @@
 {
   "office" : {
     "city" : "Amsterdam",
-    "street" : "fCIZL",
+    "street" : "CRNrz",
     "number" : 5
   },
   "home" : {
     "city" : "Amsterdam",
-    "street" : "fOdbg",
+    "street" : "fsPTl",
     "number" : 5
   }
 }
@@ -776,26 +762,26 @@
 [
   {
     "office" : {
-      "city" : "LXRXG",
-      "street" : "JlSTW",
-      "number" : 84
+      "city" : "WKakN",
+      "street" : "IgOqg",
+      "number" : 44
     },
     "home" : {
-      "city" : "cAtcQ",
-      "street" : "wlgDq",
-      "number" : 56
+      "city" : "kTADk",
+      "street" : "jYlAW",
+      "number" : 44
     }
   },
   {
     "office" : {
-      "city" : "IZwcj",
-      "street" : "eEVUu",
-      "number" : 30
+      "city" : "sVXrm",
+      "street" : "cLTqJ",
+      "number" : 89
     },
     "home" : {
-      "city" : "MWkDZ",
-      "street" : "TZNAX",
-      "number" : 13
+      "city" : "LhiYW",
+      "street" : "POoGr",
+      "number" : 38
     }
   }
 ]
@@ -806,26 +792,26 @@
 [
   [
     [
-      "FMBLH",
-      "JWGNJ",
-      "xFguk"
+      "yuvyR",
+      "asQlP",
+      "PuYsz"
     ],
     [
-      "IGMNa",
-      "mFlwa",
-      "TxRdF"
+      "QkknJ",
+      "xUhRu",
+      "xDwxs"
     ]
   ],
   [
     [
-      "vbzkR",
-      "rXEqa",
-      "NGNEl"
+      "yaePg",
+      "IBizn",
+      "juZRQ"
     ],
     [
-      "pVloK",
-      "HHLSn",
-      "vdSCJ"
+      "FvVOj",
+      "esplg",
+      "GisjG"
     ]
   ]
 ]
@@ -841,7 +827,7 @@
 {aField: @s($myValue)}
 ===== Generated Json =====
 {
-  "aField" : "A"
+  "aField" : "C"
 }
 
 ===== Template =====
@@ -864,14 +850,14 @@
 {aField: @s($myValue)}
 ===== Generated Json =====
 {
-  "aField" : "C"
+  "aField" : "A"
 }
 
 ===== Template =====
 {aField: @s($config)}
 ===== Generated Json =====
 {
-  "aField" : "tfteXzPtmQLXYALxh"
+  "aField" : "jttVcirrsdqbwyZC"
 }
 
 ===== Template =====
@@ -910,7 +896,7 @@
 {aField: @s(A, B, $myValue, D)}
 ===== Generated Json =====
 {
-  "aField" : "hello"
+  "aField" : "D"
 }
 
 ===== Template =====
@@ -924,7 +910,7 @@
 {aField: @s(length=$size)}
 ===== Generated Json =====
 {
-  "aField" : "vDHequJxVEEbRJnzbWPe"
+  "aField" : "aBeHmkEaPLwquAwJAMyH"
 }
 
 ===== Template =====
@@ -942,7 +928,7 @@
 {aField: @s(min=$min,max=$max)}
 ===== Generated Json =====
 {
-  "aField" : "pOAKKpjNiUxHrPmzgY"
+  "aField" : "fUNjvVooGBSGvHJy"
 }
 
 ===== Template =====
@@ -956,5 +942,5 @@
 {aField: @s(min=$min,max=$max)}
 ===== Generated Json =====
 {
-  "aField" : "MhqOCTyOIQBrqPIgzJ"
+  "aField" : "wUciVyTjvVpEWvT"
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Haihan Yin
+ * Copyright 2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,8 +30,8 @@ public final class JsonBooleanNode extends AbstractJsonValueNode<Boolean> {
     /**
      * Creates a JsonBooleanNode with a given boolean value.
      *
-     * @param value
-     * @return
+     * @param value the boolean object to be converted
+     * @return the converted json boolean node
      */
     public static JsonBooleanNode of(Boolean value) {
         return new JsonBooleanNode(() -> value);

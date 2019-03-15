@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Haihan Yin
+ * Copyright 2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 package com.github.jsontemplate.valueproducer;
 
 import com.github.jsontemplate.jsonbuild.JsonBooleanNode;
+import com.github.jsontemplate.jsonbuild.supplier.ListParamSupplier;
 
 import java.util.List;
 import java.util.Random;
@@ -40,7 +41,7 @@ public class BooleanValueProducer extends AbstractValueProducer<JsonBooleanNode>
     /**
      * Produces a node which can generate a random boolean value
      *
-     * @return
+     * @return the produced json boolean node
      */
     @Override
     public JsonBooleanNode produce() {
@@ -50,8 +51,8 @@ public class BooleanValueProducer extends AbstractValueProducer<JsonBooleanNode>
     /**
      * Produces a node which can generate a fixed boolean value
      *
-     * @param value
-     * @return
+     * @param value string representation of the boolean value
+     * @return the produced json boolean node
      */
     @Override
     public JsonBooleanNode produce(String value) {
@@ -64,11 +65,11 @@ public class BooleanValueProducer extends AbstractValueProducer<JsonBooleanNode>
      * The selected string is parsed to a boolean.
      *
      * @param valueList the enumerated string values
-     * @return
+     * @return the produced json boolean node
      */
     @Override
     public JsonBooleanNode produce(List<String> valueList) {
         List<Boolean> parsedValueList = valueList.stream().map(Boolean::parseBoolean).collect(Collectors.toList());
-        return new JsonBooleanNode(() -> parsedValueList.get(new Random().nextInt(parsedValueList.size())));
+        return new JsonBooleanNode(new ListParamSupplier<>(parsedValueList));
     }
 }

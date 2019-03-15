@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Haihan Yin
+ * Copyright 2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,9 +51,9 @@ public abstract class AbstractValueProducer<T extends JsonNode> implements IValu
      * Returns the integer value from the paramMap based on the paramName.
      * The value is then removed from the map.
      *
-     * @param paramMap
+     * @param paramMap parameter map
      * @param paramName name of the value
-     * @return
+     * @return the integer value referred by the paramName
      */
     protected Integer pickIntegerParam(Map<String, String> paramMap, String paramName) {
         return pickParamValue(paramMap, paramName, Integer::parseInt);
@@ -63,9 +63,9 @@ public abstract class AbstractValueProducer<T extends JsonNode> implements IValu
      * Returns the float value from the paramMap based on the paramName.
      * The value is then removed from the map.
      *
-     * @param paramMap
+     * @param paramMap parameter map
      * @param paramName name of the value
-     * @return
+     * @return the float value referred by the paramName
      */
     protected Float pickFloatParam(Map<String, String> paramMap, String paramName) {
         return pickParamValue(paramMap, paramName, Float::parseFloat);
@@ -75,9 +75,9 @@ public abstract class AbstractValueProducer<T extends JsonNode> implements IValu
      * Returns the boolean value from the paramMap based on the paramName.
      * The value is then removed from the map.
      *
-     * @param paramMap
+     * @param paramMap parameter map
      * @param paramName name of the value
-     * @return
+     * @return the boolean value referred by the paramName
      */
     protected Boolean pickBooleanParam(Map<String, String> paramMap, String paramName) {
         return pickParamValue(paramMap, paramName, Boolean::parseBoolean);
@@ -87,9 +87,9 @@ public abstract class AbstractValueProducer<T extends JsonNode> implements IValu
      * Returns the string value from the paramMap based on the paramName.
      * The value is then removed from the map.
      *
-     * @param paramMap
+     * @param paramMap parameter map
      * @param paramName name of the value
-     * @return
+     * @return the string value referred by the paramName
      */
     protected String pickStringParam(Map<String, String> paramMap, String paramName) {
         return paramMap.get(paramName);
@@ -107,9 +107,9 @@ public abstract class AbstractValueProducer<T extends JsonNode> implements IValu
     /**
      * Returns a random integer in the range of min and max.
      *
-     * @param min
-     * @param max
-     * @return
+     * @param min minimal bound
+     * @param max maximal bound
+     * @return random value between min and max
      */
     protected int randomIntInRange(int min, int max) {
         return ThreadLocalRandom.current().nextInt(min, max + 1);
@@ -118,9 +118,9 @@ public abstract class AbstractValueProducer<T extends JsonNode> implements IValu
     /**
      * Returns a random float in the range of min and max.
      *
-     * @param min
-     * @param max
-     * @return
+     * @param min minimal bound
+     * @param max maximal bound
+     * @return random value between min and max
      */
     protected float randomFloatInRange(float min, float max) {
         return min + new Random().nextFloat() * (max - min);
@@ -131,7 +131,7 @@ public abstract class AbstractValueProducer<T extends JsonNode> implements IValu
      * values which are not supported. In this case, an
      * {@link IllegalArgumentException IllegalArgumentExcpetion} is thrown.
      *
-     * @param paramMap
+     * @param paramMap parameter map
      */
     protected void validateParamMap(Map<String, String> paramMap) {
         if (paramMap.size() > 0) {

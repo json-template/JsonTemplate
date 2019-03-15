@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Haihan Yin
+ * Copyright 2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,10 +24,10 @@ import java.util.Map;
 /**
  * All node producers should implement this interface. The node producer
  * produces a json node which can print expected json string.
- * <p/>
+ * <p>
  * JsonTemplate has implemented some basic node producers which can suit
  * most of the cases.
- * <p/>
+ * <p>
  * Other libraries, such as Guava, Apache Commons, JFaker, support
  * powerful data generations. Users are freely to customize, extend,
  * and add their own producers.
@@ -37,9 +37,9 @@ import java.util.Map;
 public interface IValueProducer<T extends JsonNode> {
 
     /**
-     * Returns the type name used in the template.
+     * Returns the name of the producer used in the template.
      *
-     * @return
+     * @return the name of the value producer
      */
     String getTypeName();
 

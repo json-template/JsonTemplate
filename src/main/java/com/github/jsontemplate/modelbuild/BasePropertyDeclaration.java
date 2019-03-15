@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Haihan Yin
+ * Copyright 2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -262,7 +262,11 @@ public class BasePropertyDeclaration {
         for (Map.Entry<String, String> entry : typeSpec.getMapParam().entrySet()) {
             if (entry.getValue().startsWith(Token.VARIABLE.getTag())) {
                 Object variable = variableMap.get(entry.getValue().substring(1));
-                typeSpec.getMapParam().put(entry.getKey(), variable.toString());
+                if (variable != null) {
+                    typeSpec.getMapParam().put(entry.getKey(), variable.toString());
+                } else {
+                    throw new IllegalArgumentException("Unknown variable name: " + entry.getValue());
+                }
             }
         }
     }

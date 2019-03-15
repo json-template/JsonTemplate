@@ -14,21 +14,26 @@
  * limitations under the License.
  */
 
-package com.github.jsontemplate.jsonbuild;
+package com.github.jsontemplate.jsonbuild.supplier;
 
-import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.util.function.Supplier;
 
-public final class JsonNodeUtils {
+public class ListParamSupplier<T> implements Supplier<T> {
 
-    private JsonNodeUtils() {
+    private List<T> listParam;
+
+    public ListParamSupplier(List<T> listParam) {
+        this.listParam = listParam;
     }
-    
-    public static String makeIdentation(int count) {
-        if (count <= 0) {
-            return "";
-        }
-        char[] spaces = new char[count * 2];
-        Arrays.fill(spaces, ' ');
-        return new String(spaces);
+
+    public List<T> getListParam() {
+        return listParam;
+    }
+
+    @Override
+    public T get() {
+        return  listParam.get(new Random().nextInt(listParam.size()));
     }
 }

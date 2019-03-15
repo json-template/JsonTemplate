@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Haihan Yin
+ * Copyright 2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,8 @@ public interface DefaultBuildHandler {
     /**
      * A fallback handling of a type used in the template
      *
-     * @param valueTypeName
+     * @param valueTypeName the name of the value type
+     * @return the produced json node
      */
     JsonNode handle(String valueTypeName);
 }

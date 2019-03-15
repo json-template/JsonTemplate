@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Haihan Yin
+ * Copyright 2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ public class IpValueProducer extends AbstractValueProducer<JsonStringNode> {
     /**
      * Produces a node which can generate a random ip string
      *
-     * @return
+     * @return the produced json string node
      */
     @Override
     public JsonStringNode produce() {
@@ -53,7 +53,7 @@ public class IpValueProducer extends AbstractValueProducer<JsonStringNode> {
     /**
      * Produces an ip string
      *
-     * @return
+     * @return ip format string
      */
     protected String produceIp() {
         int[] ipParts = new int[]{

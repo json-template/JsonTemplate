@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Haihan Yin
+ * Copyright 2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 package com.github.jsontemplate.valueproducer;
 
 import com.github.jsontemplate.jsonbuild.JsonFloatNode;
+import com.github.jsontemplate.jsonbuild.supplier.ListParamSupplier;
 
 import java.util.HashMap;
 import java.util.List;
@@ -57,7 +58,7 @@ public class FloatValueProducer extends AbstractValueProducer<JsonFloatNode> {
      * Produces a node which can generate a fixed float.
      *
      * @param value the string representation of the float
-     * @return
+     * @return the produced json float node
      */
     @Override
     public JsonFloatNode produce(String value) {
@@ -70,17 +71,17 @@ public class FloatValueProducer extends AbstractValueProducer<JsonFloatNode> {
      * The selected string is parsed to an float.
      *
      * @param valueList the enumerated string values
-     * @return
+     * @return the produced json float node
      */
     @Override
     public JsonFloatNode produce(List<String> valueList) {
         List<Float> parsedValueList = valueList.stream().map(Float::parseFloat).collect(Collectors.toList());
-        return new JsonFloatNode(() -> parsedValueList.get(new Random().nextInt(parsedValueList.size())));
+        return new JsonFloatNode(new ListParamSupplier<>(parsedValueList));
     }
 
     /**
      * Produces a node which generates an float based on a configuration.
-     * <br/>
+     * <br>
      * Following parameters are currently supported:
      * <ul>
      * <li>min - the minimal value of the generated integer,
@@ -92,10 +93,10 @@ public class FloatValueProducer extends AbstractValueProducer<JsonFloatNode> {
      * if the minimal value is not given, it is returned from
      * {@link #getDefaultMin(float) getDefaultMin(float)} which is 0
      * </li>
-     * <ul/>
+     * </ul>
      *
      * @param paramMap configuration
-     * @return
+     * @return the produced json float node
      */
     @Override
     public JsonFloatNode produce(Map<String, String> paramMap) {
@@ -143,7 +144,7 @@ public class FloatValueProducer extends AbstractValueProducer<JsonFloatNode> {
     /**
      * Returns the default maximal bound of the default range.
      *
-     * @return
+     * @return the default range
      */
     protected float getDefaultRange() {
         return ONE_HUNDRED;
