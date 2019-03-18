@@ -10,7 +10,7 @@
 <dependency>
     <groupId>com.github.json-template</groupId>
     <artifactId>jsontemplate</artifactId>
-    <version>0.2.0</version>
+    <version>0.2.1</version>
 </dependency>
 ```
 
