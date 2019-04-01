@@ -252,7 +252,7 @@ The size configuration of the generated array is placed after `[]`.
 </table>
 
 - In the first example, it produces string elements.
-- In the second exmaple, the size is greater than the amount of the listed elements.
+- In the second example, the size is greater than the amount of the listed elements.
 The extra elements will be filled by the value producer. In this case, the values
 are random strings of length 5. If the size is not greater, all listed elements
 are remained without filled elements. Same rule applies to the range size.
@@ -379,7 +379,7 @@ In the above example, variable `person` refers to an map object.
 Variables can be also put in the parameters of a value producer. 
 
 When variable used as a single parameter, the parameter type (single, list, or map)
-is adjusted according to the type of the vaiable.
+is adjusted according to the type of the variable.
 
 - If the variable refers to a collection or an array, it becomes a list parameter;
 - If the variable refers to map, it becomes a map parameter;
