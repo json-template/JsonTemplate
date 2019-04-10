@@ -29,7 +29,7 @@ Suppose that we want to create the following json String,
 ```
 
 With JsonTemplate, you can do it in the following way. Compared to the typical solution,
-JsomTemplate saves you effort in reading and writing the escaped quotes "\\"".
+JsonTemplate saves you effort in reading and writing the escaped quotes "\\"".
 ```java
 String template = "{" +
                   "  name : John," +
@@ -392,7 +392,7 @@ JsonTemplate does not aim for providing the full-fledged value generation. Other
 Guava, Apache Commons, JFaker, etc., provide powerful value generation apis.
  
 The pre-installed value producers are designed in a way which can be extended. 
-With `JsomTemplate.withValueProducer(IValueProducer)`, users can freely
+With `JsonTemplate.withValueProducer(IValueProducer)`, users can freely
 extend the pre-installed values producers or create new ones.
 
 Above is just a peek for the list of features.
