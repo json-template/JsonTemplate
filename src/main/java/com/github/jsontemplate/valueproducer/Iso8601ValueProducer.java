@@ -27,7 +27,7 @@ import java.time.Instant;
 /**
  * This class produces a {@link JsonStringNode} which generates current ISO8601 timestamp. 
  */
-public class Iso8601Producer extends AbstractValueProducer<JsonStringNode> {
+public class Iso8601ValueProducer extends AbstractValueProducer<JsonStringNode> {
 
     /**
      * The type name used in the template, e.g. {anIsoField: @iso8601}
