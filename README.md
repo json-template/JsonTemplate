@@ -118,6 +118,8 @@ Following is the table about all the pre-installed value producers:
 | @ip        | produces an ip string |
 | @ipv6      | produces an ipv6 string |
 | @base64    | produces a base64 string |
+| @iso8601   | produces a ISO8601 string |
+| @cat       | used for concatenating strings |
 
 ### Value producers with a single parameter
 <table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
@@ -186,7 +188,9 @@ Following is the table about whether each type of parameter is supported by the 
 | @ip      | yes                | no     | no   | no |
 | @ipv6    | yes                | no     | no   | no |
 | @base64  | yes                | no     | no   | yes, supported parameters: length |
- 
+| @iso8601 | yes                | no     | no   | no |
+| @cat     | yes                | yes    | yes  | no |
+
 
 ### Json objects
 <table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
