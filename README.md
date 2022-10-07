@@ -120,6 +120,7 @@ Following is the table about all the pre-installed value producers:
 | @base64    | produces a base64 string |
 | @iso8601   | produces a ISO8601 string |
 | @cat       | used for concatenating strings |
+| @uuid      | produces a UUID string |
 
 ### Value producers with a single parameter
 <table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
