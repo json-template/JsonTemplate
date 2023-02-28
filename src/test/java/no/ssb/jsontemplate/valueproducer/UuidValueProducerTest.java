@@ -1,5 +1,6 @@
 package no.ssb.jsontemplate.valueproducer;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +11,14 @@ import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.is;
 
 class UuidValueProducerTest {
-    private UuidValueProducer producer = new UuidValueProducer();
+    private final UuidValueProducer producer = new UuidValueProducer();
+
+    @Test
+    @DisplayName("generates a random UUID string")
+    void testTypeName() {
+        String typeName = producer.getTypeName();
+        Assertions.assertEquals("uuid", typeName);
+    }
 
     @Test
     @DisplayName("generates a random UUID string")
