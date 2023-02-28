@@ -3,20 +3,19 @@ package no.ssb.jsontemplate.valueproducer;
 import no.ssb.jsontemplate.jsonbuild.JsonBooleanNode;
 import no.ssb.jsontemplate.jsonbuild.supplier.ListParamSupplier;
 
+import java.security.SecureRandom;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
  * This class produces a {@link JsonBooleanNode JsonBooleanNode} which can generate json boolean value.
  */
 public class BooleanValueProducer extends AbstractValueProducer<JsonBooleanNode> {
-    private static final Random random = new Random();
-
     /**
      * The type name used in the template, e.g. {aBooleanField: @b}
      */
     public static final String TYPE_NAME = "b";
+    private static final SecureRandom random = new SecureRandom();
 
     @Override
     public String getTypeName() {

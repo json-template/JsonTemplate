@@ -3,22 +3,21 @@ package no.ssb.jsontemplate.valueproducer;
 import no.ssb.jsontemplate.jsonbuild.JsonFloatNode;
 import no.ssb.jsontemplate.jsonbuild.supplier.ListParamSupplier;
 
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
  * This class produces a {@link JsonFloatNode JsonFloatNode} which can generate json numeric(float) value.
  */
 public class FloatValueProducer extends AbstractValueProducer<JsonFloatNode> {
-    private static final Random random = new Random();
-
     /**
      * The type name used in the template, e.g. {aFloatField: @f}
      */
     public static final String TYPE_NAME = "f";
+    private static final SecureRandom random = new SecureRandom();
     private static final float ONE_HUNDRED = 100f;
 
     @Override

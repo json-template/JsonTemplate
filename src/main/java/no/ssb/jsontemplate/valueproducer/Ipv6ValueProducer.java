@@ -2,7 +2,7 @@ package no.ssb.jsontemplate.valueproducer;
 
 import no.ssb.jsontemplate.jsonbuild.JsonStringNode;
 
-import java.util.Random;
+import java.security.SecureRandom;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -11,12 +11,11 @@ import java.util.stream.IntStream;
  * ip string.
  */
 public class Ipv6ValueProducer extends AbstractValueProducer<JsonStringNode> {
-    private static final Random random = new Random();
-
     /**
      * The type name used in the template, e.g. {anIpv6Field: @ipv6}
      */
     public static final String TYPE_NAME = "ipv6";
+    private static final SecureRandom random = new SecureRandom();
     private static final String LETTERS = "0123456789abcdef";
 
 

@@ -1,5 +1,6 @@
 package no.ssb.jsontemplate.jsonbuild;
 
+import java.security.SecureRandom;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -7,8 +8,8 @@ import java.util.stream.Collectors;
  * This class represents a producer of a json array value.
  */
 public final class JsonArrayNode implements JsonNode {
+    private static final SecureRandom random = new SecureRandom();
     private final List<JsonNode> children = new LinkedList<>();
-    Random random = new Random();
     private JsonNode defaultNode;
     private Integer size;
     private Integer max;

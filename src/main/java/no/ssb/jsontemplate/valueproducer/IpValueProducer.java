@@ -2,8 +2,8 @@ package no.ssb.jsontemplate.valueproducer;
 
 import no.ssb.jsontemplate.jsonbuild.JsonStringNode;
 
+import java.security.SecureRandom;
 import java.util.Arrays;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -15,7 +15,7 @@ public class IpValueProducer extends AbstractValueProducer<JsonStringNode> {
      * The type name used in the template, e.g. {anIpField: @ip}
      */
     public static final String TYPE_NAME = "ip";
-    Random random = new Random();
+    private static final SecureRandom random = new SecureRandom();
 
     @Override
     public String getTypeName() {

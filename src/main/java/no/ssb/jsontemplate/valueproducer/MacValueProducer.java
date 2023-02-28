@@ -3,19 +3,18 @@ package no.ssb.jsontemplate.valueproducer;
 
 import no.ssb.jsontemplate.jsonbuild.JsonStringNode;
 
-import java.util.Random;
+import java.security.SecureRandom;
 
 /**
  * This class produces a {@link JsonStringNode} which can generate a
  * 6-octet MAC address string.
  */
 public class MacValueProducer extends AbstractValueProducer<JsonStringNode> {
-    private static final Random random = new Random();
-
     /**
      * The type name used in the template, e.g. {aMacField: @mac}
      */
     public static final String TYPE_NAME = "mac";
+    private static final SecureRandom random = new SecureRandom();
 
     @Override
     public String getTypeName() {

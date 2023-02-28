@@ -3,21 +3,20 @@ package no.ssb.jsontemplate.valueproducer;
 import no.ssb.jsontemplate.jsonbuild.JsonStringNode;
 import no.ssb.jsontemplate.jsonbuild.supplier.ListParamSupplier;
 
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 /**
  * This class produces a {@link JsonStringNode JsonStringNode} which can generate json string value.
  */
 public class StringValueProducer extends AbstractValueProducer<JsonStringNode> {
-    private static final Random random = new Random();
-
     /**
      * The type name used in the template, e.g. {aStringField: @s}
      */
     public static final String TYPE_NAME = "s";
+    private static final SecureRandom random = new SecureRandom();
     private static final String ALPHABETIC = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private static final int DEFAULT_LENGTH = 5;
     private static final int DEFAULT_MIN_LENGTH = 0;

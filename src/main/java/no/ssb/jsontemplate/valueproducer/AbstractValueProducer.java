@@ -2,15 +2,15 @@ package no.ssb.jsontemplate.valueproducer;
 
 import no.ssb.jsontemplate.jsonbuild.JsonNode;
 
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public abstract class AbstractValueProducer<T extends JsonNode> implements IValueProducer<T> {
-    private static final Random random = new Random();
+    private static final SecureRandom random = new SecureRandom();
 
     @Override
     public T produce() {

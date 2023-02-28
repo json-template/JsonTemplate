@@ -1,11 +1,11 @@
 package no.ssb.jsontemplate.jsonbuild.supplier;
 
+import java.security.SecureRandom;
 import java.util.List;
-import java.util.Random;
 import java.util.function.Supplier;
 
 public class ListParamSupplier<T> implements Supplier<T> {
-    Random random = new Random();
+    private static final SecureRandom random = new SecureRandom();
 
     private List<T> listParam;
 
