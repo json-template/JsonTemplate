@@ -95,7 +95,7 @@ public abstract class AbstractValueProducer<T extends JsonNode> implements IValu
      * @return random value between min and max
      */
     protected int randomIntInRange(int min, int max) {
-        return random.nextInt(min, max + 1);
+        return min + random.nextInt() * (max - min);
     }
 
     /**
