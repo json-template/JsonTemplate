@@ -5,9 +5,7 @@ import no.ssb.jsontemplate.jsonbuild.JsonNode;
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public abstract class AbstractValueProducer<T extends JsonNode> implements IValueProducer<T> {
     private static final SecureRandom random = new SecureRandom();
@@ -97,7 +95,7 @@ public abstract class AbstractValueProducer<T extends JsonNode> implements IValu
      * @return random value between min and max
      */
     protected int randomIntInRange(int min, int max) {
-        return ThreadLocalRandom.current().nextInt(min, max + 1);
+        return random.nextInt(min, max + 1);
     }
 
     /**
@@ -120,7 +118,7 @@ public abstract class AbstractValueProducer<T extends JsonNode> implements IValu
      */
     protected void validateParamMap(Map<String, String> paramMap) {
         if (paramMap.size() > 0) {
-            String unexpectedArgument = paramMap.keySet().stream().collect(Collectors.joining(", "));
+            String unexpectedArgument = String.join(", ", paramMap.keySet());
             throw new IllegalArgumentException("Arguments [" + unexpectedArgument + "] is not supported in " + this.getClass().getName());
         }
     }
