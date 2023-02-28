@@ -216,7 +216,8 @@ public class JsonTemplate {
                 new IpValueProducer(),
                 new Ipv6ValueProducer(),
                 new Base64ValueProducer(),
-                new RawStringValueProducer()
+                new RawStringValueProducer(),
+                new UuidValueProducer()
         };
 
         Arrays.stream(producers).forEach(this::addProducer);
