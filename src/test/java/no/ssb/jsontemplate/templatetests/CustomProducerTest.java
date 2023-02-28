@@ -14,17 +14,17 @@ import java.util.Random;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class CustomProducerTest {
+class CustomProducerTest {
 
     @Test
-    public void testWithNewProducer() {
+    void testWithNewProducer() {
         JsonTemplate jsonTemplate = new JsonTemplate("{balance:@euro(20)}").withValueProducer(new EuroProducer());
         DocumentContext document = TestUtils.parse(jsonTemplate);
         assertThat(document.read("$.balance", String.class), is("€20"));
     }
 
     @Test
-    public void testWithExtendedProducer() {
+    void testWithExtendedProducer() {
         JsonTemplate jsonTemplate = new JsonTemplate("{ref:@s(GOF)}").withValueProducer(new MyStringValueProducer());
         DocumentContext document = TestUtils.parse(jsonTemplate);
         assertThat(document.read("$.ref", String.class), is("[GOF]"));

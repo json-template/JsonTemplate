@@ -9,7 +9,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.is;
 
-public class UuidValueProducerTest {
+class UuidValueProducerTest {
     private UuidValueProducer producer = new UuidValueProducer();
 
     @Test

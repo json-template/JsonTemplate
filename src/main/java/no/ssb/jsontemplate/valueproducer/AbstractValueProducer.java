@@ -5,6 +5,7 @@ import no.ssb.jsontemplate.jsonbuild.JsonNode;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -96,7 +97,7 @@ public abstract class AbstractValueProducer<T extends JsonNode> implements IValu
      * @return random value between min and max
      */
     protected int randomIntInRange(int min, int max) {
-        return random.nextInt(min, max + 1);
+        return ThreadLocalRandom.current().nextInt(min, max + 1);
     }
 
     /**
