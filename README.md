@@ -1,70 +1,79 @@
 # JsonTemplate
+
 **A Java tool for generating json strings.**
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.json-template/jsontemplate/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.json-template/jsontemplate)
-[![Javadoc](https://www.javadoc.io/badge/com.github.json-template/jsontemplate.svg)](http://www.javadoc.io/doc/com.github.json-template/jsontemplate)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/no.ssb.json-template/jsontemplate/badge.svg)](https://maven-badges.herokuapp.com/maven-central/no.ssb.json-template/jsontemplate)
+[![Javadoc](https://www.javadoc.io/badge/no.ssb.json-template/jsontemplate.svg)](http://www.javadoc.io/doc/no.ssb.json-template/jsontemplate)
 
 ## Getting started
 
 ```xml
+
 <dependency>
-    <groupId>com.github.json-template</groupId>
+    <groupId>no.ssb.json-template</groupId>
     <artifactId>jsontemplate</artifactId>
-    <version>0.2.1</version>
+    <version>0.3.0</version>
 </dependency>
 ```
 
 Suppose that we want to create the following json String,
+
 ```json
 {
-  "name" : "John",
-  "age" : 23,
-  "role" : [ "developer", "tester" ],
-  "address" : {
-    "city" : "Utrecht",
-    "street" : "Musicallaan",
-    "number" : 413
-  }  
+  "name": "John",
+  "age": 23,
+  "role": [
+    "developer",
+    "tester"
+  ],
+  "address": {
+    "city": "Utrecht",
+    "street": "Musicallaan",
+    "number": 413
+  }
 }
 ```
 
 With JsonTemplate, you can do it in the following way. Compared to the typical solution,
 JsonTemplate saves you effort in reading and writing the escaped quotes "\\"".
+
 ```java
-String template = "{" +
-                  "  name : John," +
-                  "  age : 23," +
-                  "  role : [ developer, tester ]," +
-                  "  address : {" +
-                  "    city : Utrecht," +
-                  "    street : Musicallaan," +
-                  "    number : 413" +
-                  "  }" +
-                  "}";
-String json = new JsonTemplate(template).prettyString();                      
+String template="{"+
+        "  name : John,"+
+        "  age : 23,"+
+        "  role : [ developer, tester ],"+
+        "  address : {"+
+        "    city : Utrecht,"+
+        "    street : Musicallaan,"+
+        "    number : 413"+
+        "  }"+
+        "}";
+        String json=new JsonTemplate(template).prettyString();                      
 ``` 
 
-Furthermore, suppose that what you need is only a schema-compatible json and you don't want to bother with the specific
-values. This is usually the case when you test the validation logic in the controllers. 
+Furthermore, suppose that what you need is only a schema-compatible json, and you don't want to bother with the specific
+values. This is usually the case when you test the validation logic in the controllers.
 JsonTemplate allows you to code in the following way:
 
 ```java
-String template = "{" +
-                  "  name : @s," +
-                  "  age : @i(max=100)," +
-                  "  role : @s[](min=1, max=3)," +
-                  "  address : {" +
-                  "    city : @s," +
-                  "    street : @s," +
-                  "    number : @i" +
-                  "  }" +
-                  "}";
-String json = new JsonTemplate(template).prettyString();                      
+String template="{"+
+        "  name : @s,"+
+        "  age : @i(max=100),"+
+        "  role : @s[](min=1, max=3),"+
+        "  address : {"+
+        "    city : @s,"+
+        "    street : @s,"+
+        "    number : @i"+
+        "  }"+
+        "}";
+        String json=new JsonTemplate(template).prettyString();                      
 ``` 
 
 ## Examples
+
 ### Smart conversion
-<table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
+
+<table><tr><th>Template</th><th>Generated Json</th></tr>
 <tr><td><pre>
 {
   name : John,
@@ -86,11 +95,11 @@ String json = new JsonTemplate(template).prettyString();
 JsonTemplate automatically converts a string into a json value with the type which the string
 looks like. For example, "23" looks like a number, therefore it is converted to a json numeric value.
 
-If this is not the intention, a specific **value producer** needs to be given, e.g. `@s(23)`.  
+If this is not the intention, a specific **value producer** needs to be given, e.g. `@s(23)`.
 
+### Value producers
 
-### Value producers 
-<table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
+<table><tr><th>Template</th><th>Generated Json</th></tr>
 <tr><td><pre>
 {
   aField : @s
@@ -102,28 +111,29 @@ If this is not the intention, a specific **value producer** needs to be given, e
 </pre></td></tr>
 </table>
 
-In JsonTemplate, **@x** can refer to a **value producer** or a **value producer declaration** 
-(will be described later). When it is at the value part, it is a value producer. 
+In JsonTemplate, **@x** can refer to a **value producer** or a **value producer declaration**
+(will be described later). When it is at the value part, it is a value producer.
 
 Following is the table about all the pre-installed value producers:
 
-| value producer | description |
-| ---        | ---         |
-| @smart     | used for smart conversion, it is the default value producer which is implicitly used. |
-| @s         | produces a string |
-| @i         | produces an integer |
-| @f         | produces a float |
-| @b         | produces a boolean |
-| @raw       | produces a raw string content | 
-| @ip        | produces an ip string |
-| @ipv6      | produces an ipv6 string |
-| @base64    | produces a base64 string |
-| @iso8601   | produces a ISO8601 string |
-| @cat       | used for concatenating strings |
-| @uuid      | produces a UUID string |
+| value producer | description                                                                           |
+|----------------|---------------------------------------------------------------------------------------|
+| @smart         | used for smart conversion, it is the default value producer which is implicitly used. |
+| @s             | produces a string                                                                     |
+| @i             | produces an integer                                                                   |
+| @f             | produces a float                                                                      |
+| @b             | produces a boolean                                                                    |
+| @raw           | produces a raw string content                                                         | 
+| @ip            | produces an ip string                                                                 |
+| @ipv6          | produces an ipv6 string                                                               |
+| @base64        | produces a base64 string                                                              |
+| @iso8601       | produces a ISO8601 string                                                             |
+| @cat           | used for concatenating strings                                                        |
+| @uuid          | produces a UUID string                                                                |
 
 ### Value producers with a single parameter
-<table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
+
+<table><tr><th>Template</th><th>Generated Json</th></tr>
 <tr><td><pre>
 {
   aField : @s(myValue)
@@ -138,7 +148,8 @@ Following is the table about all the pre-installed value producers:
 If a **single parameter** is given, the value producer produces a fixed value correspondingly by default.
 
 ### Value producers with a list parameter
-<table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
+
+<table><tr><th>Template</th><th>Generated Json</th></tr>
 <tr><td><pre>
 {
   aField : @s(A, B, C, D)
@@ -153,7 +164,8 @@ If a **single parameter** is given, the value producer produces a fixed value co
 If a **list parameter** is given, the value producer randomly selects a value from that list by default.
 
 ### Value producers with a map parameter
-<table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
+
+<table><tr><th>Template</th><th>Generated Json</th></tr>
 <tr><td><pre>
 {
   aField : @s(length=10)
@@ -174,27 +186,27 @@ If a **list parameter** is given, the value producer randomly selects a value fr
 </pre></td></tr>
 </table>
 
-If a **map parameter** is given, the value producer produces a value according to the map values. 
+If a **map parameter** is given, the value producer produces a value according to the map values.
 
 Following is the table about whether each type of parameter is supported by the pre-installed producers.
 
-| producer |  none              | single | list | map |
-| ---      | ---                | ---    | ---  | --- |
-| @smart   | no, produce null   | yes    | no   | no |
-| @s       | yes                | yes    | yes  | yes, supported parameters: length, max, min |
-| @i       | yes                | yes    | yes  | yes, supported parameters: max, min |
-| @f       | yes                | yes    | yes  | yes, supported parameters: max, min |
-| @b       | yes                | yes    | yes  | no |
-| @raw     | no                 | yes    | no   | no |
-| @ip      | yes                | no     | no   | no |
-| @ipv6    | yes                | no     | no   | no |
-| @base64  | yes                | no     | no   | yes, supported parameters: length |
-| @iso8601 | yes                | no     | no   | no |
-| @cat     | yes                | yes    | yes  | no |
-
+| producer | none             | single | list | map                                         |
+|----------|------------------|--------|------|---------------------------------------------|
+| @smart   | no, produce null | yes    | no   | no                                          |
+| @s       | yes              | yes    | yes  | yes, supported parameters: length, max, min |
+| @i       | yes              | yes    | yes  | yes, supported parameters: max, min         |
+| @f       | yes              | yes    | yes  | yes, supported parameters: max, min         |
+| @b       | yes              | yes    | yes  | no                                          |
+| @raw     | no               | yes    | no   | no                                          |
+| @ip      | yes              | no     | no   | no                                          |
+| @ipv6    | yes              | no     | no   | no                                          |
+| @base64  | yes              | no     | no   | yes, supported parameters: length           |
+| @iso8601 | yes              | no     | no   | no                                          |
+| @cat     | yes              | yes    | yes  | no                                          |
 
 ### Json objects
-<table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
+
+<table><tr><th>Template</th><th>Generated Json</th></tr>
 <tr><td><pre>
 {
   anObject : {
@@ -216,7 +228,8 @@ A json object consists of a set of properties. Each property can be specified
 with a value producer. The default type is @smart which is implicitly used.
 
 ### Array producer with size configuration
-<table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
+
+<table><tr><th>Template</th><th>Generated Json</th></tr>
 <tr><td><pre>
 @s[](3)
 </pre></td><td><pre>
@@ -229,16 +242,17 @@ with a value producer. The default type is @smart which is implicitly used.
 </pre></td></tr>
 </table>
 
-Array tag **[]** indicates producing a json array. 
-The default value producer for the array elements is placed before `[]`. 
-The size configuration of the generated array is placed after `[]`. 
+Array tag **[]** indicates producing a json array.
+The default value producer for the array elements is placed before `[]`.
+The size configuration of the generated array is placed after `[]`.
 
 - `(3)` means size of 3 and it is a shorthand of `(size=3)`
-- `(1, 10)` means the size range is between 1 and 10 and it is a short hand of
-`(min=1, max=10)`
+- `(1, 10)` means the size range is between 1 and 10, and it is a shorthand of
+  `(min=1, max=10)`
 
 ### Array producer with elements
-<table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
+
+<table><tr><th>Template</th><th>Generated Json</th></tr>
 <tr><td><pre>
 @s[ 1, 2, 3, 4 ]
 </pre></td><td><pre>
@@ -258,15 +272,15 @@ The size configuration of the generated array is placed after `[]`.
 
 - In the first example, it produces string elements.
 - In the second example, the size is greater than the amount of the listed elements.
-The extra elements will be filled by the value producer. In this case, the values
-are random strings of length 5. If the size is not greater, all listed elements
-are remained without filled elements. Same rule applies to the range size.
-- In the third example, each elements can have its own value producer the it
-overwrites the default value producer.
-
+  The extra elements will be filled by the value producer. In this case, the values
+  are random strings of length 5. If the size is not greater, all listed elements
+  are remained without filled elements. Same rule applies to the range size.
+- In the third example, each element can have its own value producer where it
+  overwrites the default value producer.
 
 ### Customized value producer definition
-<table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
+
+<table><tr><th>Template</th><th>Generated Json</th></tr>
 <tr><td><pre>
 @address : {
   city : @s,
@@ -298,7 +312,8 @@ The declaration can be before or after the json root, separated by comma `,`.
 The order between multiple declarations do not matter.
 
 ### Default value producer
-<table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
+
+<table><tr><th>Template</th><th>Generated Json</th></tr>
 <tr><td><pre>
 @s {
   fieldA, 
@@ -313,7 +328,7 @@ The order between multiple declarations do not matter.
 }
 </pre></td><td>
 </table>
- 
+
 In the above example, the default value producer is explicitly specified as `@s`.
 If nothing is specified, `@smart` is used. In case of `@s`, it supports none parameters.
 Therefore, the values of fieldA and fieldB can be omitted. `@s` will generate
@@ -323,6 +338,7 @@ The mechanism of searching the default value producer is the same as Java inheri
 It starts from itself to the root, util it finds a value producer.
 
 ## Inject variables
+
 JsonTemplate allows to inject variables to the template, it provides two methods to do that:
 
 - `JsonTemplate.withVar(String, Object)`
@@ -330,7 +346,7 @@ JsonTemplate allows to inject variables to the template, it provides two methods
 
 ### Use the variable as values
 
-<table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
+<table><tr><th>Template</th><th>Generated Json</th></tr>
 <tr><td><pre>
 {
   name : $name
@@ -345,7 +361,7 @@ JsonTemplate allows to inject variables to the template, it provides two methods
 In the above example, token `$` indicates a variable. Variable `name` refers to a string `John`.
 
 
-<table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
+<table><tr><th>Template</th><th>Generated Json</th></tr>
 <tr><td><pre>
 {
   letters : $letters
@@ -360,7 +376,7 @@ In the above example, token `$` indicates a variable. Variable `name` refers to 
 In the above example, variable `letters` refers to an array ["A", "B", "C"] or a collection with
 elements "A", "B", "C".
 
-<table><tr><th width="600">Template</th><th width="50%">Generated Json</th></tr>
+<table><tr><th>Template</th><th>Generated Json</th></tr>
 <tr><td><pre>
 {
   person : $person
@@ -377,11 +393,11 @@ elements "A", "B", "C".
 </pre></td></tr>
 </table>
 
-In the above example, variable `person` refers to an map object.
-
+In the above example, variable `person` refers to a map object.
 
 ### Use variables as parameters
-Variables can be also put in the parameters of a value producer. 
+
+Variables can be also put in the parameters of a value producer.
 
 When variable used as a single parameter, the parameter type (single, list, or map)
 is adjusted according to the type of the variable.
@@ -393,18 +409,20 @@ is adjusted according to the type of the variable.
 When variable used as list or map parameter, the semantics won't change.
 
 ## Customize value producers
+
 JsonTemplate does not aim for providing the full-fledged value generation. Other libraries, such as
 Guava, Apache Commons, JFaker, etc., provide powerful value generation apis.
- 
-The pre-installed value producers are designed in a way which can be extended. 
+
+The pre-installed value producers are designed in a way which can be extended.
 With `JsonTemplate.withValueProducer(IValueProducer)`, users can freely
 extend the pre-installed values producers or create new ones.
 
 Above is just a peek for the list of features.
-For more examples, [examples.txt](src/test/resources/examples.txt) provides part of the logs in tests. 
+For more examples, [examples.txt](src/test/resources/examples.txt) provides part of the logs in tests.
 
-## Support 
-If you have issues, great ideas, or comments, please let us know. 
+## Support
+
+If you have issues, great ideas, or comments, please let us know.
 We have a mailing list located at: jsontemplate2019@gmail.com
 
  
