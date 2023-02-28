@@ -4,11 +4,12 @@ import no.ssb.jsontemplate.jsonbuild.JsonNode;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public abstract class AbstractValueProducer<T extends JsonNode> implements IValueProducer<T> {
+    private static final Random random = new Random();
 
     @Override
     public T produce() {
@@ -95,7 +96,7 @@ public abstract class AbstractValueProducer<T extends JsonNode> implements IValu
      * @return random value between min and max
      */
     protected int randomIntInRange(int min, int max) {
-        return ThreadLocalRandom.current().nextInt(min, max + 1);
+        return random.nextInt(min, max + 1);
     }
 
     /**
@@ -106,7 +107,7 @@ public abstract class AbstractValueProducer<T extends JsonNode> implements IValu
      * @return random value between min and max
      */
     protected float randomFloatInRange(float min, float max) {
-        return min + ThreadLocalRandom.current().nextFloat() * (max - min);
+        return min + random.nextFloat() * (max - min);
     }
 
     /**

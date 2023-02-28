@@ -6,13 +6,14 @@ import no.ssb.jsontemplate.jsonbuild.supplier.ListParamSupplier;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
  * This class produces a {@link JsonFloatNode JsonFloatNode} which can generate json numeric(float) value.
  */
 public class FloatValueProducer extends AbstractValueProducer<JsonFloatNode> {
+    private static final Random random = new Random();
 
     /**
      * The type name used in the template, e.g. {aFloatField: @f}
@@ -35,7 +36,7 @@ public class FloatValueProducer extends AbstractValueProducer<JsonFloatNode> {
      */
     @Override
     public JsonFloatNode produce() {
-        return new JsonFloatNode(() -> ThreadLocalRandom.current().nextFloat() * getDefaultRange());
+        return new JsonFloatNode(() -> random.nextFloat() * getDefaultRange());
     }
 
     /**

@@ -6,12 +6,13 @@ import no.ssb.jsontemplate.jsonbuild.supplier.ListParamSupplier;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 
 /**
  * This class produces a {@link JsonStringNode JsonStringNode} which can generate json string value.
  */
 public class StringValueProducer extends AbstractValueProducer<JsonStringNode> {
+    private static final Random random = new Random();
 
     /**
      * The type name used in the template, e.g. {aStringField: @s}
@@ -20,7 +21,6 @@ public class StringValueProducer extends AbstractValueProducer<JsonStringNode> {
     private static final String ALPHABETIC = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private static final int DEFAULT_LENGTH = 5;
     private static final int DEFAULT_MIN_LENGTH = 0;
-
 
     @Override
     public String getTypeName() {
@@ -150,7 +150,7 @@ public class StringValueProducer extends AbstractValueProducer<JsonStringNode> {
     public String produceString(int length) {
         char[] chars = new char[length];
         for (int i = 0; i < length; i++) {
-            int index = ThreadLocalRandom.current().nextInt(ALPHABETIC.length());
+            int index = random.nextInt(ALPHABETIC.length());
             chars[i] = ALPHABETIC.charAt(index);
         }
         return new String(chars);

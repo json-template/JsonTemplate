@@ -2,7 +2,7 @@ package no.ssb.jsontemplate.valueproducer;
 
 import no.ssb.jsontemplate.jsonbuild.JsonStringNode;
 
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -11,6 +11,7 @@ import java.util.stream.IntStream;
  * ip string.
  */
 public class Ipv6ValueProducer extends AbstractValueProducer<JsonStringNode> {
+    private static final Random random = new Random();
 
     /**
      * The type name used in the template, e.g. {anIpv6Field: @ipv6}
@@ -48,10 +49,10 @@ public class Ipv6ValueProducer extends AbstractValueProducer<JsonStringNode> {
     private String produceGroup() {
         int length = LETTERS.length();
         char[] group = new char[]{
-                LETTERS.charAt(ThreadLocalRandom.current().nextInt(length)),
-                LETTERS.charAt(ThreadLocalRandom.current().nextInt(length)),
-                LETTERS.charAt(ThreadLocalRandom.current().nextInt(length)),
-                LETTERS.charAt(ThreadLocalRandom.current().nextInt(length))
+                LETTERS.charAt(random.nextInt(length)),
+                LETTERS.charAt(random.nextInt(length)),
+                LETTERS.charAt(random.nextInt(length)),
+                LETTERS.charAt(random.nextInt(length))
         };
         return new String(group);
     }

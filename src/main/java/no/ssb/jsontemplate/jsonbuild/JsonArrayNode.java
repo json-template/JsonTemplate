@@ -1,15 +1,14 @@
 package no.ssb.jsontemplate.jsonbuild;
 
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 /**
  * This class represents a producer of a json array value.
  */
 public final class JsonArrayNode implements JsonNode {
-
     private final List<JsonNode> children = new LinkedList<>();
+    Random random = new Random();
     private JsonNode defaultNode;
     private Integer size;
     private Integer max;
@@ -150,7 +149,7 @@ public final class JsonArrayNode implements JsonNode {
         if (size != null) {
             return addtionalNodeList(size);
         } else if (max != null && children.size() < max) {
-            int randomSize = ThreadLocalRandom.current().nextInt(max - min + 1) + min;
+            int randomSize = random.nextInt(max - min + 1) + min;
             return addtionalNodeList(randomSize);
         } else {
             return Collections.emptyList();

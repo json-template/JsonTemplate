@@ -4,13 +4,14 @@ import no.ssb.jsontemplate.jsonbuild.JsonBooleanNode;
 import no.ssb.jsontemplate.jsonbuild.supplier.ListParamSupplier;
 
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
  * This class produces a {@link JsonBooleanNode JsonBooleanNode} which can generate json boolean value.
  */
 public class BooleanValueProducer extends AbstractValueProducer<JsonBooleanNode> {
+    private static final Random random = new Random();
 
     /**
      * The type name used in the template, e.g. {aBooleanField: @b}
@@ -29,7 +30,7 @@ public class BooleanValueProducer extends AbstractValueProducer<JsonBooleanNode>
      */
     @Override
     public JsonBooleanNode produce() {
-        return new JsonBooleanNode(() -> ThreadLocalRandom.current().nextBoolean());
+        return new JsonBooleanNode(random::nextBoolean);
     }
 
     /**

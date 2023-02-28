@@ -3,7 +3,7 @@ package no.ssb.jsontemplate.valueproducer;
 import no.ssb.jsontemplate.jsonbuild.JsonStringNode;
 
 import java.util.Arrays;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -11,12 +11,11 @@ import java.util.stream.Collectors;
  * ipv6 string.
  */
 public class IpValueProducer extends AbstractValueProducer<JsonStringNode> {
-
     /**
      * The type name used in the template, e.g. {anIpField: @ip}
      */
     public static final String TYPE_NAME = "ip";
-
+    Random random = new Random();
 
     @Override
     public String getTypeName() {
@@ -40,10 +39,10 @@ public class IpValueProducer extends AbstractValueProducer<JsonStringNode> {
      */
     protected String produceIp() {
         int[] ipParts = new int[]{
-                ThreadLocalRandom.current().nextInt(255),
-                ThreadLocalRandom.current().nextInt(255),
-                ThreadLocalRandom.current().nextInt(255),
-                ThreadLocalRandom.current().nextInt(255)
+                random.nextInt(255),
+                random.nextInt(255),
+                random.nextInt(255),
+                random.nextInt(255)
         };
         return Arrays.stream(ipParts)
                 .mapToObj(Integer::toString)
