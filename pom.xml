@@ -4,32 +4,37 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.json-template</groupId>
+    <groupId>no.ssb.json-template</groupId>
     <artifactId>jsontemplate</artifactId>
-    <version>0.2.1</version>
+    <version>LOCAL-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
     <description>A library for generating json</description>
-    <url>https://github.com/json-template/JsonTemplate</url>
+    <url>https://github.com/statisticsnorway/JsonTemplate</url>
 
     <licenses>
         <license>
-            <name>The Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <name>MIT license</name>
+            <url>https://opensource.org/license/mit/</url>
         </license>
     </licenses>
 
     <developers>
         <developer>
-            <name>Haihan Yin</name>
-            <email>iamhaihan@gmail.com</email>
+            <name>John Kasper Svergja</name>
+            <email>johnkasper.svergja@ssb.no</email>
+        </developer>
+        <developer>
+            <name>Jon Ole Johansen Hagemo</name>
+            <email>jon.ole.johansen.hagemo@ssb.no</email>
         </developer>
     </developers>
 
     <scm>
-        <connection>scm:git:git://github.com/json-template/JsonTemplate.git</connection>
-        <developerConnection>scm:git:ssh://github.com:json-template/JsonTemplate.git</developerConnection>
-        <url>https://github.com/json-template/JsonTemplate</url>
+        <connection>scm:git:git://github.com/statisticsnorway/JsonTemplate.git</connection>
+        <developerConnection>scm:git:ssh://github.com:statisticsnorway/JsonTemplate.git</developerConnection>
+        <url>https://github.com/statisticsnorway/JsonTemplate</url>
     </scm>
 
     <distributionManagement>
@@ -44,11 +49,102 @@
     </distributionManagement>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <oss.skipsign>false</oss.skipsign>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <antlr4.visitor>true</antlr4.visitor>
         <antlr4.listener>true</antlr4.listener>
     </properties>
+
+    <profiles>
+
+        <profile>
+            <id>build-javadoc-and-sources</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.12</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <configuration>
+                                    <skip>${oss.skipsign}</skip>
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>ossrh</id>
+                    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+                </snapshotRepository>
+                <repository>
+                    <id>ossrh</id>
+                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+
+    </profiles>
+
 
     <dependencies>
         <dependency>
@@ -81,7 +177,7 @@
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
-            <version>2.4.0</version>
+            <version>2.7.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -123,6 +219,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.1</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
