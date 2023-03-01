@@ -143,23 +143,6 @@
             </distributionManagement>
         </profile>
 
-        <profile>
-            <!-- internal distribution for ssb -->
-            <id>ssb</id>
-            <distributionManagement>
-                <repository>
-                    <id>releases</id>
-                    <name>SSB Nexus Releases</name>
-                    <url>https://nexus.ssb.no/repository/maven-releases/</url>
-                </repository>
-                <snapshotRepository>
-                    <id>snapshots</id>
-                    <name>SSB Snapshot Repository</name>
-                    <url>https://nexus.ssb.no/repository/maven-snapshots/</url>
-                </snapshotRepository>
-            </distributionManagement>
-        </profile>
-
     </profiles>
 
 
