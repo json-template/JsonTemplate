@@ -17,7 +17,7 @@ class UuidValueProducerTest {
     @DisplayName("generates a random UUID string")
     void testTypeName() {
         String typeName = producer.getTypeName();
-        Assertions.assertEquals("uuid", typeName);
+        assertThat(typeName, is("uuid"));
     }
 
     @Test
