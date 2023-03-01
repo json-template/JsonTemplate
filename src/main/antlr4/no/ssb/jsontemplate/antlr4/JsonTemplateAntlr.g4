@@ -37,7 +37,7 @@ variable : '$'variableName;
 variableName : IDENTIFIER;
 RAW : '`' .*? '`';
 
-IDENTIFIER : [a-zA-Z0-9_.]+;
+IDENTIFIER : [a-zA-Z0-9_'.]+;
 VALUE : ~([,:=@${}() \t\n\r]|'['|']')+;
 
 WS : [ \t\n\r]+ -> skip ;
