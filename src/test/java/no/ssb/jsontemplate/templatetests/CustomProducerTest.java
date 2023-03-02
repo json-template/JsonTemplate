@@ -1,16 +1,18 @@
 package no.ssb.jsontemplate.templatetests;
 
+import com.jayway.jsonpath.DocumentContext;
 import no.ssb.jsontemplate.JsonTemplate;
+import no.ssb.jsontemplate.jsonbuild.JsonNode;
 import no.ssb.jsontemplate.jsonbuild.JsonStringNode;
 import no.ssb.jsontemplate.valueproducer.IValueProducer;
 import no.ssb.jsontemplate.valueproducer.StringValueProducer;
-import com.jayway.jsonpath.DocumentContext;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import static no.ssb.jsontemplate.templatetests.TestUtils.parse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -19,14 +21,14 @@ class CustomProducerTest {
     @Test
     void testWithNewProducer() {
         JsonTemplate jsonTemplate = new JsonTemplate("{balance:@euro(20)}").withValueProducer(new EuroProducer());
-        DocumentContext document = TestUtils.parse(jsonTemplate);
+        DocumentContext document = parse(jsonTemplate);
         assertThat(document.read("$.balance", String.class), is("€20"));
     }
 
     @Test
     void testWithExtendedProducer() {
         JsonTemplate jsonTemplate = new JsonTemplate("{ref:@s(GOF)}").withValueProducer(new MyStringValueProducer());
-        DocumentContext document = TestUtils.parse(jsonTemplate);
+        DocumentContext document = parse(jsonTemplate);
         assertThat(document.read("$.ref", String.class), is("[GOF]"));
     }
 
@@ -38,7 +40,7 @@ class CustomProducerTest {
         }
     }
 
-    private static class EuroProducer implements IValueProducer<JsonStringNode> {
+    private static class EuroProducer implements IValueProducer<JsonNode> {
 
         @Override
         public String getTypeName() {

@@ -14,7 +14,6 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +45,7 @@ public class JsonTemplate {
 
     private final String template;
     private final Map<String, Object> variableMap = new HashMap<>(32);
-    private final Map<String, IValueProducer> producerMap = new HashMap<>(32);
+    private final Map<String, IValueProducer<JsonNode>> producerMap = new HashMap<>(32);
     private final Map<String, JsonNode> variableNodeMap = new HashMap<>(32);
     private String defaultTypeName = SmartValueProducer.TYPE_NAME;
     private JsonNode rootNode;
@@ -145,7 +144,7 @@ public class JsonTemplate {
      * @param valueProducer the customized value producer
      * @return itself
      */
-    public JsonTemplate withValueProducer(IValueProducer valueProducer) {
+    public JsonTemplate withValueProducer(IValueProducer<JsonNode> valueProducer) {
         this.addProducer(valueProducer);
         return this;
     }
@@ -207,7 +206,7 @@ public class JsonTemplate {
 
 
     private void initializeProducerMap() {
-        IValueProducer[] producers = new IValueProducer[]{
+        List<IValueProducer<? extends JsonNode>> producers = List.of(
                 new SmartValueProducer(),
                 new StringValueProducer(),
                 new IntegerValueProducer(),
@@ -218,13 +217,13 @@ public class JsonTemplate {
                 new Base64ValueProducer(),
                 new RawStringValueProducer(),
                 new UuidValueProducer()
-        };
+        );
 
-        Arrays.stream(producers).forEach(this::addProducer);
+        producers.forEach(this::addProducer);
     }
 
-    private void addProducer(IValueProducer producer) {
-        producerMap.put(producer.getTypeName(), producer);
+    private void addProducer(IValueProducer<? extends JsonNode> producer) {
+        producerMap.put(producer.getTypeName(), (IValueProducer<JsonNode>) producer);
     }
 
     private void build() {

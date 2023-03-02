@@ -14,7 +14,7 @@ final class ArrayPropertyDeclaration extends BasePropertyDeclaration {
     }
 
     @Override
-    public void buildJsonTemplate(JsonBuilder builder, Map<String, IValueProducer> producerMap,
+    public void buildJsonTemplate(JsonBuilder builder, Map<String, IValueProducer<JsonNode>> producerMap,
                                   Map<String, JsonNode> typeMap,
                                   Map<String, JsonNode> variableMap, String defaultTypeName,
                                   DefaultBuildHandler defaultHandler) {

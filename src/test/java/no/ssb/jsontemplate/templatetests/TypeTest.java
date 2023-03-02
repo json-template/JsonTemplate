@@ -1,9 +1,10 @@
 package no.ssb.jsontemplate.templatetests;
 
-import no.ssb.jsontemplate.JsonTemplate;
 import com.jayway.jsonpath.DocumentContext;
+import no.ssb.jsontemplate.JsonTemplate;
 import org.junit.jupiter.api.Test;
 
+import static no.ssb.jsontemplate.templatetests.TestUtils.parse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -12,7 +13,7 @@ class TypeTest {
 
     @Test
     void test_typeWithoutParam() {
-        DocumentContext document = TestUtils.parse(new JsonTemplate(
+        DocumentContext document = parse(new JsonTemplate(
                 "@address:{city:@s,street:@s,number:@i},{office:@address, home:@address}"));
         assertThat(document.read("$.office.city", String.class), is(notNullValue()));
         assertThat(document.read("$.office.street", String.class), is(notNullValue()));
@@ -25,7 +26,7 @@ class TypeTest {
 
     @Test
     void test_typeWithSingleParam() {
-        DocumentContext document = TestUtils.parse(new JsonTemplate(
+        DocumentContext document = parse(new JsonTemplate(
                 "@address:{city:@s(Amsterdam),street:@s,number:@i(5)}," +
                         "{office:@address, home:@address}"));
         assertThat(document.read("$.office.city", String.class), is("Amsterdam"));
@@ -38,7 +39,7 @@ class TypeTest {
 
     @Test
     void test_typeWithListParam() {
-        DocumentContext document = TestUtils.parse(new JsonTemplate(
+        DocumentContext document = parse(new JsonTemplate(
                 "@address:{city:@s(Amsterdam, Utrecht), street:@s, number:@i(5, 10, 15)}," +
                         "{office:@address, home:@address }"));
         assertThat(document.read("$.office.city", String.class), isIn(new String[]{"Amsterdam", "Utrecht"}));
@@ -51,7 +52,7 @@ class TypeTest {
 
     @Test
     void test_typeWithMapParam() {
-        DocumentContext document = TestUtils.parse(new JsonTemplate(
+        DocumentContext document = parse(new JsonTemplate(
                 "@address:{city:@s(length=10),street:@s(length=20),number:@i(min=1000)}," +
                         "{office:@address, home:@address}"));
         assertThat(document.read("$.office.city", String.class).length(), is(10));
@@ -64,7 +65,7 @@ class TypeTest {
 
     @Test
     void test_nestedObjectType() {
-        DocumentContext document = TestUtils.parse(new JsonTemplate(
+        DocumentContext document = parse(new JsonTemplate(
                 "@address : {city:@s, street:@s , number:@i}," +
                         "@person : @address{office, home}," +
                         "@person[](2)"));
@@ -84,8 +85,8 @@ class TypeTest {
 
     @Test
     void test_nestedArrayType() {
-        DocumentContext document = TestUtils.parse(new JsonTemplate(
-                        "@classes[](2), @classes:@methods[](2), @methods:@s[](3)"));
+        DocumentContext document = parse(new JsonTemplate(
+                "@classes[](2), @classes:@methods[](2), @methods:@s[](3)"));
         assertThat(document.read("$.length()", Integer.class), is(2));
         assertThat(document.read("$[0].length()", Integer.class), is(2));
         assertThat(document.read("$[0].[0].length()", Integer.class), is(3));
@@ -97,7 +98,7 @@ class TypeTest {
 
     @Test
     void test_objectInArrayType() {
-        DocumentContext document = TestUtils.parse(new JsonTemplate(
+        DocumentContext document = parse(new JsonTemplate(
                 "@methods : {name:@s, paramCount:@i(min=0, max=5)}," +
                         "@classes : @methods[](2)," +
                         "@classes[](2)"));

@@ -1,8 +1,8 @@
 package no.ssb.jsontemplate.templatetests;
 
-import no.ssb.jsontemplate.JsonTemplate;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
+import no.ssb.jsontemplate.JsonTemplate;
 
 public class TestUtils {
 

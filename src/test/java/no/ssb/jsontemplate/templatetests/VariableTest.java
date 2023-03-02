@@ -1,7 +1,7 @@
 package no.ssb.jsontemplate.templatetests;
 
-import no.ssb.jsontemplate.JsonTemplate;
 import com.jayway.jsonpath.DocumentContext;
+import no.ssb.jsontemplate.JsonTemplate;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static no.ssb.jsontemplate.templatetests.TestUtils.parse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -20,28 +21,28 @@ class VariableTest {
     @Test
     void test_stringVariable() {
         JsonTemplate jsonTemplate = new JsonTemplate("{name : $name}").withVar("name", "John");
-        DocumentContext document = TestUtils.parse(jsonTemplate);
+        DocumentContext document = parse(jsonTemplate);
         assertThat(document.read("$.name", String.class), is("John"));
     }
 
     @Test
     void test_integerVariable() {
         JsonTemplate jsonTemplate = new JsonTemplate("{age : $age}").withVar("age", 20);
-        DocumentContext document = TestUtils.parse(jsonTemplate);
+        DocumentContext document = parse(jsonTemplate);
         assertThat(document.read("$.age", Integer.class), is(20));
     }
 
     @Test
     void test_booleanVariable() {
         JsonTemplate jsonTemplate = new JsonTemplate("{male : $male}").withVar("male", true);
-        DocumentContext document = TestUtils.parse(jsonTemplate);
+        DocumentContext document = parse(jsonTemplate);
         assertThat(document.read("$.male", Boolean.class), is(true));
     }
 
     @Test
     void test_floatVariable() {
         JsonTemplate jsonTemplate = new JsonTemplate("{balance : $balance}").withVar("balance", 1.23f);
-        DocumentContext document = TestUtils.parse(jsonTemplate);
+        DocumentContext document = parse(jsonTemplate);
         assertThat(document.read("$.balance", Float.class), is(1.23f));
     }
 
@@ -49,7 +50,7 @@ class VariableTest {
     void test_arrayVariable() {
         JsonTemplate jsonTemplate = new JsonTemplate("{letters : $letters}")
                 .withVar("letters", new String[]{"A", "B", "C"});
-        DocumentContext document = TestUtils.parse(jsonTemplate);
+        DocumentContext document = parse(jsonTemplate);
         assertThat(document.read("$.letters[0]", String.class), is("A"));
         assertThat(document.read("$.letters[1]", String.class), is("B"));
         assertThat(document.read("$.letters[2]", String.class), is("C"));
@@ -59,7 +60,7 @@ class VariableTest {
     void test_listVariable() {
         JsonTemplate jsonTemplate = new JsonTemplate("{letters : $letters}")
                 .withVar("letters", Arrays.asList("A", "B", "C"));
-        DocumentContext document = TestUtils.parse(jsonTemplate);
+        DocumentContext document = parse(jsonTemplate);
         assertThat(document.read("$.letters[0]", String.class), is("A"));
         assertThat(document.read("$.letters[1]", String.class), is("B"));
         assertThat(document.read("$.letters[2]", String.class), is("C"));
@@ -75,14 +76,14 @@ class VariableTest {
         person.put("roles", Arrays.asList("Admin", "Finance", "HR"));
 
         JsonTemplate jsonTemplate = new JsonTemplate("{person : $person}").withVar("person", person);
-        TestUtils.parse(jsonTemplate);
+        parse(jsonTemplate);
     }
 
     @Test
     void test_stringAsSingleParamInStringType() {
         String value = "helloworld";
         JsonTemplate jsonTemplate = new JsonTemplate("{aField: @s($myValue)}").withVar("myValue", value);
-        DocumentContext document = TestUtils.parse(jsonTemplate);
+        DocumentContext document = parse(jsonTemplate);
         assertThat(document.read("$.aField", String.class), is(value));
     }
 
@@ -90,7 +91,7 @@ class VariableTest {
     void test_integerAsSingleParamInStringType() {
         int value = 2;
         JsonTemplate jsonTemplate = new JsonTemplate("{aField: @s($myValue)}").withVar("myValue", value);
-        DocumentContext document = TestUtils.parse(jsonTemplate);
+        DocumentContext document = parse(jsonTemplate);
         assertThat(document.read("$.aField", String.class), is(Integer.toString(value)));
     }
 
@@ -98,14 +99,14 @@ class VariableTest {
     void test_stringAseSingleParamInIntegerType() {
         String value = "hello";
         JsonTemplate jsonTemplate = new JsonTemplate("{aField: @i($myValue)}").withVar("myValue", value);
-        assertThrows(NumberFormatException.class, () -> TestUtils.parse(jsonTemplate));
+        assertThrows(NumberFormatException.class, () -> parse(jsonTemplate));
     }
 
     @RepeatedTest(TestUtils.REPEATED_COUNT)
     void test_arrayInSingleParam() {
         String[] value = new String[]{"A", "B", "C", "D"};
         JsonTemplate jsonTemplate = new JsonTemplate("{aField: @s($myValue)}").withVar("myValue", value);
-        DocumentContext document = TestUtils.parse(jsonTemplate);
+        DocumentContext document = parse(jsonTemplate);
         assertThat(document.read("$.aField", String.class), isIn(value));
     }
 
@@ -113,7 +114,7 @@ class VariableTest {
     void test_listInSingleParam() {
         List<String> value = Arrays.asList("A", "B", "C", "D");
         JsonTemplate jsonTemplate = new JsonTemplate("{aField: @s($myValue)}").withVar("myValue", value);
-        DocumentContext document = TestUtils.parse(jsonTemplate);
+        DocumentContext document = parse(jsonTemplate);
         assertThat(document.read("$.aField", String.class), isIn(value));
     }
 
@@ -122,7 +123,7 @@ class VariableTest {
         JsonTemplate jsonTemplate = new JsonTemplate("{aField: @s(min=$min,max=$max)}")
                 .withVar("min", 10)
                 .withVar("max", 20);
-        DocumentContext document = TestUtils.parse(jsonTemplate);
+        DocumentContext document = parse(jsonTemplate);
         assertThat(document.read("$.aField", String.class).length(),
                 is(both(greaterThanOrEqualTo(10)).and(lessThanOrEqualTo(20))));
     }
@@ -134,7 +135,7 @@ class VariableTest {
         values.put("max", 20);
         JsonTemplate jsonTemplate = new JsonTemplate("{aField: @s(min=$min,max=$max)}")
                 .withVars(values);
-        DocumentContext document = TestUtils.parse(jsonTemplate);
+        DocumentContext document = parse(jsonTemplate);
         assertThat(document.read("$.aField", String.class).length(),
                 is(both(greaterThanOrEqualTo(10)).and(lessThanOrEqualTo(20))));
     }
@@ -145,7 +146,7 @@ class VariableTest {
         value.put("min", 10);
         value.put("max", "20");
         JsonTemplate jsonTemplate = new JsonTemplate("{aField: @s($config)}").withVar("config", value);
-        DocumentContext document = TestUtils.parse(jsonTemplate);
+        DocumentContext document = parse(jsonTemplate);
         assertThat(document.read("$.aField", String.class).length(),
                 is(both(greaterThanOrEqualTo(10)).and(lessThanOrEqualTo(20))));
     }
@@ -154,7 +155,7 @@ class VariableTest {
     void test_objectInListParam() {
         String value = "hello";
         JsonTemplate jsonTemplate = new JsonTemplate("{aField: @s(A, B, $myValue, D)}").withVar("myValue", value);
-        DocumentContext document = TestUtils.parse(jsonTemplate);
+        DocumentContext document = parse(jsonTemplate);
         assertThat(document.read("$.aField", String.class), isIn(Arrays.asList("A", "B", "hello", "D")));
     }
 
@@ -162,7 +163,7 @@ class VariableTest {
     void test_objectInMapParam() {
         int size = 20;
         JsonTemplate jsonTemplate = new JsonTemplate("{aField: @s(length=$size)}").withVar("size", size);
-        DocumentContext document = TestUtils.parse(jsonTemplate);
+        DocumentContext document = parse(jsonTemplate);
         assertThat(document.read("$.aField", String.class).length(), is(20));
     }
 }
