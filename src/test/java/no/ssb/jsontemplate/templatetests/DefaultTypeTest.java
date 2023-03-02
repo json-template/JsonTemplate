@@ -1,10 +1,11 @@
 package no.ssb.jsontemplate.templatetests;
 
+import com.jayway.jsonpath.DocumentContext;
 import no.ssb.jsontemplate.JsonTemplate;
 import no.ssb.jsontemplate.valueproducer.IntegerValueProducer;
-import com.jayway.jsonpath.DocumentContext;
 import org.junit.jupiter.api.Test;
 
+import static no.ssb.jsontemplate.templatetests.TestUtils.parse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -12,42 +13,42 @@ class DefaultTypeTest {
 
     @Test
     void test_DefaultStringTypeAsDefaultType() {
-        DocumentContext document = TestUtils.parse(new JsonTemplate("{fieldA, fieldB}"));
+        DocumentContext document = parse(new JsonTemplate("{fieldA, fieldB}"));
         assertThat(document.read("$.fieldA"), is(nullValue()));
         assertThat(document.read("$.fieldB"), is(nullValue()));
     }
 
     @Test
     void test_simpleDefaultType() {
-        DocumentContext document = TestUtils.parse(new JsonTemplate("@i{fieldA, fieldB}"));
+        DocumentContext document = parse(new JsonTemplate("@i{fieldA, fieldB}"));
         assertThat(document.read("$.fieldA", Integer.class), is(notNullValue()));
         assertThat(document.read("$.fieldB", Integer.class), is(notNullValue()));
     }
 
     @Test
     void test_overwriteDefaultType() {
-        DocumentContext document = TestUtils.parse(new JsonTemplate("@i{fieldA, fieldB : @f { fieldC }}"));
+        DocumentContext document = parse(new JsonTemplate("@i{fieldA, fieldB : @f { fieldC }}"));
         assertThat(document.read("$.fieldA", Integer.class), is(notNullValue()));
         assertThat(document.read("$.fieldB.fieldC", Float.class), is(notNullValue()));
     }
 
     @Test
     void test_simpleParamerizedDefaultType() {
-        DocumentContext document = TestUtils.parse(new JsonTemplate("@s(length=10){fieldA, fieldB: @s(length=20)}"));
+        DocumentContext document = parse(new JsonTemplate("@s(length=10){fieldA, fieldB: @s(length=20)}"));
         assertThat(document.read("$.fieldA", String.class).length(), is(10));
         assertThat(document.read("$.fieldB", String.class).length(), is(20));
     }
 
     @Test
     void test_customSimpleTypeAsDefaultType() {
-        DocumentContext document = TestUtils.parse(new JsonTemplate("@ls:@s(length=20), @ls{name, role}"));
+        DocumentContext document = parse(new JsonTemplate("@ls:@s(length=20), @ls{name, role}"));
         assertThat(document.read("$.name", String.class).length(), is(20));
         assertThat(document.read("$.role", String.class).length(), is(20));
     }
 
     @Test
     void test_customObjectTypeAsDefaultType() {
-        DocumentContext document = TestUtils.parse(new JsonTemplate("@address:@s{city,street,number:@i}, @address{home, office}"));
+        DocumentContext document = parse(new JsonTemplate("@address:@s{city,street,number:@i}, @address{home, office}"));
         assertThat(document.read("$.home.city", String.class), is(notNullValue()));
         assertThat(document.read("$.home.street", String.class), is(notNullValue()));
         assertThat(document.read("$.home.number", Integer.class), is(notNullValue()));
@@ -58,7 +59,7 @@ class DefaultTypeTest {
 
     @Test
     void test_customArrayTypeAsDefaultType() {
-        DocumentContext document = TestUtils.parse(new JsonTemplate("@names:@s[](3), @names{group1, group2}"));
+        DocumentContext document = parse(new JsonTemplate("@names:@s[](3), @names{group1, group2}"));
         assertThat(document.read("$.group1[0]", String.class), is(notNullValue()));
         assertThat(document.read("$.group1[1]", String.class), is(notNullValue()));
         assertThat(document.read("$.group1[2]", String.class), is(notNullValue()));
@@ -71,7 +72,7 @@ class DefaultTypeTest {
     void test_changeDefaultType() {
         JsonTemplate jsonTemplate = new JsonTemplate("{aField,bField}")
                 .withDefaultTypeName(IntegerValueProducer.TYPE_NAME);
-        DocumentContext document = TestUtils.parse(jsonTemplate);
+        DocumentContext document = parse(jsonTemplate);
         assertThat(document.read("$.aField", Integer.class), is(notNullValue()));
         assertThat(document.read("$.bField", Integer.class), is(notNullValue()));
     }
@@ -80,7 +81,7 @@ class DefaultTypeTest {
     void testSmartType() {
         JsonTemplate jsonTemplate =
                 new JsonTemplate("{name:John, age:20, height:1.8, male:true, role: null}");
-        DocumentContext document = TestUtils.parse(jsonTemplate);
+        DocumentContext document = parse(jsonTemplate);
         assertThat(document.read("$.name", String.class), is("John"));
         assertThat(document.read("$.age", Integer.class), is(20));
         assertThat(document.read("$.height", Float.class), is(1.8f));
@@ -92,7 +93,7 @@ class DefaultTypeTest {
     void testSmartTypeWithArray() {
         JsonTemplate jsonTemplate =
                 new JsonTemplate("[John, 20, 1.8, true, null]");
-        DocumentContext document = TestUtils.parse(jsonTemplate);
+        DocumentContext document = parse(jsonTemplate);
         assertThat(document.read("$[0]", String.class), is("John"));
         assertThat(document.read("$[1]", Integer.class), is(20));
         assertThat(document.read("$[2]", Float.class), is(1.8f));

@@ -1,8 +1,8 @@
 package no.ssb.jsontemplate.templatetests;
 
 
-import no.ssb.jsontemplate.JsonTemplate;
 import com.jayway.jsonpath.DocumentContext;
+import no.ssb.jsontemplate.JsonTemplate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
@@ -16,8 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 class StringTest {
-
-    private static final int STRING_LENGTH = 5;
 
     @Test
     @DisplayName("a random string field")

@@ -1,8 +1,8 @@
 package no.ssb.jsontemplate.templatetests;
 
 
-import no.ssb.jsontemplate.JsonTemplate;
 import com.jayway.jsonpath.DocumentContext;
+import no.ssb.jsontemplate.JsonTemplate;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
