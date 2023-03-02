@@ -50,9 +50,8 @@ class BooleanTest {
 
     @Test
     void test_paramBooleanField() {
-        assertThrows(UnsupportedOperationException.class,
-                () -> parse(new JsonTemplate("{aField : @b(min=11)}")));
-
+        JsonTemplate template = new JsonTemplate("{aField : @b(min=11)}");
+        assertThrows(UnsupportedOperationException.class, () -> parse(template));
     }
 
 }
