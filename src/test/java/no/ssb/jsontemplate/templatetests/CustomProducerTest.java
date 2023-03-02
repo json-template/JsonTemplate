@@ -2,6 +2,7 @@ package no.ssb.jsontemplate.templatetests;
 
 import com.jayway.jsonpath.DocumentContext;
 import no.ssb.jsontemplate.JsonTemplate;
+import no.ssb.jsontemplate.jsonbuild.JsonNode;
 import no.ssb.jsontemplate.jsonbuild.JsonStringNode;
 import no.ssb.jsontemplate.valueproducer.IValueProducer;
 import no.ssb.jsontemplate.valueproducer.StringValueProducer;
@@ -39,7 +40,7 @@ class CustomProducerTest {
         }
     }
 
-    private static class EuroProducer implements IValueProducer<JsonStringNode> {
+    private static class EuroProducer implements IValueProducer<JsonNode> {
 
         @Override
         public String getTypeName() {

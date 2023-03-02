@@ -68,13 +68,14 @@ class FloatTest {
 
     @Test
     void test_invalidParamFloatField() {
-        assertThrows(IllegalArgumentException.class, () ->
-                parse(new JsonTemplate("{aField : @f(length=20)}")));
+        JsonTemplate template = new JsonTemplate("{aField : @f(length=20)}");
+        assertThrows(IllegalArgumentException.class, () -> parse(template));
     }
 
     @Test
     void test_invalidRangeFloatField() {
-        assertThrows(IllegalArgumentException.class, () -> parse(new JsonTemplate("{aField : @f(min=20, max=10)}")));
+        JsonTemplate template = new JsonTemplate("{aField : @f(min=20, max=10)}");
+        assertThrows(IllegalArgumentException.class, () -> parse(template));
     }
 
     @Test

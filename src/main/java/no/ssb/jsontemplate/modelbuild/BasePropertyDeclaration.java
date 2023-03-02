@@ -72,7 +72,7 @@ public class BasePropertyDeclaration {
     }
 
     public void buildJsonTemplate(JsonBuilder builder,
-                                  Map<String, IValueProducer> producerMap,
+                                  Map<String, IValueProducer<JsonNode>> producerMap,
                                   Map<String, JsonNode> typeMap,
                                   Map<String, JsonNode> variableMap,
                                   String defaultTypeName,
@@ -136,9 +136,9 @@ public class BasePropertyDeclaration {
         return defaultTypeSpec;
     }
 
-    protected JsonNode buildNodeFromProducer(Map<String, IValueProducer> producerMap) {
+    protected JsonNode buildNodeFromProducer(Map<String, IValueProducer<JsonNode>> producerMap) {
         JsonNode jsonNode = null;
-        IValueProducer producer = producerMap.get(this.typeSpec.getTypeName());
+        IValueProducer<JsonNode> producer = producerMap.get(this.typeSpec.getTypeName());
         if (producer != null) {
             if (typeSpec.getSingleParam() != null) {
                 jsonNode = producer.produce(typeSpec.getSingleParam());
@@ -153,7 +153,7 @@ public class BasePropertyDeclaration {
         return jsonNode;
     }
 
-    protected void handleComposite(JsonBuilder builder, Map<String, IValueProducer> producerMap, Map<String, JsonNode> typeMap, Map<String, List<JsonWrapperNode>> missTypeMap, Map<String, JsonNode> variableMap) {
+    protected void handleComposite(JsonBuilder builder, Map<String, IValueProducer<JsonNode>> producerMap, Map<String, JsonNode> typeMap, Map<String, List<JsonWrapperNode>> missTypeMap, Map<String, JsonNode> variableMap) {
         throw new UnsupportedOperationException("Unexpected operation in simple property.");
     }
 
@@ -170,7 +170,7 @@ public class BasePropertyDeclaration {
         }
     }
 
-    protected void buildChildrenJsonTemplate(JsonBuilder builder, Map<String, IValueProducer> producerMap,
+    protected void buildChildrenJsonTemplate(JsonBuilder builder, Map<String, IValueProducer<JsonNode>> producerMap,
                                              Map<String, JsonNode> typeMap,
                                              Map<String, JsonNode> variableMap, String defaultTypeName,
                                              DefaultBuildHandler defaultHandler) {

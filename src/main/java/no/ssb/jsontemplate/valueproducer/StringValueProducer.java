@@ -1,5 +1,6 @@
 package no.ssb.jsontemplate.valueproducer;
 
+import no.ssb.jsontemplate.jsonbuild.JsonNode;
 import no.ssb.jsontemplate.jsonbuild.JsonStringNode;
 import no.ssb.jsontemplate.jsonbuild.supplier.ListParamSupplier;
 
@@ -11,7 +12,7 @@ import java.util.Map;
 /**
  * This class produces a {@link JsonStringNode JsonStringNode} which can generate json string value.
  */
-public class StringValueProducer extends AbstractValueProducer<JsonStringNode> {
+public class StringValueProducer extends AbstractValueProducer<JsonNode> {
     /**
      * The type name used in the template, e.g. {aStringField: @s}
      */
