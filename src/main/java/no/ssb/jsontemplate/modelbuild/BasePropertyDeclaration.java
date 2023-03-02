@@ -24,10 +24,6 @@ public class BasePropertyDeclaration {
         return arrayTypeSpec;
     }
 
-    public List<BasePropertyDeclaration> getProperties() {
-        return properties;
-    }
-
     public void markAsTypeDefinition() {
         isTypeDefinition = true;
     }
@@ -50,10 +46,6 @@ public class BasePropertyDeclaration {
         propertyDeclaration.setParent(this);
     }
 
-    public void removeProperty(BasePropertyDeclaration propertyDeclaration) {
-        this.properties.remove(propertyDeclaration);
-        propertyDeclaration.setParent(null);
-    }
 
     public BasePropertyDeclaration getParent() {
         return parent;
@@ -77,7 +69,7 @@ public class BasePropertyDeclaration {
                                   Map<String, JsonNode> variableMap,
                                   String defaultTypeName,
                                   DefaultBuildHandler defaultHandler) {
-        JsonNode jsonNode = null;
+        JsonNode jsonNode;
         if (isNullValue()) {
             jsonNode = new JsonNullNode();
         } else {
@@ -153,10 +145,6 @@ public class BasePropertyDeclaration {
         return jsonNode;
     }
 
-    protected void handleComposite(JsonBuilder builder, Map<String, IValueProducer<JsonNode>> producerMap, Map<String, JsonNode> typeMap, Map<String, List<JsonWrapperNode>> missTypeMap, Map<String, JsonNode> variableMap) {
-        throw new UnsupportedOperationException("Unexpected operation in simple property.");
-    }
-
     protected void setArrayInfo(JsonArrayNode jsonArrayNode, JsonNode defaultNode) {
         jsonArrayNode.setDefaultNode(defaultNode);
         if (this.arrayTypeSpec.getSingleParam() != null) {
@@ -177,10 +165,6 @@ public class BasePropertyDeclaration {
         for (BasePropertyDeclaration declaration : properties) {
             declaration.buildJsonTemplate(builder, producerMap, typeMap, variableMap, defaultTypeName, defaultHandler);
         }
-    }
-
-    boolean isTypeDeclaration() {
-        return propertyName != null && propertyName.startsWith(Token.TYPE.getTag());
     }
 
     private JsonNode findJsonNodeFromVariable(Map<String, JsonNode> variableMap, String name) {
@@ -257,9 +241,5 @@ public class BasePropertyDeclaration {
 
     public boolean isNullValue() {
         return "null".equals(typeSpec.getSingleParam());
-    }
-
-    protected boolean isRoot() {
-        return parent == null;
     }
 }
