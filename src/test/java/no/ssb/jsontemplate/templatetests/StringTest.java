@@ -56,23 +56,12 @@ class StringTest {
         assertThat(document.read("$.aField", String.class).length(), is(10));
     }
 
-    @Test
-    void test_minusSizedStringField() {
-        assertThrows(IllegalArgumentException.class,
-                () -> parse(new JsonTemplate("{aField : @s(length=-10)}")));
-    }
-
     @RepeatedTest(TestUtils.REPEATED_COUNT)
     void test_minParamStringField() {
         DocumentContext document = parse(new JsonTemplate("{aField : @s(min=11)}"));
         assertThat(document.read("$.aField", String.class).length(), greaterThanOrEqualTo(11));
     }
 
-    @Test
-    void test_minusMinParamStringField() {
-        assertThrows(IllegalArgumentException.class,
-                () -> parse(new JsonTemplate("{aField : @s(min=-1)}")));
-    }
 
     @RepeatedTest(TestUtils.REPEATED_COUNT)
     void test_minMaxParamStringField() {
@@ -82,25 +71,24 @@ class StringTest {
     }
 
     @Test
-    void test_invalidRangeParamStringField() {
-        assertThrows(IllegalArgumentException.class,
-                () -> parse(new JsonTemplate("{aField : @s(min=20, max=10)}")));
-    }
-
-    @Test
-    void test_invalidParamStringField() {
-        assertThrows(IllegalArgumentException.class, () ->
-                parse(new JsonTemplate("{aField : @s(size=20)}"))
-        );
-    }
-
-    @Test
     void test_rawString() {
         String rawContent = "!@#$%^&*()-= \t\n{}[]abc";
         DocumentContext document = parse(new JsonTemplate("{aField : @s(`" + rawContent + "`)}"));
         assertThat(document.read("$.aField", String.class), is(rawContent));
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "{aField : @s(length=-10)}", // minusSizedStringField
+            "{aField : @s(min=-1)}", // minusMinParamStringField
+            "{aField : @s(min=20, max=10)}", // invalidRangeParamStringField
+            "{aField : @s(size=20)}", // invalidParamStringField
+    })
+    void test_invalidParam(String templateString) {
+        JsonTemplate jsonTemplate = new JsonTemplate(templateString);
+        assertThrows(IllegalArgumentException.class, () -> parse(jsonTemplate)
+        );
+    }
 }
 
 

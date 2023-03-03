@@ -15,14 +15,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class IntegerValueProducerTest {
 
-    private IntegerValueProducer producer = new IntegerValueProducer();
-    private int defaultMin = 0;
-    private int defaultMax = 100;
+    private final IntegerValueProducer producer = new IntegerValueProducer();
 
     @Test
     void testProduce() {
         String producedValue = producer.produce().compactString();
         int producedInteger = Integer.parseInt(producedValue);
+        int defaultMin = 0;
+        int defaultMax = 100;
         assertThat(producedInteger, allOf(greaterThanOrEqualTo(defaultMin), lessThanOrEqualTo(defaultMax)));
     }
 
@@ -92,13 +92,10 @@ class IntegerValueProducerTest {
 
     @Test
     void testProduceWithUnsupportedParameter() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            Map<String, String> paramMap = new HashMap<>();
+        Map<String, String> paramMap = new HashMap<>();
+        int length = 9;
+        paramMap.put("length", Integer.toString(length));
 
-            int length = 9;
-            paramMap.put("length", Integer.toString(length));
-
-            producer.produce(paramMap).compactString();
-        });
+        assertThrows(IllegalArgumentException.class, () -> producer.produce(paramMap));
     }
 }

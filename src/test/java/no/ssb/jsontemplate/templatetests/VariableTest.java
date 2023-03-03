@@ -68,15 +68,25 @@ class VariableTest {
 
     @Test
     void test_mapVariable() {
-
+        String name = "John";
+        Integer age = 20;
+        Boolean male = true;
+        String admin = "Admin";
+        List<String> roles = Arrays.asList(admin, "Finance", "HR");
         Map<String, Object> person = new HashMap<>();
-        person.put("name", "John");
-        person.put("age", 20);
-        person.put("male", true);
-        person.put("roles", Arrays.asList("Admin", "Finance", "HR"));
+        person.put("name", name);
+        person.put("age", age);
+        person.put("male", male);
+        person.put("roles", roles);
 
         JsonTemplate jsonTemplate = new JsonTemplate("{person : $person}").withVar("person", person);
-        parse(jsonTemplate);
+        DocumentContext document = parse(jsonTemplate);
+        assertThat(document.read("$.person.name", String.class), is(name));
+        assertThat(document.read("$.person.age", Integer.class), is(age));
+        assertThat(document.read("$.person.male", Boolean.class), is(male));
+        assertThat(document.read("$.person.roles", List.class), is(roles));
+        assertThat(document.read("$.person.roles[0]", String.class), is(admin));
+
     }
 
     @Test

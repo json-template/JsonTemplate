@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -32,8 +33,8 @@ class Base64ValueProducerTest {
     @Test
     @DisplayName("not support - select a base64 string from a list of enumerated values")
     void produceWithListParam() {
-        assertThrows(UnsupportedOperationException.class,
-                () -> producer.produce(Collections.emptyList()));
+        List<String> emptyList = Collections.emptyList();
+        assertThrows(UnsupportedOperationException.class, () -> producer.produce(emptyList));
     }
 
     @Test

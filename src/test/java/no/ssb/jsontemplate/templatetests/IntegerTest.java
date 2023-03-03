@@ -56,12 +56,14 @@ class IntegerTest {
 
     @Test
     void test_invalidParamIntegerField() {
-        assertThrows(IllegalArgumentException.class, () -> parse(new JsonTemplate("{aField : @i(length=20)}")));
+        JsonTemplate template = new JsonTemplate("{aField : @i(length=20)}");
+        assertThrows(IllegalArgumentException.class, () -> parse(template));
     }
 
     @Test
     void test_invalidRangeIntegerField() {
-        assertThrows(IllegalArgumentException.class, () -> parse(new JsonTemplate("{aField : @i(min=20, max=10)}")));
+        JsonTemplate template = new JsonTemplate("{aField : @i(min=20, max=10)}");
+        assertThrows(IllegalArgumentException.class, () -> parse(template));
     }
 
     @Test

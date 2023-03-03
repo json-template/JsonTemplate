@@ -9,11 +9,11 @@ import java.time.format.DateTimeParseException;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-public class Iso8601ProducerTest {
-    private Iso8601ValueProducer producer = new Iso8601ValueProducer();
+class Iso8601ProducerTest {
     @Test
     @DisplayName("Generate an ISO8601 timestamp")
     void testProduce() {
+        Iso8601ValueProducer producer = new Iso8601ValueProducer();
         String producedValue = producer.produce().compactString();
 
         Exception ex = null;
