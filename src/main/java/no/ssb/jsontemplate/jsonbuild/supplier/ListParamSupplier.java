@@ -7,14 +7,10 @@ import java.util.function.Supplier;
 public class ListParamSupplier<T> implements Supplier<T> {
     private static final SecureRandom random = new SecureRandom();
 
-    private List<T> listParam;
+    private final List<T> listParam;
 
     public ListParamSupplier(List<T> listParam) {
         this.listParam = listParam;
-    }
-
-    public List<T> getListParam() {
-        return listParam;
     }
 
     @Override

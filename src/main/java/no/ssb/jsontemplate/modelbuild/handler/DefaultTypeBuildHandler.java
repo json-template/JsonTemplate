@@ -9,7 +9,7 @@ import java.util.Map;
 
 public final class DefaultTypeBuildHandler implements DefaultBuildHandler {
 
-    private Map<String, List<JsonWrapperNode>> missTypeMap;
+    private final Map<String, List<JsonWrapperNode>> missTypeMap;
 
     public DefaultTypeBuildHandler(Map<String, List<JsonWrapperNode>> missTypeMap) {
         this.missTypeMap = missTypeMap;

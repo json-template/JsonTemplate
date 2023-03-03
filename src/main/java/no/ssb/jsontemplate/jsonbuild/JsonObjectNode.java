@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
  */
 public final class JsonObjectNode implements JsonNode {
 
-    private Map<String, JsonNode> children = new LinkedHashMap<>();
+    private final Map<String, JsonNode> children = new LinkedHashMap<>();
 
     /**
      * Creates a JsonObjectNode with a given map.

@@ -113,7 +113,7 @@ public class IntegerValueProducer extends AbstractValueProducer<JsonIntegerNode>
     }
 
     /**
-     * Returns the default mininal bound of the default range.
+     * Returns the default minimal bound of the default range.
      *
      * @return the default minimal bound
      */
