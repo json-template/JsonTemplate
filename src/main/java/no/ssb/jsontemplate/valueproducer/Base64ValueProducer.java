@@ -6,7 +6,7 @@ import java.util.Base64;
 import java.util.Map;
 
 /**
- * This class produces a {@link JsonStringNode} which can generate an
+ * This class produces a {@link JsonStringNode} which can generate a
  * base64 string.
  */
 public class Base64ValueProducer extends AbstractValueProducer<JsonStringNode> {

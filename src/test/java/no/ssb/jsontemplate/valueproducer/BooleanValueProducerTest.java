@@ -3,9 +3,7 @@ package no.ssb.jsontemplate.valueproducer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -17,7 +15,7 @@ class BooleanValueProducerTest {
     private static final String STRING_TRUE = Boolean.TRUE.toString();
     private static final String STRING_FALSE = Boolean.FALSE.toString();
     private static final List<String> BOOLEAN_STRING_LIST = Arrays.asList(STRING_TRUE, STRING_FALSE);
-    private BooleanValueProducer producer = new BooleanValueProducer();
+    private final BooleanValueProducer producer = new BooleanValueProducer();
 
     @Test
     @DisplayName("generates a random boolean string")
@@ -51,8 +49,8 @@ class BooleanValueProducerTest {
     @Test
     @DisplayName("not support - generate boolean string with a map parameter")
     void testProduceWithMapParam() {
-        assertThrows(UnsupportedOperationException.class,
-                () -> producer.produce(new HashMap<>()));
+        Map<String, String> emptyMap = Collections.emptyMap();
+        assertThrows(UnsupportedOperationException.class, () -> producer.produce(emptyMap));
     }
 
 }

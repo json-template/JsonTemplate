@@ -17,6 +17,7 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * JsonTemplate is for generating a json string based on a schema specification.
@@ -206,7 +207,7 @@ public class JsonTemplate {
 
 
     private void initializeProducerMap() {
-        List<IValueProducer<? extends JsonNode>> producers = List.of(
+        Stream.of(
                 new SmartValueProducer(),
                 new StringValueProducer(),
                 new IntegerValueProducer(),
@@ -217,9 +218,7 @@ public class JsonTemplate {
                 new Base64ValueProducer(),
                 new RawStringValueProducer(),
                 new UuidValueProducer()
-        );
-
-        producers.forEach(this::addProducer);
+        ).forEach(this::addProducer);
     }
 
     private void addProducer(IValueProducer<? extends JsonNode> producer) {

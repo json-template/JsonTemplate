@@ -8,10 +8,6 @@ public final class JsonWrapperNode implements JsonNode {
 
     private JsonNode jsonNode;
 
-    public JsonNode getJsonNode() {
-        return jsonNode;
-    }
-
     public void setJsonNode(JsonNode jsonNode) {
         this.jsonNode = jsonNode;
     }

@@ -15,14 +15,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class StringValueProducerTest {
 
-    private StringValueProducer producer = new StringValueProducer();
-    private int defaultLength = 5;
+    private final StringValueProducer producer = new StringValueProducer();
 
     @Test
     @DisplayName("generates a random string, the default length is 5")
     void testProduce() {
         String producedValue = producer.produce().compactString();
         assertThat(producedValue, allOf(startsWith("\""), endsWith("\"")));
+        int defaultLength = 5;
         assertThat(producedValue.length(), is(defaultLength + 2));
     }
 
@@ -113,13 +113,10 @@ class StringValueProducerTest {
 
     @Test
     void testProduceWithUnsupportedParameter() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            Map<String, String> paramMap = new HashMap<>();
+        Map<String, String> paramMap = new HashMap<>();
+        int length = 9;
+        paramMap.put("size", Integer.toString(length));
 
-            int length = 9;
-            paramMap.put("size", Integer.toString(length));
-
-            producer.produce(paramMap).compactString();
-        });
+        assertThrows(IllegalArgumentException.class, () -> producer.produce(paramMap));
     }
 }

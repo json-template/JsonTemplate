@@ -20,7 +20,7 @@ public interface JsonNode {
      * <li>Array - converted to JsonArrayNode</li>
      * <li>Collection - converted to JsonArrayNode</li>
      * <li>Map - converted to JsonArrayNode</li>
-     * <li>otherwise, it is conveted to JsonStringNode with
+     * <li>otherwise, it is converted to JsonStringNode with
      * the string representation of the object.
      * </li>
      * </ul>

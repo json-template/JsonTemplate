@@ -7,10 +7,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 
-public class ConcatStringProducerTest {
-    private ConcatStringProducer producer = new ConcatStringProducer();
+class ConcatStringProducerTest {
+    private final ConcatStringProducer producer = new ConcatStringProducer();
 
     @Test
     @DisplayName("Generate an empty string")
@@ -31,6 +32,6 @@ public class ConcatStringProducerTest {
     void testProduceWithListParam() {
         List<String> paramList = Arrays.asList("Hello", " ", "world", "!");
         String producedValue = producer.produce(paramList).compactString();
-        assertThat(producedValue, equalTo("\"" +  "Hello world!" + "\""));
+        assertThat(producedValue, equalTo("\"" + "Hello world!" + "\""));
     }
 }
