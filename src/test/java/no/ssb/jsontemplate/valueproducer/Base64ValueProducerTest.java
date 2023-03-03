@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class Base64ValueProducerTest {
 
-    private Base64ValueProducer producer = new Base64ValueProducer();
+    private final Base64ValueProducer producer = new Base64ValueProducer();
 
     @Test
     @DisplayName("generate a random base64 string")
