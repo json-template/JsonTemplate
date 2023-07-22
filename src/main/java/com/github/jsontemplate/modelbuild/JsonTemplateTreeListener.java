@@ -32,7 +32,7 @@ public final class JsonTemplateTreeListener extends JsonTemplateAntlrBaseListene
     private boolean inArrayParamSpec;
     private boolean inPropertyVariableWrapper;
     private BasePropertyDeclaration jsonRoot;
-    private List<BasePropertyDeclaration> typeDefinitionList = new ArrayList<>();
+    private final List<BasePropertyDeclaration> typeDefinitionList = new ArrayList<>();
 
     public BasePropertyDeclaration getJsonRoot() {
         return jsonRoot;

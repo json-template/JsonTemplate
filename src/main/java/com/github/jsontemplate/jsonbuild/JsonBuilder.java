@@ -24,7 +24,7 @@ import java.util.LinkedList;
  */
 public final class JsonBuilder {
 
-    private Deque<JsonNode> nodeStack = new LinkedList<>();
+    private final Deque<JsonNode> nodeStack = new LinkedList<>();
     private JsonNode lastPopNode;
 
     public JsonBuilder createArray() {

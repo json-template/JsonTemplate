@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  */
 public final class JsonObjectNode implements JsonNode {
 
-    private Map<String, JsonNode> children = new LinkedHashMap<>();
+    private final Map<String, JsonNode> children = new LinkedHashMap<>();
 
     /**
      * Creates a JsonObjectNode with a given map.
@@ -59,11 +59,11 @@ public final class JsonObjectNode implements JsonNode {
 
     @Override
     public String prettyString(int indentation) {
-        String childSpaces = JsonNodeUtils.makeIdentation(indentation + 1);
+        String childSpaces = JsonNodeUtils.makeIndentation(indentation + 1);
         String joinedIdentChildren = children.entrySet().stream()
                 .map(entry -> childSpaces + "\"" + entry.getKey() + "\" : " + entry.getValue().prettyString(indentation + 1))
                 .collect(Collectors.joining(",\n"));
-        String spaces = JsonNodeUtils.makeIdentation(indentation);
+        String spaces = JsonNodeUtils.makeIndentation(indentation);
         return "{\n" +
                 joinedIdentChildren +
                 "\n" + spaces + "}";

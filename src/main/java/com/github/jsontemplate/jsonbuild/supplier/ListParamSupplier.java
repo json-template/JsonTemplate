@@ -20,20 +20,41 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Supplier;
 
-public class ListParamSupplier<T> implements Supplier<T> {
+/**
+ * The ListParamSupplier class is an implementation of the Supplier interface that supplies elements from a given list.
+ * It allows you to provide a list of elements of type T and retrieve a random element from the list whenever the 'get'
+ * method is called on the supplier.
+ *
+ * @param <T> The type of elements held in the list and returned by the supplier.
+ */
+public record ListParamSupplier<T>(List<T> listParam) implements Supplier<T> {
 
-    private List<T> listParam;
-
-    public ListParamSupplier(List<T> listParam) {
-        this.listParam = listParam;
+    /**
+     * Constructs a new ListParamSupplier with the specified list of elements.
+     *
+     * @param listParam The list containing elements of type T to be supplied by the supplier.
+     */
+    public ListParamSupplier {
     }
 
-    public List<T> getListParam() {
+    /**
+     * Gets the list of elements that the supplier provides.
+     *
+     * @return The list of elements that the supplier supplies.
+     */
+    @Override
+    public List<T> listParam() {
         return listParam;
     }
 
+    /**
+     * Supplies a random element from the list. The 'get' method returns an element chosen randomly from the list.
+     *
+     * @return A random element of type T from the list.
+     * @throws IndexOutOfBoundsException If the list is empty and 'get' is called.
+     */
     @Override
     public T get() {
-        return  listParam.get(new Random().nextInt(listParam.size()));
+        return listParam.get(new Random().nextInt(listParam.size()));
     }
 }

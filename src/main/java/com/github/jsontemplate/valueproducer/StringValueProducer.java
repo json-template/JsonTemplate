@@ -37,7 +37,7 @@ public class StringValueProducer extends AbstractValueProducer<JsonStringNode> {
     private static final int DEFAULT_LENGTH = 5;
     private static final int DEFAULT_MIN_LENGTH = 0;
 
-    private Random random = new Random();
+    private final Random random = new Random();
 
     @Override
     public String getTypeName() {
