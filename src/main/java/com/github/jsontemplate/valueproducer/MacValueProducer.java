@@ -37,7 +37,7 @@ public class MacValueProducer extends AbstractValueProducer<JsonStringNode> {
      */
     public static final String TYPE_NAME = "mac";
 
-    private Random random = new Random();
+    private final Random random = new Random();
 
     @Override
     public String getTypeName() {
@@ -68,8 +68,7 @@ public class MacValueProducer extends AbstractValueProducer<JsonStringNode> {
         		String.format("%02X", random.nextInt(255)),
         		String.format("%02X", random.nextInt(255))
         };
-        return Arrays.stream(macParts)                
-                .collect(Collectors.joining(":"));
+        return String.join(":", macParts);
     }
 }
 

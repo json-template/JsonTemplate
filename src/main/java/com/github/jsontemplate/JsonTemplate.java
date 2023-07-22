@@ -61,10 +61,10 @@ import java.util.Map;
 public class JsonTemplate {
 
     private String defaultTypeName = SmartValueProducer.TYPE_NAME;
-    private String template;
-    private Map<String, Object> variableMap = new HashMap<>(32);
-    private Map<String, IValueProducer> producerMap = new HashMap<>(32);
-    private Map<String, JsonNode> variableNodeMap = new HashMap<>(32);
+    private final String template;
+    private final Map<String, Object> variableMap = new HashMap<>(32);
+    private final Map<String, IValueProducer<? extends JsonNode>> producerMap = new HashMap<>(32);
+    private final Map<String, JsonNode> variableNodeMap = new HashMap<>(32);
     private JsonNode rootNode;
 
     public JsonTemplate(String template) {
@@ -161,7 +161,7 @@ public class JsonTemplate {
      * @param valueProducer the customized value producer
      * @return itself
      */
-    public JsonTemplate withValueProducer(IValueProducer valueProducer) {
+    public JsonTemplate withValueProducer(IValueProducer<? extends JsonNode> valueProducer) {
         this.addProducer(valueProducer);
         return this;
     }
@@ -238,7 +238,7 @@ public class JsonTemplate {
         Arrays.stream(producers).forEach(this::addProducer);
     }
 
-    private void addProducer(IValueProducer producer) {
+    private void addProducer(IValueProducer<? extends JsonNode> producer) {
         producerMap.put(producer.getTypeName(), producer);
     }
 

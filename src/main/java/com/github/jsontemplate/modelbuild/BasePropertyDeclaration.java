@@ -23,6 +23,9 @@ import com.github.jsontemplate.valueproducer.IValueProducer;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * The base class for all property declarations.
+ */
 public class BasePropertyDeclaration {
 
     protected String propertyName;
@@ -87,8 +90,22 @@ public class BasePropertyDeclaration {
         return new ObjectPropertyDeclaration(this.propertyName);
     }
 
+    /**
+     * Builds a JSON template using the provided parameters and adds the resulting JSON to the given JsonBuilder.
+     *
+     * @param builder       The JsonBuilder to which the JSON template is added.
+     * @param producerMap   A map of String keys and IValueProducer values. The keys represent variable names, and the
+     *                      values are responsible for producing values for those variables during JSON template building.
+     * @param typeMap       A map of String keys and JsonNode values. The keys represent type names, and the values are
+     *                      JsonNodes representing the corresponding JSON types.
+     * @param variableMap   A map of String keys and JsonNode values. The keys represent variable names, and the values are
+     *                      JsonNodes representing the values for those variables.
+     * @param defaultTypeName   The default type name to be used in case the type name is not specified in the TypeSpec.
+     * @param defaultHandler    The DefaultBuildHandler used to handle cases where no matching type is found during the
+     *                          JSON template building process.
+     */
     public void buildJsonTemplate(JsonBuilder builder,
-                                  Map<String, IValueProducer> producerMap,
+                                  Map<String, IValueProducer<? extends JsonNode>> producerMap,
                                   Map<String, JsonNode> typeMap,
                                   Map<String, JsonNode> variableMap,
                                   String defaultTypeName,
@@ -146,13 +163,26 @@ public class BasePropertyDeclaration {
         return curTypeSpec;
     }
 
+    /**
+     * Finds the ancestor TypeSpec for the current BasePropertyDeclaration instance. An ancestor TypeSpec is the closest
+     * parent TypeSpec in the inheritance hierarchy whose type name is not null.
+     *
+     * @param defaultTypeName   The default type name to be used in case no ancestor TypeSpec with a non-null type name
+     *                          is found in the inheritance hierarchy.
+     * @return The TypeSpec representing the ancestor type, or a default TypeSpec if no non-null ancestor type is found.
+     */
     protected TypeSpec getDefaultTypeSpec(String defaultTypeName) {
         TypeSpec defaultTypeSpec = new TypeSpec();
         defaultTypeSpec.setTypeName(defaultTypeName);
         return defaultTypeSpec;
     }
 
-    protected JsonNode buildNodeFromProducer(Map<String, IValueProducer> producerMap) {
+    /**
+     * Builds a JsonNode from the given IValueProducer.
+     * @param producerMap  A map of String keys and IValueProducer values. The keys represent variable names, and the
+     * @return The JsonNode produced by the IValueProducer.
+     */
+    protected JsonNode buildNodeFromProducer(Map<String, IValueProducer<? extends JsonNode>> producerMap) {
         JsonNode jsonNode = null;
         IValueProducer producer = producerMap.get(this.typeSpec.getTypeName());
         if (producer != null) {
@@ -169,6 +199,16 @@ public class BasePropertyDeclaration {
         return jsonNode;
     }
 
+    /**
+     * Handles the case where the current BasePropertyDeclaration instance is a composite property (i.e. an array or
+     * object property).
+     *
+     * @param builder      The JsonBuilder to which the JSON template is added.
+     * @param producerMap  A map of String keys and IValueProducer values. The keys represent variable names, and the
+     * @param typeMap       A map of String keys and JsonNode values. The keys represent type names, and the values are
+     * @param missTypeMap  A map of String keys and List values. The keys represent type names, and the values are
+     * @param variableMap  A map of String keys and JsonNode values. The keys represent variable names, and the values are
+     */
     protected void handleComposite(JsonBuilder builder, Map<String, IValueProducer> producerMap, Map<String, JsonNode> typeMap, Map<String, List<JsonWrapperNode>> missTypeMap, Map<String, JsonNode> variableMap) {
         throw new UnsupportedOperationException("Unexpected operation in simple property.");
     }
@@ -186,7 +226,7 @@ public class BasePropertyDeclaration {
         }
     }
 
-    protected void buildChildrenJsonTemplate(JsonBuilder builder, Map<String, IValueProducer> producerMap,
+    protected void buildChildrenJsonTemplate(JsonBuilder builder, Map<String, IValueProducer<? extends JsonNode>> producerMap,
                                              Map<String, JsonNode> typeMap,
                                              Map<String, JsonNode> variableMap, String defaultTypeName,
                                              DefaultBuildHandler defaultHandler) {

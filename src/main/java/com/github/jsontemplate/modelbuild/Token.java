@@ -15,7 +15,7 @@ enum Token {
      */
     TYPE("@");
 
-    private String tag;
+    private final String tag;
 
     Token(String tag) {
         this.tag = tag;

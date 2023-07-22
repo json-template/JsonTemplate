@@ -16,8 +16,6 @@
 
 package com.github.jsontemplate.jsonbuild;
 
-import com.github.jsontemplate.valueproducer.IValueProducer;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -26,7 +24,7 @@ import java.util.stream.Collectors;
  */
 public final class JsonArrayNode implements JsonNode {
 
-    private List<JsonNode> children = new LinkedList<>();
+    private final List<JsonNode> children = new LinkedList<>();
     private JsonNode defaultNode;
     private Integer size;
     private Integer max;
@@ -209,14 +207,14 @@ public final class JsonArrayNode implements JsonNode {
 
     @Override
     public String prettyString(int indentation) {
-        String childrenSpaces = JsonNodeUtils.makeIdentation(indentation + 1);
+        String childrenSpaces = JsonNodeUtils.makeIndentation(indentation + 1);
 
         List<JsonNode> printChildren = prepareChildrenToPrint();
         String joinedIdentChildren = printChildren.stream()
                 .map(child -> childrenSpaces + child.prettyString(indentation + 1))
                 .collect(Collectors.joining(",\n"));
 
-        String spaces = JsonNodeUtils.makeIdentation(indentation);
+        String spaces = JsonNodeUtils.makeIndentation(indentation);
         return "[\n" +
                 joinedIdentChildren +
                 "\n" + spaces + "]";

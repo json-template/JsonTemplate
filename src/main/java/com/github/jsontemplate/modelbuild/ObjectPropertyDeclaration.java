@@ -29,8 +29,23 @@ final class ObjectPropertyDeclaration extends BasePropertyDeclaration {
         this.propertyName = propertyName;
     }
 
+    /**
+     * Builds a JSON template using the provided parameters and adds the resulting JSON elements to the given JsonBuilder.
+     * The method handles the creation of JSON objects or nested objects based on the parent-child relationship.
+     *
+     * @param builder         The JsonBuilder to which the JSON elements are added during the template building process.
+     * @param producerMap     A map of String keys and IValueProducer values. The keys represent variable names, and the
+     *                        values are responsible for producing values for those variables during JSON template building.
+     * @param typeMap         A map of String keys and JsonNode values. The keys represent type names, and the values are
+     *                        JsonNodes representing the corresponding JSON types.
+     * @param variableMap     A map of String keys and JsonNode values. The keys represent variable names, and the values are
+     *                        JsonNodes representing the values for those variables.
+     * @param defaultTypeName The default type name to be used in case the type name is not specified in the TypeSpec.
+     * @param defaultHandler  The DefaultBuildHandler used to handle cases where no matching type is found during the
+     *                        JSON template building process.
+     */
     @Override
-    public void buildJsonTemplate(JsonBuilder builder, Map<String, IValueProducer> producerMap,
+    public void buildJsonTemplate(JsonBuilder builder, Map<String, IValueProducer<? extends JsonNode>> producerMap,
                                   Map<String, JsonNode> typeMap,
                                   Map<String, JsonNode> variableMap,
                                   String defaultTypeName,
