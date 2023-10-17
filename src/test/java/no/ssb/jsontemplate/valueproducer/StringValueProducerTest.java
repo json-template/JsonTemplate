@@ -39,7 +39,7 @@ class StringValueProducerTest {
     void testProduceWithListParam() {
         List<String> strings = Arrays.asList("A", "B", "C");
         String producedValue = producer.produce(strings).compactString();
-        assertThat(producedValue, isIn(Arrays.asList("\"A\"", "\"B\"", "\"C\"")));
+        assertThat(producedValue, in(Arrays.asList("\"A\"", "\"B\"", "\"C\"")));
     }
 
     @Test
