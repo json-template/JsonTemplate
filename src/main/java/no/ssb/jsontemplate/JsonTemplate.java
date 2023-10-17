@@ -217,6 +217,7 @@ public class JsonTemplate {
                 new Ipv6ValueProducer(),
                 new Base64ValueProducer(),
                 new RawStringValueProducer(),
+                new Iso8601ValueProducer(),
                 new UuidValueProducer()
         ).forEach(this::addProducer);
     }
